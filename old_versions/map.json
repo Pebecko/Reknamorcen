@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Místnost",
+    "enemies": [
+      {
+        "name": "Trooll",
+        "hp": 50,
+        "weapon": {
+          "name": "AK47",
+          "strength": 1000
+        }
+      }
+    ],
+    "north": 2,
+    "south": null,
+    "east": null,
+    "west": null
+  },
+  {
+    "id": 2,
+    "name": "Místnost2",
+    "enemies": [],
+    "north": null,
+    "south": 1,
+    "east": null,
+    "west": null
+  }
+]
