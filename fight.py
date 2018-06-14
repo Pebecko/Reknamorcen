@@ -1,5 +1,6 @@
-from Recnamorcen.character_stats import *
-from Recnamorcen.main_funcs import *
+import random
+import character_stats
+import main_funcs
 # from Recnamorcen.reknamorcen import *
 
 

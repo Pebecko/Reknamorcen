@@ -1,6 +1,3 @@
-from Recnamorcen.main_funcs import *
-
-
 class Weapon:
     name = ""
     info = ""
@@ -15,10 +12,7 @@ class Weapon:
     special_abilities = []
     weapon_class = ""
 
-    def get_info(self):
-        slow_print(self.info)
-
-
+    
 class Player:
     char = ""
     info = ""
@@ -44,9 +38,6 @@ class Opponent:
     weapons = []
     defence = []
     special_abilities = []
-
-    def get_info(self):
-        slow_print(self.info)
 
 
 # weapons
