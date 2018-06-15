@@ -1,4 +1,4 @@
-from Recnamorcen.main_funcs import *
+import main_funcs
 
 
 class Travelling:

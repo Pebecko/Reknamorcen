@@ -2,87 +2,70 @@ import random
 import time
 import sys
 
-def slow_print(s):
+def slowPrint(s):
     for c in s:
         sys.stdout.write(c)
         sys.stdout.flush()
         time.sleep(0.015)
     print("")
+    time.sleep(0.02)
 
 def shutdown():
-    time.sleep(2)
-    slow_print("Jste mrtev.\n")
     time.sleep(1)
-    slow_print("SHUTTING DOWN...\n")
+    slowPrint("Jste mrtev.\n")
     time.sleep(2)
+    slowPrint("SHUTTING DOWN...\n")
+    time.sleep(1)
     quit()
 
 def rolling_dice():
-    dice_roll = random.randint(1,6)
-    slow_print(str(dice_roll))
+    dice_roll = random.randint(1,7)
         
-    for dice_roll !=6:
-        if dice_roll == 6:
-            return 1
+    if dice_roll >= 6:
+        slowPrint("Padla 6")
+#        slowPrint("\"Ty máš ale štěstí!\"\n")
+        return 1
 
-        elif dice_roll >= 1 and dice_roll <=5:
-            slow_print("\"Smůla, teď zemřeš.\" ")#Vytáhne nůž a podřízne vám hrdlo.\n")
+    elif dice_roll >= 1 and dice_roll <=5:
+        slowPrint("Padla " + str(dice_roll))
+        slowPrint("\"Smůla, házíš znovu.\"\n")
+        return 0
 
-slow_print("Jste v temné místnosti a můžete hýbat jen pravou rukou, před vámi sedí osoba s nataženou rukou podávající vám hrací kostku a říkající: \"Hoď si, když ti padne 1 až 5, tak zemřeš.\"\n")
+slowPrint("Jste v temné místnosti a můžete hýbat jen pravou rukou, před vámi sedí osoba s nataženou rukou podávající vám hrací kostku a říkající: \"Hoď si, když ti nepadne třikrát z 12 hodů 6, tak zemřeš.\"\n")
 roll_six = 0
-elf_new_dialogue = 0
+diceRolled = 0
+
 
 while True:
-    slow_print("Můžete se osoby [z]eptat, co se stane pokud padne 6, [h]odit kostkou, nebo č[e]kat, co se stane.\n")
+    if roll_six == 3:
+        slowPrint("\"Máš štěstí,\"povídá osoba,\"nechám tě jít.\"Odemyká vám pouta a odchází.")
+        time.sleep(0.5)
+        slowPrint("(Jestli se sem příště chcete dostat bez hry s kostkou, zadejte \'pass\')\n")
+        break
+
+    if diceRolled == 12:
+        slowPrint("\"To by stačilo,\" osoba před vámi vytáhne nůž a probodne vás.\n")
+        shutdown()
+    
+    slowPrint("Můžete [h]odit kostkou, nebo č[e]kat.")
     elf_dice_game = input()
     
-    if elf_dice_game == "z":
-        slow_print("Když ti padne šestka, tak házíš znovu.\n")
-        elf_new_dialogue = 1
-        break
-    
-    elif elf_dice_game == "h":
+    if elf_dice_game == "h":
         roll_six += rolling_dice()
-        elf_new_dialogue = 1
-        break
+        diceRolled +=1
 
     elif elf_dice_game == "e":
-        time.sleep(3)
-        slow_print("\"Tohle už mě nebaví.\" Osoba před vámi vytáhne nůž a probodne vás.\n")
+        time.sleep(2.5)
+        slowPrint("\"Tohle už mě nebaví.\" Osoba před vámi vytáhne nůž a probodne vás.\n")
         shutdown()
-    
+
     elif elf_dice_game == "pass":
-        slow_print("Přeskakování hry s kostkou...")
-        time.sleep(2)
+        slowPrint("Přeskakování hry s kostkou...")
+        time.sleep(1.25)
         break
 
     else:
-        slow_print("Vyberte jednu z možností.\n")
+        slowPrint("Vyberte jednu z možností.")
 
-while elf_new_dialogue == 1:
-    if roll_six == 2:
-        slow_print("\"Máš štěstí,\"povídá osoba,\"nechám tě jít.\"Odemyká vám pouta a odchází.")
-        time.sleep(0.5)
-        slow_print("(Jestli se sem příště chcete dostat bez hry s kostkou, zadejte \'pass\')\n")
-        break
-#        slow_print("\"Házíš znovu.\n\"")
-    slow_print("Můžete [h]odit kostkou, nebo č[e]kat.")
-    elf_dice_game_2 = input()
-    if elf_dice_game_2 == "h":
-        roll_six += rolling_dice()
-    
-    elif elf_dice_game_2 == "e":
-        time.sleep(3)
-        slow_print("\"Tohle už mě nebaví.\" Osoba před vámi vytáhne nůž a probodne vás.\n")
-        shutdown()
-
-    elif elf_dice_game_2 == "pass":
-        slow_print("Přeskakování hry s kostkou...")
-        time.sleep(2)
-        break
-
-    else:
-        slow_print("Vyberte jednu z možností.")
-
-slow_print("Pro odchod ze hry zmáčkněte enter.")
+slowPrint("Pro odchod ze hry zmáčkněte enter.")
 input()

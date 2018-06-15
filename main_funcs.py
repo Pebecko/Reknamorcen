@@ -38,7 +38,6 @@ def shutdown():
 
 
 def player_killed():
-    intro = Game()
     time.sleep(0.6)
     slow_print("Jste mrtev.\n")
     time.sleep(0.8)
@@ -47,16 +46,12 @@ def player_killed():
     if escape_result == "o":
         shutdown()
     elif escape_result == "z":
-        print(intro.introduction())
+        print("start")  # restarting the game
     else:
         wrong_input(0)
 
 
 def base_options():
-    coordinates = Game()
-    x = coordinates.x
-    y = coordinates.y
-
     option = input()
 
     if option is "quit" or option is "leave" or option is "exit" or option is "vypnout":
@@ -64,7 +59,7 @@ def base_options():
 
     elif option is "save" or option is "uložit":
         option = "skip"
-        if x == 0 and y == 0:
+        if player.x == 0 and player.y == 0:
             save = ""
             print("\nVáš save je: " + save)
         else:

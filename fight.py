@@ -1,7 +1,9 @@
 import random
+import sys
+import time
+
 import character_stats
 import main_funcs
-# from Recnamorcen.reknamorcen import *
 
 
 class Fight:

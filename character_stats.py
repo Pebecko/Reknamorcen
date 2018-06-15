@@ -16,6 +16,8 @@ class Weapon:
 class Player:
     char = ""
     info = ""
+    x = 0
+    y = 0
     health = 1
     max_health = 0
     stamina = 0

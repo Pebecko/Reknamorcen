@@ -1,8 +1,8 @@
 import time
 import random
-from Recnamorcen.main_funcs import *
-from Recnamorcen.fight import *
-from Recnamorcen.travel import *
+from Reknamorcen.main_funcs import *
+from Reknamorcen.fight import *
+from Reknamorcen.travel import *
 
 
 class Game:
