@@ -42,6 +42,7 @@ class Opponent:
     weapons = []
     defence = []
     special_abilities = []
+    gear = []
 
 
 # weapons

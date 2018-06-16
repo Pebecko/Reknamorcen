@@ -449,43 +449,43 @@ class Fight:
         elif self.opponent_action is "block":
             # setting base levels depending on player weapon
             if player.weapon.weapon_class is "unarmed":
-                lower_border = 10
-                middle_border = 25
-                higher_border = 75
+                lower_border = 50
+                middle_border = 90
+                higher_border = 100
                 if player.difficulty is "easy":
-                    lower_border = 3
-                    middle_border = 20
-                    higher_border = 65
+                    lower_border = -200
+                    middle_border = -200
+                    higher_border = 20
             elif player.weapon.weapon_type is "light":
-                lower_border = 15
-                middle_border = 35
-                higher_border = 70
-                if player.difficulty is "easy":
-                    lower_border = 8
-                    middle_border = 30
-                    higher_border = 60
-            else:  # player weapon type is heavy
-                lower_border = 35
+                lower_border = 40
                 middle_border = 70
                 higher_border = 90
                 if player.difficulty is "easy":
-                    lower_border = 25
+                    lower_border = 30
+                    middle_border = 60
+                    higher_border = 85
+            else:  # player weapon type is heavy
+                lower_border = 20
+                middle_border = 45
+                higher_border = 75
+                if player.difficulty is "easy":
+                    lower_border = 10
                     middle_border = 60
                     higher_border = 85
 
             # opponent weapon effects
             if opponent.weapon.weapon_class is "unarmed":
-                lower_border += 12
-                middle_border += 10
-                higher_border += 8
+                lower_border -= 200
+                middle_border -= 200
+                higher_border -= 60
             elif opponent.weapon.weapon_type is "light":
-                lower_border += 4
-                middle_border += 3
-                higher_border += 2
+                lower_border -= 15
+                middle_border -= 20
+                higher_border -= 15
             else:  # player weapon type is heavy
-                lower_border -= 4
-                middle_border -= 3
-                higher_border -= 1
+                lower_border += 15
+                middle_border += 15
+                higher_border += 10
 
             # player armor effects
             if "helmet" in player.gear:
@@ -498,13 +498,13 @@ class Fight:
 
             # opponent armor effects
             if "helmet" in opponent.gear:
-                lower_border -= 4
-                middle_border -= 3
-                higher_border -= 3
+                lower_border -= 1
+                middle_border -= 1
+                higher_border -= 1
             if "armor" in opponent.gear:
-                lower_border += 6
-                middle_border += 5
-                higher_border += 5
+                lower_border += 2
+                middle_border += 1
+                higher_border += 1
 
         """
         if opponent.weapon.weapon_class is "unarmed":
