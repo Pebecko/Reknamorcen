@@ -36,6 +36,8 @@ class Opponent:
     lowest_health = 0
     highest_health = 0
     awareness = 0
+    dodge_effectiveness = 0
+    block_effectiveness = 0
     weapon = Weapon()
     weapons = []
     defence = []
@@ -70,7 +72,7 @@ short_sword_mordhau.weapon_class = "sword"
 
 two_handed_axe = Weapon()
 two_handed_axe.name = "obouruční sekera"
-two_handed_axe.info = "ohromná dvoubřitvá obouruční sekera, která nemá problém proseknout i tlusté brnění"
+two_handed_axe.info = "ohromná dvoubřitvá zbraň, která nemá problém proseknout i tlusté brnění"
 two_handed_axe.damage = 8
 two_handed_axe.stamina = 6
 two_handed_axe.max_stamina = 6
@@ -108,5 +110,7 @@ ork.difficulty = 3
 ork.lowest_health = 16
 ork.highest_health = 26
 ork.awareness = 3
+dodge_effectiveness = 0
+block_effectiveness = 7
 ork.weapons = ["two_handed_axe"]
 ork.defence = ["block"]

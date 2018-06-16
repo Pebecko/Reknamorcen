@@ -1,9 +1,5 @@
-import random
-import sys
-import time
-
-import character_stats
-import main_funcs
+from Reknamorcen.character_stats import *
+from Reknamorcen.main_funcs import *
 
 
 class Fight:
@@ -17,8 +13,9 @@ class Fight:
 
     def fight(self):
         opponent = self.opponent_creation()
-        slow_print("Stojí před vámi " + str(opponent.name) + ", " + str(opponent.info) + ". " + "A jeho zbraň je " +
-                   str(opponent.weapon.name) + ", " + str(opponent.weapon.info) + ".")
+        slow_print("Stojí před vámi {}, {}. A jeho zbraň je {}, {}.\n".format(opponent.name, opponent.info,
+                                                                              opponent.weapon.name,
+                                                                              opponent.weapon.info))
 
         last_action = self.first_fight_action(opponent)
 
@@ -26,16 +23,21 @@ class Fight:
 
         while opponent.health > 0:
             if player.health <= 0:
-                player_killed(self)
+                player_killed()
             self.fight_status(opponent)
 
             # útok na soupeře
             if last_action == "defence":
                 last_action = self.strike_direction_choosing(opponent)
 
+            # test part
+            last_action = "defence"
+
             # obrana před soupeřovým útokem
+            """
             else:
                 last_action = self.random_num_definition(self.guard_choosing)
+            """
 
         # ukončovací hláška
         self.opponent_action = ""
@@ -257,28 +259,22 @@ class Fight:
                         elif attack_direction == "h":
                             strike_dir = "head"
                             break
-                        elif attack_direction is "skip":
-                            pass
-                        else:
+                        elif attack_direction != "skip":
                             wrong_input(0)
                 elif attack_type == "s":
                     strike_type = "chop"
                     slow_print("Chcete zaútočit na b[o]k, [b]řicho, nebo na [h]lavu?\n")
                     while True:
-                        attack_direction = ()
+                        attack_direction = base_options()
                         if attack_direction == "o" or attack_direction == "b":
                             break
                         elif attack_direction == "h":
                             strike_dir = "head"
                             break
-                        elif attack_direction is "skip":
-                            pass
-                        else:
+                        elif attack_direction != "skip":
                             wrong_input(0)
                     break
-                elif attack_type is "skip":
-                    pass
-                else:
+                elif attack_type != "skip":
                     wrong_input(0)
         elif "stab" in player.weapon.damage_type:
             slow_print("Chcete bodat do [t]ěla, nebo na [h]lavu?")
@@ -340,15 +336,17 @@ class Fight:
         return self.attack_output(strike_type, strike_dir, opponent)
 
     def attack_output(self, strike_type, strike_dir, opponent):
+        # generating random number
         random_num = random.randint(0, 100)
-        # opponent action
+
+        # opponent action choosing
         if opponent.defence is []:
             self.opponent_action = ""
             lower_border = -200
             middle_border = -200
-            higher_border = 45
+            higher_border = 60
             if player.difficulty is "easy":
-                higher_border = 60
+                higher_border = 45
         elif "dodge" in opponent.defence and "block" not in opponent.defence:
             self.opponent_action = "dodge"
         elif "block" in opponent.defence and "dodge" not in opponent.defence:
@@ -384,7 +382,7 @@ class Fight:
             else:
                 self.opponent_action = "dodge"
 
-        # action test
+        # action debug
         print(self.opponent_action, self.opponent_last_action_I, self.opponent_last_action_II)
 
         # editing of levels
