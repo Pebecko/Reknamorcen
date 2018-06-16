@@ -387,23 +387,24 @@ class Fight:
 
         # editing of levels
         if self.opponent_action is "dodge":
-            if opponent.weapon.weapon_class is "unarmed":
-                lower_border = 35
-                middle_border = 70
-                higher_border = 90
+            # setting base levels depending on player weapon
+            if player.weapon.weapon_class is "unarmed":
+                lower_border = 10
+                middle_border = 25
+                higher_border = 75
                 if player.difficulty is "easy":
-                    lower_border = 25
-                    middle_border = 60
-                    higher_border = 85
+                    lower_border = 3
+                    middle_border = 20
+                    higher_border = 65
             elif player.weapon.weapon_type is "light":
-                lower_border = 35
-                middle_border = 70
-                higher_border = 90
+                lower_border = 15
+                middle_border = 35
+                higher_border = 70
                 if player.difficulty is "easy":
-                    lower_border = 25
-                    middle_border = 60
-                    higher_border = 85
-            else:
+                    lower_border = 8
+                    middle_border = 30
+                    higher_border = 60
+            else:  # player weapon type is heavy
                 lower_border = 35
                 middle_border = 70
                 higher_border = 90
@@ -412,25 +413,99 @@ class Fight:
                     middle_border = 60
                     higher_border = 85
 
-            if opponent.weapon.weapon_type is "light":
-                lower_border += 5
+            # opponent weapon effects
+            if opponent.weapon.weapon_class is "unarmed":
+                lower_border += 12
+                middle_border += 10
+                higher_border += 8
+            elif opponent.weapon.weapon_type is "light":
+                lower_border += 4
                 middle_border += 3
-                higher_border += 3
-            else:
-                lower_border += 5
-                middle_border += 3
-                higher_border += 3
+                higher_border += 2
+            else:  # player weapon type is heavy
+                lower_border -= 4
+                middle_border -= 3
+                higher_border -= 1
 
+            # player armor effects
             if "helmet" in player.gear:
-                lower_border += 3
-                higher_border += 3
+                lower_border += 1
+                higher_border += 1
             if "armor" in player.gear:
-                lower_border += 5
-                middle_border += 3
-                higher_border += 3
+                lower_border += 3
+                middle_border += 2
+                higher_border += 2
+
+            # opponent armor effects
+            if "helmet" in opponent.gear:
+                lower_border -= 4
+                middle_border -= 3
+                higher_border -= 3
+            if "armor" in opponent.gear:
+                lower_border += 6
+                middle_border += 5
+                higher_border += 5
 
         elif self.opponent_action is "block":
-            pass
+            # setting base levels depending on player weapon
+            if player.weapon.weapon_class is "unarmed":
+                lower_border = 10
+                middle_border = 25
+                higher_border = 75
+                if player.difficulty is "easy":
+                    lower_border = 3
+                    middle_border = 20
+                    higher_border = 65
+            elif player.weapon.weapon_type is "light":
+                lower_border = 15
+                middle_border = 35
+                higher_border = 70
+                if player.difficulty is "easy":
+                    lower_border = 8
+                    middle_border = 30
+                    higher_border = 60
+            else:  # player weapon type is heavy
+                lower_border = 35
+                middle_border = 70
+                higher_border = 90
+                if player.difficulty is "easy":
+                    lower_border = 25
+                    middle_border = 60
+                    higher_border = 85
+
+            # opponent weapon effects
+            if opponent.weapon.weapon_class is "unarmed":
+                lower_border += 12
+                middle_border += 10
+                higher_border += 8
+            elif opponent.weapon.weapon_type is "light":
+                lower_border += 4
+                middle_border += 3
+                higher_border += 2
+            else:  # player weapon type is heavy
+                lower_border -= 4
+                middle_border -= 3
+                higher_border -= 1
+
+            # player armor effects
+            if "helmet" in player.gear:
+                lower_border += 1
+                higher_border += 1
+            if "armor" in player.gear:
+                lower_border += 3
+                middle_border += 2
+                higher_border += 2
+
+            # opponent armor effects
+            if "helmet" in opponent.gear:
+                lower_border -= 4
+                middle_border -= 3
+                higher_border -= 3
+            if "armor" in opponent.gear:
+                lower_border += 6
+                middle_border += 5
+                higher_border += 5
+
         """
         if opponent.weapon.weapon_class is "unarmed":
             opponent_action = "dodge"
@@ -544,9 +619,9 @@ class Fight:
                 higher_border = 60
             if 50 < lower_border:
                 lower_border = 50
-
+        """
         # debug part
-        print(random_num, lower_border, higher_border)
+        print(random_num, lower_border, middle_border, higher_border)
         time.sleep(1)
 
         # result
@@ -558,8 +633,8 @@ class Fight:
             self.attack_minor_success(strike_dir, strike_type)
         else:
             self.attack_major_success(strike_dir, strike_type)
-        """
-        return
+
+        return last_action
 
     # defence
 
