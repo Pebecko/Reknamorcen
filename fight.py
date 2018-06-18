@@ -7,6 +7,9 @@ class Fight:
     opponent_action = ""
     opponent_last_action_I = ""
     opponent_last_action_II = ""
+    opponent_direction = ""
+    opponent_last_direction_I = ""
+    opponent_last_direction_II = ""
 
     def __init__(self, opponent_level):
         self.opponent_level = opponent_level
@@ -392,13 +395,50 @@ class Fight:
                 self.opponent_action = "dodge"
 
         # opponent defence direction choosing
-        direction_num = random.randint(0, 29)
-        if direction_num < 10:
-            opponent_direction = "left"
-        elif direction_num < 20:
-            opponent_direction = "up"
+        direction_num = random.randint(0, 59)
+        lower_split = 20
+        higher_split = 40
+        # changing levels depending on last opponents directions
+        if self.opponent_last_direction_II is "left":
+            lower_split -= 2
+            higher_split -= 1
+        elif self.opponent_last_direction_II is "up":
+            lower_split += 1
+            higher_split -= 1
+        elif self.opponent_last_direction_II is "right":
+            lower_split += 1
+            higher_split += 2
+        if self.opponent_last_direction_I is "left":
+            lower_split -= 2
+            higher_split -= 1
+        elif self.opponent_last_direction_I is "up":
+            lower_split += 1
+            higher_split -= 1
+        elif self.opponent_last_direction_I is "right":
+            lower_split += 1
+            higher_split += 2
+        if self.opponent_direction is "left":
+            lower_split -= 2
+            higher_split -= 1
+        elif self.opponent_direction is "up":
+            lower_split += 1
+            higher_split -= 1
+        elif self.opponent_direction is "right":
+            lower_split += 1
+            higher_split += 2
+
+        # changing levels depending on last players directions
+
+
+        self.opponent_last_direction_II = self.opponent_last_direction_I
+        self.opponent_last_direction_I = self.opponent_direction
+
+        if direction_num < lower_split:
+            self.opponent_direction = "left"
+        elif direction_num < higher_split:
+            self.opponent_direction = "up"
         else:
-            opponent_direction = "right"
+            self.opponent_direction = "right"
 
         # action debug
         print(self.opponent_action, self.opponent_last_action_I, self.opponent_last_action_II)
@@ -446,12 +486,30 @@ class Fight:
                 higher_border -= 1
 
             # opponent defence direction and player attack direction and type effects
-            if opponent_direction is "up":
+            if self.opponent_direction is "up":
                 if strike_dir is "body" or strike_dir is "head":
                     lower_border -= 1
                     middle_border -= 1
                     higher_border -= 1
                 else:
+                    lower_border += 1
+                    middle_border += 1
+                    higher_border += 1
+            elif self.opponent_direction is "left":
+                if strike_dir is "belly":
+                    lower_border -= 1
+                    middle_border -= 1
+                    higher_border -= 1
+                elif strike_dir is "head":
+                    lower_border += 1
+                    middle_border += 1
+                    higher_border += 1
+            else:
+                if strike_dir is "side":
+                    lower_border -= 1
+                    middle_border -= 1
+                    higher_border -= 1
+                elif strike_dir is "head":
                     lower_border += 1
                     middle_border += 1
                     higher_border += 1
