@@ -266,7 +266,11 @@ class Fight:
                     slow_print("Chcete zaútočit na b[o]k, [b]řicho, nebo na [h]lavu?\n")
                     while True:
                         attack_direction = base_options()
-                        if attack_direction == "o" or attack_direction == "b":
+                        if attack_direction == "o":
+                            strike_dir = "side"
+                            break
+                        elif attack_direction == "b":
+                            strike_dir = "belly"
                             break
                         elif attack_direction == "h":
                             strike_dir = "head"
@@ -285,9 +289,7 @@ class Fight:
                 elif attack_direction == "h":
                     strike_dir = "head"
                     break
-                elif attack_direction is "skip":
-                    pass
-                else:
+                elif attack_direction != "skip":
                     wrong_input(0)
         elif "cut" in player.weapon.damage_type:
             strike_type = "chop"
@@ -297,9 +299,12 @@ class Fight:
                 if attack_direction == "h":
                     strike_dir = "head"
                     break
-                elif attack_direction == "o" or attack_direction == "b":
+                elif attack_direction == "o":
+                    strike_dir = "side"
                     break
-
+                elif attack_direction == "b":
+                    strike_dir = "belly"
+                    break
                 elif attack_direction is "skip":
                     pass
                 else:
@@ -323,7 +328,11 @@ class Fight:
             slow_print("Chcete zaútočit na b[o]k, [b]řicho, nebo na [h]lavu?\n")
             while True:
                 attack_direction = base_options()
-                if attack_direction == "o" or attack_direction == "b":
+                if attack_direction == "o":
+                    strike_dir = "side"
+                    break
+                elif attack_direction == "b":
+                    strike_dir = "belly"
                     break
                 elif attack_direction == "h":
                     strike_dir = "head"
@@ -382,6 +391,15 @@ class Fight:
             else:
                 self.opponent_action = "dodge"
 
+        # opponent defence direction choosing
+        direction_num = random.randint(0, 29)
+        if direction_num < 10:
+            opponent_direction = "left"
+        elif direction_num < 20:
+            opponent_direction = "up"
+        else:
+            opponent_direction = "right"
+
         # action debug
         print(self.opponent_action, self.opponent_last_action_I, self.opponent_last_action_II)
 
@@ -426,6 +444,17 @@ class Fight:
                 lower_border -= 4
                 middle_border -= 3
                 higher_border -= 1
+
+            # opponent defence direction and player attack direction and type effects
+            if opponent_direction is "up":
+                if strike_dir is "body" or strike_dir is "head":
+                    lower_border -= 1
+                    middle_border -= 1
+                    higher_border -= 1
+                else:
+                    lower_border += 1
+                    middle_border += 1
+                    higher_border += 1
 
             # player armor effects
             if "helmet" in player.gear:
@@ -506,120 +535,6 @@ class Fight:
                 middle_border += 1
                 higher_border += 1
 
-        """
-        if opponent.weapon.weapon_class is "unarmed":
-            opponent_action = "dodge"
-            if player.weapon.weapon_type == "heavy":
-                lower_border = 35
-                middle_border = 70
-                higher_border = 90
-                if player.difficulty is "easy":
-                    lower_border = 25
-                    middle_border = 60
-                    higher_border = 85
-            elif player.weapon.weapon_type == "light":
-                lower_border = 10
-                middle_border = 70
-                higher_border = 90
-            if "helmet" in self.opponent_gear:
-                higher_border -= 3
-            if "armor" in self.opponent_gear:
-                higher_border -= 5
-        elif self.weapon_type == "light" and "block" in self.opponent_defence:
-            lower_border += 5
-            self.opponent_action = "Protivník se snažil vaši ránu zablokovat."
-            if self.opponent_weapon_type == "heavy":
-                lower_border += 10
-            if "helmet" in self.opponent_gear:
-                higher_border -= 1
-            if "armor" in self.opponent_gear:
-                higher_border -= 3
-            if strike_type == "stab":
-                higher_border -= 5
-                lower_border -= 5
-            elif strike_type == "smash":
-                higher_border -= 5
-                lower_border -= 5
-            elif strike_type == "punch":
-                higher_border += 10
-                lower_border += 10
-        elif self.weapon_type == "light" and "dodge" in self.opponent_defence:
-            higher_border -= 10
-            self.opponent_action = "Protivník se snažil vaší ráně uskočit."
-            if self.opponent_weapon_type == "light":
-                lower_border += 5
-            elif self.opponent_weapon_type == "heavy":
-                higher_border -= 5
-            if "helmet" in self.opponent_gear:
-                higher_border -= 3
-            if "armor" in self.opponent_gear:
-                higher_border -= 5
-            if strike_type == "stab":
-                higher_border += 5
-                lower_border += 5
-            elif strike_type == "smash":
-                higher_border += 5
-                lower_border += 5
-            elif strike_type == "punch":
-                higher_border -= 3
-                lower_border -= 3
-        elif self.weapon_type == "heavy" and "dodge" in self.opponent_defence:
-            lower_border += 10
-            self.opponent_action = "Protivník se snažil vaší ráně uskočit."
-            if self.opponent_weapon_type == "light":
-                lower_border += 5
-            if "helmet" in self.opponent_gear:
-                higher_border -= 3
-            if "armor" in self.opponent_gear:
-                higher_border -= 5
-            if strike_type == "stab":
-                higher_border += 5
-                lower_border += 5
-            elif strike_type == "smash":
-                higher_border += 5
-                lower_border += 5
-            elif strike_type == "punch":
-                higher_border -= 3
-                lower_border -= 3
-        elif self.weapon_type == "heavy" and "block" in self.opponent_defence:
-            higher_border -= 15
-            self.opponent_action = "Protivník se snažil vaši ránu zablokovat."
-            if self.opponent_weapon_type == "heavy":
-                lower_border += 5
-                higher_border += 5
-            if "helmet" in self.opponent_gear:
-                higher_border -= 1
-            if "armor" in self.opponent_gear:
-                higher_border -= 3
-            if strike_type == "stab":
-                higher_border -= 5
-                lower_border -= 5
-            elif strike_type == "smash":
-                higher_border -= 5
-                lower_border -= 5
-            elif strike_type == "punch":
-                higher_border += 10
-                lower_border += 10
-        if "helmet" in self.player_gear:
-            lower_border += 5
-        if "armor" in self.player_gear:
-            lower_border += 8
-        if strike_dir == "head":
-            lower_border += 5
-            higher_border += 3
-
-        # safety part
-        if self.difficulty == "easy":
-            if higher_border < 55:
-                higher_border = 55
-            if 35 < lower_border:
-                lower_border = 35
-        else:
-            if higher_border < 60:
-                higher_border = 60
-            if 50 < lower_border:
-                lower_border = 50
-        """
         # debug part
         print(random_num, lower_border, middle_border, higher_border)
         time.sleep(1)
