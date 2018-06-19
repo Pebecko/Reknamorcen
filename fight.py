@@ -10,6 +10,9 @@ class Fight:
     opponent_direction = ""
     opponent_last_direction_I = ""
     opponent_last_direction_II = ""
+    player_attack_direction = ""
+    player_last_attack_direction_I = ""
+    player_last_attack_direction_II = ""
 
     def __init__(self, opponent_level):
         self.opponent_level = opponent_level
@@ -264,6 +267,7 @@ class Fight:
                             break
                         elif attack_direction != "skip":
                             wrong_input(0)
+                    break
                 elif attack_type == "s":
                     strike_type = "chop"
                     slow_print("Chcete zaútočit na b[o]k, [b]řicho, nebo na [h]lavu?\n")
@@ -308,9 +312,7 @@ class Fight:
                 elif attack_direction == "b":
                     strike_dir = "belly"
                     break
-                elif attack_direction is "skip":
-                    pass
-                else:
+                elif attack_direction != "skip":
                     wrong_input(0)
         elif player.weapon is fists:
             strike_type = "punch"
@@ -399,31 +401,33 @@ class Fight:
         lower_split = 20
         higher_split = 40
         # changing levels depending on last opponents directions
-        if self.opponent_last_direction_II is "left":
+        if self.opponent_last_direction_II is "left" or self.opponent_last_direction_II is "terca":
             lower_split -= 2
             higher_split -= 1
-        elif self.opponent_last_direction_II is "up":
+        elif self.opponent_last_direction_II is "back" or self.opponent_last_direction_II is "kvinta":
             lower_split += 1
             higher_split -= 1
-        elif self.opponent_last_direction_II is "right":
+        elif self.opponent_last_direction_II is "right" or self.opponent_last_direction_II is "kvarta":
             lower_split += 1
             higher_split += 2
-        if self.opponent_last_direction_I is "left":
+
+        if self.opponent_last_direction_I is "left" or self.opponent_last_direction_I is "terca":
             lower_split -= 2
             higher_split -= 1
-        elif self.opponent_last_direction_I is "up":
+        elif self.opponent_last_direction_I is "back" or self.opponent_last_direction_I is "kvinta":
             lower_split += 1
             higher_split -= 1
-        elif self.opponent_last_direction_I is "right":
+        elif self.opponent_last_direction_I is "right" or self.opponent_last_direction_I is "kvarta":
             lower_split += 1
             higher_split += 2
-        if self.opponent_direction is "left":
+
+        if self.opponent_direction is "left" or self.opponent_direction is "terca":
             lower_split -= 2
             higher_split -= 1
-        elif self.opponent_direction is "up":
+        elif self.opponent_direction is "back" or self.opponent_direction is "kvinta":
             lower_split += 1
             higher_split -= 1
-        elif self.opponent_direction is "right":
+        elif self.opponent_direction is "right" or self.opponent_direction is "kvarta":
             lower_split += 1
             higher_split += 2
 
@@ -433,15 +437,23 @@ class Fight:
         self.opponent_last_direction_II = self.opponent_last_direction_I
         self.opponent_last_direction_I = self.opponent_direction
 
-        if direction_num < lower_split:
-            self.opponent_direction = "left"
-        elif direction_num < higher_split:
-            self.opponent_direction = "up"
+        if self.opponent_action is "dodge":
+            if direction_num < lower_split:
+                self.opponent_direction = "left"
+            elif direction_num < higher_split:
+                self.opponent_direction = "back"
+            else:
+                self.opponent_direction = "right"
         else:
-            self.opponent_direction = "right"
-
+            if direction_num < lower_split:
+                self.opponent_direction = "terca"
+            elif direction_num < higher_split:
+                self.opponent_direction = "kvinta"
+            else:
+                self.opponent_direction = "kvarta"
         # action debug
-        print(self.opponent_action, self.opponent_last_action_I, self.opponent_last_action_II)
+        print(self.opponent_action, "-", self.opponent_direction, self.opponent_last_action_I, "-",
+              self.opponent_last_direction_I, self.opponent_last_action_II, "-", self.opponent_last_direction_II)
 
         # editing of levels
         if self.opponent_action is "dodge":
