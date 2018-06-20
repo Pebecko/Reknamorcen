@@ -13,6 +13,10 @@ class Fight:
     player_attack_direction = ""
     player_last_attack_direction_I = ""
     player_last_attack_direction_II = ""
+    player_attack_type = ""
+    player_last_attack_type_I = ""
+    player_last_attack_type_II = ""
+
 
     def __init__(self, opponent_level):
         self.opponent_level = opponent_level
@@ -349,32 +353,44 @@ class Fight:
 
         return self.attack_output(strike_type, strike_dir, opponent)
 
-    def attack_output(self, strike_type, strike_dir, opponent):
-        # generating random number
-        random_num = random.randint(0, 100)
-
+    def opponent_defence_action(self, opponent, strike_type, strike_dir):
         # opponent action choosing
         if opponent.defence is []:
             self.opponent_action = ""
-            lower_border = -200
-            middle_border = -200
-            higher_border = 60
-            if player.difficulty is "easy":
-                higher_border = 45
         elif "dodge" in opponent.defence and "block" not in opponent.defence:
             self.opponent_action = "dodge"
         elif "block" in opponent.defence and "dodge" not in opponent.defence:
             self.opponent_action = "block"
         else:
-            opponent_action_num = random.randint(0, 19)
-            split = 6
+            opponent_action_num = random.randint(0, 39)
+            split = 20
+            # player weapon effects
+            if "stab" in player.weapon.damage_type:
+                split += 1
             if player.weapon.weapon_type is "light":
-                split += 8
+                split += 4
+            elif player.weapon.weapon_type is "heavy":
+                split -= 4
+
+            # opponent weapon effects
             if opponent.weapon.weapon_type is "light":
                 split -= 2
             elif opponent.weapon.weapon_type is "heavy":
                 split += 2
 
+            # last player attack types effects
+            if self.player_last_attack_type_II is "stab":
+                split += 3
+            if self.player_last_attack_type_I is "stab":
+                split += 4
+            if self.player_attack_type is "stab":
+                split += 5
+
+            self.player_last_attack_type_II = self.player_last_attack_type_I
+            self.player_last_attack_type_I = self.player_attack_type
+            self.player_attack_type = strike_dir
+
+            # opponent last actions effects
             if self.opponent_last_action_II is "dodge":
                 split = +1
             elif self.opponent_last_action_II is "block":
@@ -400,6 +416,7 @@ class Fight:
         direction_num = random.randint(0, 59)
         lower_split = 20
         higher_split = 40
+
         # changing levels depending on last opponents directions
         if self.opponent_last_direction_II is "left" or self.opponent_last_direction_II is "terca":
             lower_split -= 2
@@ -422,20 +439,52 @@ class Fight:
             higher_split += 2
 
         if self.opponent_direction is "left" or self.opponent_direction is "terca":
-            lower_split -= 2
-            higher_split -= 1
+            lower_split -= 4
+            higher_split -= 2
         elif self.opponent_direction is "back" or self.opponent_direction is "kvinta":
-            lower_split += 1
-            higher_split -= 1
+            lower_split += 2
+            higher_split -= 2
         elif self.opponent_direction is "right" or self.opponent_direction is "kvarta":
-            lower_split += 1
-            higher_split += 2
+            lower_split += 2
+            higher_split += 4
 
         # changing levels depending on last players directions
+        if self.player_last_attack_direction_II is "body" or self.player_last_attack_direction_II is "head":
+            lower_split += 3
+            higher_split -= 3
+        elif self.player_last_attack_direction_II is "side":
+            lower_split -= 2
+            higher_split += 1
+        elif self.player_last_attack_direction_II is "belly":
+            lower_split -= 1
+            higher_split += 2
 
+        if self.player_last_attack_direction_I is "body" or self.player_last_attack_direction_I is "head":
+            lower_split += 4
+            higher_split -= 4
+        elif self.player_last_attack_direction_I is "side":
+            lower_split -= 4
+            higher_split += 2
+        elif self.player_last_attack_direction_I is "belly":
+            lower_split -= 2
+            higher_split += 4
+
+        if self.player_attack_direction is "body" or self.player_attack_direction is "head":
+            lower_split += 5
+            higher_split -= 5
+        elif self.player_attack_direction is "side":
+            lower_split -= 6
+            higher_split += 3
+        elif self.player_attack_direction is "belly":
+            lower_split -= 3
+            higher_split += 6
 
         self.opponent_last_direction_II = self.opponent_last_direction_I
         self.opponent_last_direction_I = self.opponent_direction
+
+        self.player_last_attack_direction_II = self.player_last_attack_direction_I
+        self.player_last_attack_direction_I = self.player_attack_direction
+        self.player_attack_direction = strike_dir
 
         if self.opponent_action is "dodge":
             if direction_num < lower_split:
@@ -444,7 +493,7 @@ class Fight:
                 self.opponent_direction = "back"
             else:
                 self.opponent_direction = "right"
-        else:
+        else:  # opponent action is block
             if direction_num < lower_split:
                 self.opponent_direction = "terca"
             elif direction_num < higher_split:
@@ -455,8 +504,23 @@ class Fight:
         print(self.opponent_action, "-", self.opponent_direction, self.opponent_last_action_I, "-",
               self.opponent_last_direction_I, self.opponent_last_action_II, "-", self.opponent_last_direction_II)
 
+        return
+
+    def attack_output(self, strike_type, strike_dir, opponent):
+        # generating random number
+        random_num = random.randint(0, 100)
+
+        self.opponent_defence_action(opponent, strike_type, strike_dir)
+
         # editing of levels
-        if self.opponent_action is "dodge":
+        if self.opponent_action is "":
+            lower_border = -200
+            middle_border = -200
+            higher_border = 60
+            if player.difficulty is "easy":
+                higher_border = 45
+
+        elif self.opponent_action is "dodge":
             # setting base levels depending on player weapon
             if player.weapon.weapon_class is "unarmed":
                 lower_border = 10
@@ -611,6 +675,7 @@ class Fight:
 
         # result
         last_action = "attack"
+        """
         if random_num <= lower_border:
             self.attack_major_fail()
             last_action = "defence"
@@ -618,7 +683,7 @@ class Fight:
             self.attack_minor_success(strike_dir, strike_type)
         else:
             self.attack_major_success(strike_dir, strike_type)
-
+        """
         return last_action
 
     # defence
