@@ -17,7 +17,6 @@ class Fight:
     player_last_attack_type_I = ""
     player_last_attack_type_II = ""
 
-
     def __init__(self, opponent_level):
         self.opponent_level = opponent_level
 
@@ -189,17 +188,15 @@ class Fight:
 
     def special_fight_techniques(self):
         if "mordhau" in player.weapon.special_abilities:
-            slow_print("Chcete si meč [o]tčit, abyste s ním molhy mlátit spíše než sekat, nebo [n]e??")
             while True:
+                slow_print("Chcete si meč [o]tčit, abyste s ním molhy mlátit spíše než sekat, nebo [n]e??")
                 style_decision = base_options()
                 if style_decision == "o":
                     player.weapon = short_sword_mordhau
                     break
                 elif style_decision == "n":
                     break
-                elif style_decision is "skip":
-                    pass
-                else:
+                elif style_decision != "skip":
                     wrong_input(0)
 
             return
@@ -244,10 +241,12 @@ class Fight:
         slow_print("    Váš život: " + str(player.health) + "/" + str(player.max_health))
         slow_print("    Vaše energie: " + str(player.weapon.stamina) + "/" + str(player.weapon.max_stamina) + "\n")
         time.sleep(0.3)
-        slow_print("    Soupeř vypadá " + opponent_health_state
-                   + "    " + str(opponent.health) + "/" + str(opponent.max_health))
-        slow_print("    Soupeř vypadá " + opponent_stamina_state
-                   + "    " + str(opponent.weapon.stamina) + "/" + str(opponent.weapon.max_stamina) + "\n")
+        slow_print("    Soupeř vypadá " + opponent_health_state)
+        if player.test is True:
+            print("        ", opponent.health, "/", opponent.max_health)
+        slow_print("    Soupeř vypadá " + opponent_stamina_state + "\n")
+        if player.test is True:
+            print("        ", opponent.weapon.stamina, "/", opponent.weapon.max_stamina, "\n")
         time.sleep(0.25)
 
         return
@@ -380,11 +379,11 @@ class Fight:
 
             # last player attack types effects
             if self.player_last_attack_type_II is "stab":
-                split += 3
+                split -= 2
             if self.player_last_attack_type_I is "stab":
-                split += 4
+                split -= 3
             if self.player_attack_type is "stab":
-                split += 5
+                split -= 4
 
             self.player_last_attack_type_II = self.player_last_attack_type_I
             self.player_last_attack_type_I = self.player_attack_type
@@ -392,17 +391,17 @@ class Fight:
 
             # opponent last actions effects
             if self.opponent_last_action_II is "dodge":
-                split = +1
+                split += 1
             elif self.opponent_last_action_II is "block":
-                split = -1
+                split -= 1
             if self.opponent_last_action_I is "dodge":
-                split = +2
+                split += 2
             elif self.opponent_last_action_I is "block":
-                split = -2
+                split -= 2
             if self.opponent_action is "dodge":
-                split = +2
+                split += 3
             elif self.opponent_action is "block":
-                split = -2
+                split -= 3
 
             self.opponent_last_action_II = self.opponent_last_action_I
             self.opponent_last_action_I = self.opponent_action
@@ -413,96 +412,201 @@ class Fight:
                 self.opponent_action = "dodge"
 
         # opponent defence direction choosing
-        direction_num = random.randint(0, 59)
-        lower_split = 20
-        higher_split = 40
-
-        # changing levels depending on last opponents directions
-        if self.opponent_last_direction_II is "left" or self.opponent_last_direction_II is "terca":
-            lower_split -= 2
-            higher_split -= 1
-        elif self.opponent_last_direction_II is "back" or self.opponent_last_direction_II is "kvinta":
-            lower_split += 1
-            higher_split -= 1
-        elif self.opponent_last_direction_II is "right" or self.opponent_last_direction_II is "kvarta":
-            lower_split += 1
-            higher_split += 2
-
-        if self.opponent_last_direction_I is "left" or self.opponent_last_direction_I is "terca":
-            lower_split -= 2
-            higher_split -= 1
-        elif self.opponent_last_direction_I is "back" or self.opponent_last_direction_I is "kvinta":
-            lower_split += 1
-            higher_split -= 1
-        elif self.opponent_last_direction_I is "right" or self.opponent_last_direction_I is "kvarta":
-            lower_split += 1
-            higher_split += 2
-
-        if self.opponent_direction is "left" or self.opponent_direction is "terca":
-            lower_split -= 4
-            higher_split -= 2
-        elif self.opponent_direction is "back" or self.opponent_direction is "kvinta":
-            lower_split += 2
-            higher_split -= 2
-        elif self.opponent_direction is "right" or self.opponent_direction is "kvarta":
-            lower_split += 2
-            higher_split += 4
-
-        # changing levels depending on last players directions
-        if self.player_last_attack_direction_II is "body" or self.player_last_attack_direction_II is "head":
-            lower_split += 3
-            higher_split -= 3
-        elif self.player_last_attack_direction_II is "side":
-            lower_split -= 2
-            higher_split += 1
-        elif self.player_last_attack_direction_II is "belly":
-            lower_split -= 1
-            higher_split += 2
-
-        if self.player_last_attack_direction_I is "body" or self.player_last_attack_direction_I is "head":
-            lower_split += 4
-            higher_split -= 4
-        elif self.player_last_attack_direction_I is "side":
-            lower_split -= 4
-            higher_split += 2
-        elif self.player_last_attack_direction_I is "belly":
-            lower_split -= 2
-            higher_split += 4
-
-        if self.player_attack_direction is "body" or self.player_attack_direction is "head":
-            lower_split += 5
-            higher_split -= 5
-        elif self.player_attack_direction is "side":
-            lower_split -= 6
-            higher_split += 3
-        elif self.player_attack_direction is "belly":
-            lower_split -= 3
-            higher_split += 6
-
-        self.opponent_last_direction_II = self.opponent_last_direction_I
-        self.opponent_last_direction_I = self.opponent_direction
-
-        self.player_last_attack_direction_II = self.player_last_attack_direction_I
-        self.player_last_attack_direction_I = self.player_attack_direction
-        self.player_attack_direction = strike_dir
-
         if self.opponent_action is "dodge":
+            direction_num = random.randint(0, 59)
+            lower_split = 20
+            higher_split = 40
+
+            # changing levels depending on last opponents directions
+            if self.opponent_last_direction_II is "left" or self.opponent_last_direction_II is "terca":
+                lower_split -= 2
+                higher_split -= 1
+            elif self.opponent_last_direction_II is "back" or self.opponent_last_direction_II is "kvinta":
+                lower_split += 1
+                higher_split -= 1
+            elif self.opponent_last_direction_II is "right" or self.opponent_last_direction_II is "kvarta":
+                lower_split += 1
+                higher_split += 2
+
+            if self.opponent_last_direction_I is "left" or self.opponent_last_direction_I is "terca":
+                lower_split -= 2
+                higher_split -= 1
+            elif self.opponent_last_direction_I is "back" or self.opponent_last_direction_I is "kvinta":
+                lower_split += 1
+                higher_split -= 1
+            elif self.opponent_last_direction_I is "right" or self.opponent_last_direction_I is "kvarta":
+                lower_split += 1
+                higher_split += 2
+
+            if self.opponent_direction is "left" or self.opponent_direction is "terca":
+                lower_split -= 4
+                higher_split -= 2
+            elif self.opponent_direction is "back" or self.opponent_direction is "kvinta":
+                lower_split += 2
+                higher_split -= 2
+            elif self.opponent_direction is "right" or self.opponent_direction is "kvarta":
+                lower_split += 2
+                higher_split += 4
+
+            # changing levels depending on last players directions
+            if self.player_last_attack_direction_II is "body" or self.player_last_attack_direction_II is "head":
+                lower_split += 3
+                higher_split -= 3
+            elif self.player_last_attack_direction_II is "side":
+                lower_split -= 2
+                higher_split += 1
+            elif self.player_last_attack_direction_II is "belly":
+                lower_split -= 1
+                higher_split += 2
+
+            if self.player_last_attack_direction_I is "body" or self.player_last_attack_direction_I is "head":
+                lower_split += 4
+                higher_split -= 4
+            elif self.player_last_attack_direction_I is "side":
+                lower_split -= 4
+                higher_split += 2
+            elif self.player_last_attack_direction_I is "belly":
+                lower_split -= 2
+                higher_split += 4
+
+            if self.player_attack_direction is "body" or self.player_attack_direction is "head":
+                lower_split += 5
+                higher_split -= 5
+            elif self.player_attack_direction is "side":
+                lower_split -= 6
+                higher_split += 3
+            elif self.player_attack_direction is "belly":
+                lower_split -= 3
+                higher_split += 6
+
+            if self.player_attack_direction is "body" or self.player_attack_direction is "head":
+                lower_split += 5
+                higher_split -= 5
+            elif self.player_attack_direction is "side":
+                lower_split -= 6
+                higher_split += 3
+            elif self.player_attack_direction is "belly":
+                lower_split -= 3
+                higher_split += 6
+
+            self.opponent_last_direction_II = self.opponent_last_direction_I
+            self.opponent_last_direction_I = self.opponent_direction
+
+            self.player_last_attack_direction_II = self.player_last_attack_direction_I
+            self.player_last_attack_direction_I = self.player_attack_direction
+            self.player_attack_direction = strike_dir
+
             if direction_num < lower_split:
                 self.opponent_direction = "left"
             elif direction_num < higher_split:
                 self.opponent_direction = "back"
             else:
                 self.opponent_direction = "right"
-        else:  # opponent action is block
+        elif self.opponent_action is "block":
+            direction_num = random.randint(0, 64)
+            lower_split = 20
+            higher_split = 40
+            special_split = 60
+
+            if "stab" in opponent.weapon.damage_type:
+                lower_split -= 1
+                higher_split -= 2
+                special_split -= 3
+
+            # changing levels depending on last opponents directions
+            if self.opponent_last_direction_II is "left" or self.opponent_last_direction_II is "terca":
+                lower_split -= 2
+                higher_split -= 1
+            elif self.opponent_last_direction_II is "back" or self.opponent_last_direction_II is "kvinta":
+                lower_split += 1
+                higher_split -= 1
+            elif self.opponent_last_direction_II is "right" or self.opponent_last_direction_II is "kvarta":
+                lower_split += 1
+                higher_split += 2
+
+            if self.opponent_last_direction_I is "left" or self.opponent_last_direction_I is "terca":
+                lower_split -= 2
+                higher_split -= 1
+            elif self.opponent_last_direction_I is "back" or self.opponent_last_direction_I is "kvinta":
+                lower_split += 1
+                higher_split -= 1
+            elif self.opponent_last_direction_I is "right" or self.opponent_last_direction_I is "kvarta":
+                lower_split += 1
+                higher_split += 2
+
+            if self.opponent_direction is "left" or self.opponent_direction is "terca":
+                lower_split -= 4
+                higher_split -= 2
+            elif self.opponent_direction is "back" or self.opponent_direction is "kvinta":
+                lower_split += 2
+                higher_split -= 2
+            elif self.opponent_direction is "right" or self.opponent_direction is "kvarta":
+                lower_split += 2
+                higher_split += 4
+
+            # changing levels depending on last players directions
+            if self.player_last_attack_direction_II is "body":
+                lower_split -= 3
+                higher_split -= 6
+                special_split -= 9
+            elif self.player_last_attack_direction_II is "side":
+                lower_split += 4
+                higher_split += 2
+            elif self.player_last_attack_direction_II is "belly":
+                lower_split -= 2
+                higher_split -= 4
+            elif self.player_last_attack_direction_II is "head":
+                lower_split -= 2
+                higher_split += 2
+
+            if self.player_last_attack_direction_I is "body" or self.player_last_attack_direction_I is "head":
+                lower_split -= 4
+                higher_split -= 8
+                special_split -= 12
+            elif self.player_last_attack_direction_I is "side":
+                lower_split += 6
+                higher_split += 3
+            elif self.player_last_attack_direction_I is "belly":
+                lower_split -= 3
+                higher_split -= 6
+            elif self.player_last_attack_direction_II is "head":
+                lower_split -= 3
+                higher_split += 3
+
+            if self.player_attack_direction is "body" or self.player_attack_direction is "head":
+                lower_split -= 5
+                higher_split -= 10
+                special_split -= 15
+            elif self.player_attack_direction is "side":
+                lower_split += 8
+                higher_split += 4
+            elif self.player_attack_direction is "belly":
+                lower_split -= 4
+                higher_split -= 8
+            elif self.player_last_attack_direction_II is "head":
+                lower_split -= 4
+                higher_split += 4
+
+            self.opponent_last_direction_II = self.opponent_last_direction_I
+            self.opponent_last_direction_I = self.opponent_direction
+
+            self.player_last_attack_direction_II = self.player_last_attack_direction_I
+            self.player_last_attack_direction_I = self.player_attack_direction
+            self.player_attack_direction = strike_dir
+
             if direction_num < lower_split:
                 self.opponent_direction = "terca"
             elif direction_num < higher_split:
                 self.opponent_direction = "kvinta"
-            else:
+            elif direction_num < special_split:
                 self.opponent_direction = "kvarta"
+            else:
+                self.opponent_direction = "second"
+
         # action debug
-        print(self.opponent_action, "-", self.opponent_direction, self.opponent_last_action_I, "-",
-              self.opponent_last_direction_I, self.opponent_last_action_II, "-", self.opponent_last_direction_II)
+        if player.test is True:
+            print(self.opponent_action, "-", self.opponent_direction, ",", self.opponent_last_action_I, "-",
+                  self.opponent_last_direction_I, ",", self.opponent_last_action_II, "-", self.opponent_last_direction_II)
 
         return
 
@@ -519,6 +623,9 @@ class Fight:
             higher_border = 60
             if player.difficulty is "easy":
                 higher_border = 45
+
+            if self.player_attack_direction is "head":
+                higher_border += 6
 
         elif self.opponent_action is "dodge":
             # setting base levels depending on player weapon
@@ -562,33 +669,33 @@ class Fight:
                 higher_border -= 1
 
             # opponent defence direction and player attack direction and type effects
-            if self.opponent_direction is "up":
+            if self.opponent_direction is "back":
                 if strike_dir is "body" or strike_dir is "head":
-                    lower_border -= 1
-                    middle_border -= 1
-                    higher_border -= 1
+                    lower_border -= 12
+                    middle_border -= 15
+                    higher_border -= 13
                 else:
-                    lower_border += 1
-                    middle_border += 1
-                    higher_border += 1
+                    lower_border += 16
+                    middle_border += 21
+                    higher_border += 7
             elif self.opponent_direction is "left":
                 if strike_dir is "belly":
-                    lower_border -= 1
-                    middle_border -= 1
-                    higher_border -= 1
-                elif strike_dir is "head":
-                    lower_border += 1
-                    middle_border += 1
-                    higher_border += 1
+                    lower_border -= 24
+                    middle_border -= 21
+                    higher_border -= 9
+                elif strike_dir is "body" or strike_dir is "head":
+                    lower_border += 16
+                    middle_border += 15
+                    higher_border += 10
             else:
                 if strike_dir is "side":
-                    lower_border -= 1
-                    middle_border -= 1
-                    higher_border -= 1
-                elif strike_dir is "head":
-                    lower_border += 1
-                    middle_border += 1
-                    higher_border += 1
+                    lower_border -= 26
+                    middle_border -= 22
+                    higher_border -= 10
+                elif strike_dir is "body" or strike_dir is "head":
+                    lower_border += 14
+                    middle_border += 13
+                    higher_border += 8
 
             # player armor effects
             if "helmet" in player.gear:
@@ -609,7 +716,10 @@ class Fight:
                 middle_border += 5
                 higher_border += 5
 
-        elif self.opponent_action is "block":
+            lower_border += opponent.dodge_effectiveness
+            middle_border += opponent.dodge_effectiveness
+            higher_border += opponent.dodge_effectiveness
+        else:
             # setting base levels depending on player weapon
             if player.weapon.weapon_class is "unarmed":
                 lower_border = 50
@@ -669,9 +779,14 @@ class Fight:
                 middle_border += 1
                 higher_border += 1
 
+            lower_border += opponent.block_effectiveness
+            middle_border += opponent.block_effectiveness
+            higher_border += opponent.block_effectiveness
+
         # debug part
-        print(random_num, lower_border, middle_border, higher_border)
-        time.sleep(1)
+        if player.test is True:
+            print(random_num, lower_border, middle_border, higher_border)
+            time.sleep(1)
 
         # result
         last_action = "attack"

@@ -23,6 +23,8 @@ class Player:
     stamina = 0
     max_stamina = 0
     difficulty = "easy"
+    print_time = 0.015
+    test = False
     weapon = Weapon()
     gear = []
 
@@ -48,7 +50,7 @@ class Opponent:
 # weapons
 short_sword = Weapon()
 short_sword.name = "krátký meč"
-short_sword.info = "ostrá zbraň schopná jak sekat, tak i bodat"
+short_sword.info = "krátší ostrá zbraň schopná jak sekat, tak i bodat"
 short_sword.damage = 5
 short_sword.stamina = 8
 short_sword.max_stamina = 8
@@ -58,7 +60,6 @@ short_sword.weapon_type = "light"
 short_sword.special_abilities = ["mordhau"]
 short_sword.weapon_class = "sword"
 
-# mordhau style
 short_sword_mordhau = Weapon()
 short_sword_mordhau.name = "krátký meč"
 short_sword_mordhau.info = "ostrá zbraň schopná jak sekat, tak i bodat"
@@ -70,6 +71,30 @@ short_sword_mordhau.damage_type = ["smash"]
 short_sword_mordhau.weapon_type = "light"
 short_sword_mordhau.special_abilities = ["mordhau"]
 short_sword_mordhau.weapon_class = "sword"
+
+long_sword = Weapon()
+long_sword.name = "meč bastard"
+long_sword.info = "ostrá zbraň schopná jak sekat, tak i bodat"
+long_sword.damage = 3
+long_sword.stamina = 8
+long_sword.max_stamina = 8
+long_sword.stamina_regain = 1.5
+long_sword.damage_type = ["smash"]
+long_sword.weapon_type = "light"
+long_sword.special_abilities = ["mordhau"]
+long_sword.weapon_class = "sword"
+
+long_sword_mordhau = Weapon()
+long_sword_mordhau.name = "meč bastard"
+long_sword_mordhau.info = "ostrá zbraň schopná jak sekat, tak i bodat"
+long_sword_mordhau.damage = 3
+long_sword_mordhau.stamina = 8
+long_sword_mordhau.max_stamina = 8
+long_sword_mordhau.stamina_regain = 1.5
+long_sword_mordhau.damage_type = ["smash"]
+long_sword_mordhau.weapon_type = "light"
+long_sword_mordhau.special_abilities = ["mordhau"]
+long_sword_mordhau.weapon_class = "sword"
 
 two_handed_axe = Weapon()
 two_handed_axe.name = "obouruční sekera"

@@ -1,7 +1,7 @@
 import random
 import sys
 import time
-import character_stats
+from Reknamorcen.character_stats import player
 
 
 def wrong_input(call):
@@ -22,7 +22,7 @@ def wrong_input(call):
 
 
 def slow_print(s):
-    writing_time = 0.015
+    writing_time = player.print_time
     for c in s:
         sys.stdout.write(c)
         sys.stdout.flush()
@@ -54,10 +54,10 @@ def player_killed():
 def base_options():
     option = input()
 
-    if option is "quit" or option is "leave" or option is "exit" or option is "vypnout":
+    if option == "quit" or option == "leave" or option == "exit" or option == "vypnout":
         shutdown()
 
-    elif option is "save" or option is "uložit":
+    elif option == "save" or option == "uložit":
         option = "skip"
         if player.x == 0 and player.y == 0:
             save = ""
@@ -68,5 +68,24 @@ def base_options():
         time.sleep(1)
         slow_print("Vyberte prosím další možnost.\n")
 
-    return option
+    elif option == "time":
+        option = "skip"
+        slow_print("Jak rychle chcete aby se text vypisoval:\n"
+                   "    [i]nstantně\n"
+                   "    [r]ychle\n"
+                   "    [p]omalu")
+        while True:
+            time_setting = input()
+            if time_setting is "i":
+                player.print_time = 0
+                break
+            elif time_setting is "r":
+                player.print_time = 0.005
+                break
+            elif time_setting is "p":
+                player.print_time = 0.015
+                break
+            else:
+                wrong_input(3)
 
+    return option
