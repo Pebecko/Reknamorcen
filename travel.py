@@ -1,4 +1,4 @@
-import main_funcs
+from Reknamorcen.fight import *
 
 
 class Travelling:
@@ -40,11 +40,15 @@ class Travelling:
         return
 
     def room_pattern_one(self, last_dir_old1, last_dir_new1):
-        if self.last_direction is None:
-            slow_print("Můžete jít pouze rovně, zmáčkněte enter až budete připraveni.\n")
-        elif self.last_direction is "{}".format(last_dir_old1):
-            slow_print("Můžete jít pouze zpět, zmáčkněte enter až budete připraveni.\n")
-        input()
+        while True:
+            if self.last_direction is None:
+                slow_print("Můžete jít pouze rovně, zmáčkněte enter až budete připraveni.\n")
+            elif self.last_direction is "{}".format(last_dir_old1):
+                slow_print("Můžete jít pouze zpět, zmáčkněte enter až budete připraveni.\n")
+            direction_choice = base_options()
+            if direction_choice != "skip":
+                break
+
 
         self.last_direction = "{}".format(last_dir_new1)
         return self.get_coordinates()
@@ -54,38 +58,38 @@ class Travelling:
         while True:
             if self.last_direction is None:
                 slow_print("{}".format(msg1))
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt1):
                     self.last_direction = "{}".format(last_dir_new1)
                     break
                 elif direction_choice is "{}".format(pl_opt2):
                     self.last_direction = "{}".format(last_dir_new2)
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
             elif self.last_direction is "{}".format(last_dir_old1):
                 slow_print("{}".format(msg2))
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt3):
                     self.last_direction = "{}".format(last_dir_new1)
                     break
                 elif direction_choice is "{}".format(pl_opt4):
                     self.last_direction = "{}".format(last_dir_new2)
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
             elif self.last_direction is "{}".format(last_dir_old2):
                 slow_print("{}".format(msg3))
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt5):
                     self.last_direction = "{}".format(last_dir_new2)
                     break
                 elif direction_choice is "{}".format(pl_opt6):
                     self.last_direction = "{}".format(last_dir_new1)
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
         return self.get_coordinates()
@@ -96,7 +100,7 @@ class Travelling:
         while True:
             if self.last_direction is None:
                 slow_print(msg1)
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is pl_opt1:
                     self.last_direction = last_dir_new1
                     break
@@ -106,12 +110,12 @@ class Travelling:
                 elif direction_choice is pl_opt3:
                     self.last_direction = last_dir_new3
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
             elif self.last_direction is last_dir_old1:
                 slow_print(msg2)
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is pl_opt4:
                     self.last_direction = last_dir_new1
                     break
@@ -121,12 +125,12 @@ class Travelling:
                 elif direction_choice is pl_opt6:
                     self.last_direction = last_dir_new3
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
             elif self.last_direction is last_dir_old2:
                 slow_print(msg3)
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is pl_opt7:
                     self.last_direction = last_dir_new2
                     break
@@ -136,12 +140,12 @@ class Travelling:
                 elif direction_choice is pl_opt9:
                     self.last_direction = last_dir_new3
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
             elif self.last_direction is last_dir_old3:
                 slow_print(msg4)
-                direction_choice = input()
+                direction_choice = base_options()
                 if direction_choice is pl_opt10:
                     self.last_direction = last_dir_new3
                     break
@@ -151,7 +155,7 @@ class Travelling:
                 elif direction_choice is pl_opt12:
                     self.last_direction = last_dir_new1
                     break
-                else:
+                elif direction_choice != "skip":
                     wrong_input(0)
 
         return self.get_coordinates()
@@ -539,6 +543,8 @@ class Travelling:
         return
 
     def room_four_exit(self):
+        fighting = Fight(2)
+        fighting.main_()
         # if self.first_fight == 1:
             # if self.room_four_fight == 0:
                 # self.fight(0)
@@ -560,6 +566,6 @@ class Travelling:
 
 
 path = Travelling(3, 3)
-print(path.room_picking())
+path.room_picking()
 
 input()
