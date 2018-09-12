@@ -112,6 +112,8 @@ class Preparation:
     def first_fight_action(self, opponent):
         loudness = 0
         loudness += opponent.awareness
+        if player.last_fight == True:
+            loudness += 4
         if player.char == "dwarf":
             loudness += 3
         elif player.char == "human":
@@ -119,10 +121,10 @@ class Preparation:
         loudness += player.helmet.loudness
         loudness += player.armor.loudness
         first_opponent_action = "defence"
-        if loudness > 16:
+        if loudness > 20:
             first_opponent_action = "attack"
-        elif loudness > 8:
-            if random.randint(0, loudness) < 8:
+        elif loudness > 10:
+            if random.randint(0, loudness) < 10:
                 first_opponent_action = "attack"
 
         return first_opponent_action
@@ -130,7 +132,7 @@ class Preparation:
     def special_fight_techniques(self):
         if "mordhau" in player.weapon.special_abilities:
             while True:
-                slow_print("Chcete si meč [o]tčit, abyste s ním molhy mlátit spíše než sekat, nebo [n]e??")
+                slow_print("Chcete si meč [o]točit, abyste s ním mohli mlátit spíše než sekat, nebo [n]e??")
                 style_decision = base_options()
                 if style_decision == "o":
                     player.weapon = short_sword_mordhau
@@ -620,7 +622,7 @@ class Attack:
                                " takže si počkal a vykryl vaši ránu."
                 opponent.weapon.hit_points -= 2 * player.weapon.damage
             elif opponent.helmet.name != "" and strike_dir == "head" and self.opponent_direction != "kvinta":
-                block_output = "Ale na poslední chvíli stihl zdvihnout zbraň a čásstečně vám úder vykrýt a tu sílu" \
+                block_output = "Ale na poslední chvíli stihl zdvihnout zbraň a částečně vám úder vykrýt a tu sílu" \
                                " kterou nevykryl zbraní absorbovala jeho helma."
                 opponent.weapon.hit_points -= player.weapon.damage
                 opponent.helmet.hit_points -= 1.5 * player.weapon.damage
@@ -689,7 +691,82 @@ class Attack:
 
     def attack_minor_success(self, strike_dir, strike_type, opponent):
         multiplier = 0.5
-        slow_print("Váš útok supeře jen lehce zranil.\n")
+
+        if self.opponent_action == "block":
+            if random.randint(0, 5) == 0:
+                block_output = "Ale vy jste úplně neodhadli vzdálenost a tak jste soupeře jen lehce zasáhli"
+            elif random.randint(0, 4) != 0:
+                block_output = "Ale než ho vaše zbraň zasáhla stihl zareagovat a částečně váš úder zablokoval, takže" \
+                               " jste ho jen lehce zranili."
+                opponent.weapon.hit_points -= 1.5 * player.weapon.damage
+            else:
+                block_output = "Ale vaše zbraň vám trochu sklouzla v prstech a tím se váš útok trochu opozdil, což" \
+                               " dalo soupeři čas na to vaši ránu ještě částečně vykrýt a tak jste mu způsobili jen" \
+                               " malé zranění"
+
+            if self.opponent_direction == "terca":
+                block_message = "bok"
+                if strike_dir == "side":
+                    block_output = "Jeho kryt byl ovšem dost pomalý, takže ho váš úder částečně prorazil a zasáhl " \
+                                   "soupeře, takže mu způsobil lehké zranění"
+                    opponent.weapon.hit_points -= player.weapon.damage
+            elif self.opponent_direction == "kvinta":
+                block_message = "hlavu"
+                if strike_dir == "head":
+                    block_output = "Jeho kryt ovšem nebyl dost rychlý, takže ho váš úder částečně prorazil a zasáhl " \
+                                   "soupeře, takže mu způsobil lehké zranění"
+                    opponent.weapon.hit_points -= player.weapon.damage
+            elif self.opponent_direction == "kvarta":
+                block_message = "břicho"
+                if strike_dir == "belly":
+                    block_output = "Jeho kryt ovšem nebyl dost rychlý, a tak váš úder zablokoval jen částečně, takže" \
+                                   " mu způsobil lehké zranění"
+                    opponent.weapon.hit_points -= player.weapon.damage
+            else:
+                block_message = "proti bodání"
+                if random.randint(0, 1) == 0 and self.opponent_direction != "side":
+                    block_output = "Ale vatáčel ji příliš rychle zakže vaši zbraň jen částečně odklonil a tak ho váš" \
+                                   " útok lehce zranil"
+                else:
+                    block_output = "Ale vytáčel svou zbraň dost pomalu a tak nestihl úplně odklonit váš rychlý útok," \
+                                   " který ho lehce zranil"
+                opponent.weapon.hit_points -= 0.5 * player.weapon.damage
+
+            slow_print("Váš soupeř se snažil krýt {}. {}.\n".format(block_message, block_output))
+        else:
+            if self.opponent_direction == "left":
+                dodge_message = "doleva"
+                if strike_dir == "belly":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale váš útok byl příliš rychlý a tak ještě než soupeř uhnul máchli jste tam" \
+                                       " kam jste předpokládali že se dostane a se štěstím jste ho lehce zasáhli"
+                    else:
+                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a tak jste ho jen lehce zasáhli"
+                else:
+                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+            elif self.opponent_direction == "back":
+                dodge_message = "dozadu"
+                if strike_dir == "head" or strike_dir == "body":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale váš útok byl příliš zbrklý a tak se vám nepodařilo odhadnout správně" \
+                                       " vzdálenost, takže jste promáchli"
+                    else:
+                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a netrefili jste se"
+                else:
+                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+            else:
+                dodge_message = "doprava"
+                if strike_dir == "side":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale váš útok byl příliš zbrklý a tak se vám nepodařilo odhadnout správně" \
+                                       " vzdálenost, takže jste promáchli"
+                    else:
+                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a netrefili jste se"
+                else:
+                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+
+            slow_print("Soupeř se snažil uhnout {}. {}.".format(dodge_message, dodge_output))
+
 
         if strike_dir == "head":
             if strike_type == "cut":

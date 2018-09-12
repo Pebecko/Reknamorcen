@@ -57,6 +57,7 @@ class Player:
     weapon = Weapon()
     helmet = Helmet()
     armor = Armor()
+    last_fight = False
 
 
 class Opponent:
@@ -184,7 +185,7 @@ chainmail_hauberk.info = "lidmi vyrobená kroužková košile"
 chainmail_hauberk.level = 2
 chainmail_hauberk._type = "chaimail"
 chainmail_hauberk.heaviness = 4
-chainmail_hauberk.loudness = 7
+chainmail_hauberk.loudness = 7  # 1 - 9
 chainmail_hauberk.hit_points = 5000
 chainmail_hauberk.cut_damage_reduction = 3  # 1 - 10(%)
 chainmail_hauberk.stab_damage_reduction = 3  # 1 - 10(%)

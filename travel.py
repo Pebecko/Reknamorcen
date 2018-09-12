@@ -525,18 +525,20 @@ class Travelling:
     def room_one_spawn_one(self):
         self.room_type_n()
 
+        player.last_fight = False
+
         return
 
     def room_two(self):
         self.room_type_sw()
 
+        player.last_fight = False
+
         return
 
     def room_three(self):
-        # if self.first_fight == 0:
-            # if self.room_three_fight == 0:
-                # self.fight(0)
-            # self.room_three_fight += 1
+
+        player.last_fight = False
 
         self.room_type_new()
 
@@ -545,10 +547,8 @@ class Travelling:
     def room_four_exit(self):
         fighting = Fight(2)
         fighting.main_()
-        # if self.first_fight == 1:
-            # if self.room_four_fight == 0:
-                # self.fight(0)
-            # self.room_four_fight += 1
+
+        player.last_fight = True
 
         self.room_type_ns()
 
@@ -557,10 +557,14 @@ class Travelling:
     def room_five(self):
         self.room_type_ew()
 
+        player.last_fight = False
+
         return
 
     def room_six_spawn_two(self):
         self.room_type_e()
+
+        player.last_fight = False
 
         return
 
