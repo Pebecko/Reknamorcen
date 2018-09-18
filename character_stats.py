@@ -196,10 +196,10 @@ chainmail_hauberk.special_abilities = []
 player = Player()
 player.char = "human"
 player.weapon = long_sword
-player.armor = chainmail_hauberk
+player.helmet = rusty_ork_helmet_1
 player.print_time = 0
-player.health = 640
-player.max_health = 640
+player.health = 800
+player.max_health = 800
 
 # enemies
 ork = Opponent()
@@ -210,8 +210,9 @@ ork.lowest_health = 480
 ork.highest_health = 560
 ork.awareness = 3
 ork.dodge_effectiveness = 0
-ork.block_effectiveness = 0  # 7
-ork.weapons = ["two_handed_axe"]
-ork.defence = ["block"]
-ork.helmet = rusty_ork_helmet
-ork.armor = chainmail_hauberk
+ork.block_effectiveness = 7  # 7
+ork.weapons = [two_handed_axe]
+ork.defence = ["block", "dodge"]
+
+rusty_ork_helmet_1 = rusty_ork_helmet
+rusty_ork_helmet_2 = rusty_ork_helmet

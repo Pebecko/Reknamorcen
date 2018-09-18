@@ -49,7 +49,7 @@ class Preparation:
                 ork.health = random.randint(ork.lowest_health, ork.highest_health)
                 ork.max_health = ork.health
                 ork.weapon = two_handed_axe
-                ork.helmet = rusty_ork_helmet
+                ork.helmet = rusty_ork_helmet_2
                 opponent = ork
 
                 opponent_weapon_number = random.randint(0, 1)
@@ -741,34 +741,42 @@ class Attack:
                         dodge_output = "Ale váš útok byl příliš rychlý a tak ještě než soupeř uhnul máchli jste tam" \
                                        " kam jste předpokládali že se dostane a se štěstím jste ho lehce zasáhli"
                     else:
-                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a tak jste ho jen lehce zasáhli"
+                        dodge_output = "Ale váš útok trval dost dlouho takže se oponentovi téměř podařilo se mu" \
+                                       " vyhnout, jen se štěstím jste ho lehce zasáhli"
                 else:
-                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+                    dodge_output = "Vy jste si toho na poslední chvíli všimli a tak se vám ho povedlo alespoň lehce" \
+                                   " zasáhnout"
             elif self.opponent_direction == "back":
                 dodge_message = "dozadu"
                 if strike_dir == "head" or strike_dir == "body":
                     if random.randint(0, 1) == 0:
-                        dodge_output = "Ale váš útok byl příliš zbrklý a tak se vám nepodařilo odhadnout správně" \
-                                       " vzdálenost, takže jste promáchli"
+                        dodge_output = "Ale váš útok nebyl úplně tak dlouhý jak jste potřebovali a tak jste soupeře" \
+                                       " zasáhli jen lehce"
                     else:
-                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a netrefili jste se"
+                        dodge_output = "Ale vy jste na soupeře zaútočili ve chvíli kdy začal uhýbat a už se vám" \
+                                       " povedlo protáhnout útok jen trochu takže jste ho nezasáhli plnou silou"
                 else:
-                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+                    dodge_output = "Vy jste si toho na poslední chvíli všimli a tak se vám ho povedlo alespoň lehce" \
+                                   " zasáhnout"
             else:
                 dodge_message = "doprava"
                 if strike_dir == "side":
                     if random.randint(0, 1) == 0:
-                        dodge_output = "Ale váš útok byl příliš zbrklý a tak se vám nepodařilo odhadnout správně" \
-                                       " vzdálenost, takže jste promáchli"
+                        dodge_output = "Ale váš útok byl příliš rychlý a tak ještě než soupeř uhnul máchli jste tam" \
+                                       " kam jste předpokládali že se dostane a se štěstím jste ho lehce zasáhli"
                     else:
-                        dodge_output = "Ale vaše zbraň vám trochu sklouzla v prstech a netrefili jste se"
+                        dodge_output = "Ale váš útok trval dost dlouho takže se oponentovi téměř podařilo se mu" \
+                                       " vyhnout, jen se štěstím jste ho lehce zasáhli"
                 else:
-                    dodge_output = "A tak se mu povedlo vyhnout se vašemu útoku."
+                    dodge_output = "Vy jste si toho na poslední chvíli všimli a tak se vám ho povedlo alespoň lehce" \
+                                   " zasáhnout"
 
             slow_print("Soupeř se snažil uhnout {}. {}.".format(dodge_message, dodge_output))
 
 
         if strike_dir == "head":
+            if opponent.helmet != no_helmet:
+                opponent.helmet.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
                 multiplier -= opponent.helmet.cut_damage_reduction * 0.05
             elif strike_type == "smash":
@@ -776,6 +784,8 @@ class Attack:
             elif strike_type == "stab":
                 multiplier -= opponent.helmet.stab_damage_reduction * 0.05
         else:
+            if opponent.armor != no_armor:
+                opponent.armor.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
                 multiplier -= opponent.armor.cut_damage_reduction * 0.05
             elif strike_type == "smash":
@@ -849,20 +859,28 @@ class Attack:
                     higher_border = 65
             elif player.weapon.weapon_type is "light":
                 lower_border = 10
-                middle_border = 25
+                middle_border = 30
+                higher_border = 60
+                if player.difficulty is "easy":
+                    lower_border = 5
+                    middle_border = 25
+                    higher_border = 50
+            elif player.weapon.weapon_type is "medium":
+                lower_border = 15
+                middle_border = 35
                 higher_border = 65
                 if player.difficulty is "easy":
-                    lower_border = 3
-                    middle_border = 20
+                    lower_border = 10
+                    middle_border = 25
                     higher_border = 55
-            else:  # player weapon type is heavy
-                lower_border = 30
-                middle_border = 60
-                higher_border = 85
+            else:
+                lower_border = 20
+                middle_border = 55
+                higher_border = 70
                 if player.difficulty is "easy":
-                    lower_border = 20
-                    middle_border = 50
-                    higher_border = 80
+                    lower_border = 25
+                    middle_border = 45
+                    higher_border = 60
 
             # opponent weapon effects
             if opponent.weapon.weapon_class is "unarmed":
@@ -873,7 +891,11 @@ class Attack:
                 lower_border += 4
                 middle_border += 3
                 higher_border += 2
-            else:  # opponent weapon type is heavy
+            elif opponent.weapon.weapon_type is "medium":
+                lower_border -= 2
+                middle_border -= 1
+                higher_border -= 0.5
+            elif opponent.weapon.weapon_type is "heavy":
                 lower_border -= 4
                 middle_border -= 3
                 higher_border -= 1
@@ -881,31 +903,31 @@ class Attack:
             # opponent defence direction and player attack direction and type effects
             if self.opponent_direction is "back":
                 if strike_dir is "body" or strike_dir is "head":
-                    lower_border -= 12
+                    lower_border -= 18
                     middle_border -= 15
                     higher_border -= 13
                 else:
-                    lower_border += 16
+                    lower_border += 9
                     middle_border += 21
-                    higher_border += 7
+                    higher_border += 17
             elif self.opponent_direction is "left":
                 if strike_dir is "belly":
                     lower_border -= 24
                     middle_border -= 21
-                    higher_border -= 9
+                    higher_border -= 11
                 elif strike_dir is "body" or strike_dir is "head":
-                    lower_border += 16
-                    middle_border += 15
-                    higher_border += 10
+                    lower_border += 7
+                    middle_border += 14
+                    higher_border += 16
             else:
                 if strike_dir is "side":
                     lower_border -= 26
                     middle_border -= 22
-                    higher_border -= 10
+                    higher_border -= 13
                 elif strike_dir is "body" or strike_dir is "head":
-                    lower_border += 14
+                    lower_border += 6
                     middle_border += 13
-                    higher_border += 8
+                    higher_border += 15
 
             # player helmet effects
             lower_border += 0.4 * player.helmet.heaviness
@@ -951,21 +973,29 @@ class Attack:
                     middle_border = 80
                     higher_border = 90
             elif player.weapon.weapon_type is "light":
-                lower_border = 30
-                middle_border = 65
-                higher_border = 90
+                lower_border = 25
+                middle_border = 60
+                higher_border = 95
                 if player.difficulty is "easy":
                     lower_border = 20
-                    middle_border = 60
+                    middle_border = 55
                     higher_border = 85
-            else:  # player weapon type is heavy
+            elif player.weapon.weapon_type is "medium":
                 lower_border = 15
-                middle_border = 35
-                higher_border = 65
+                middle_border = 50
+                higher_border = 80
                 if player.difficulty is "easy":
                     lower_border = 10
-                    middle_border = 60
-                    higher_border = 85
+                    middle_border = 40
+                    higher_border = 70
+            else:  # player weapon type is heavy
+                lower_border = 10
+                middle_border = 40
+                higher_border = 70
+                if player.difficulty is "easy":
+                    lower_border = 5
+                    middle_border = 35
+                    higher_border = 60
 
             # opponent weapon effects
             if opponent.weapon.weapon_class is "unarmed":
@@ -973,13 +1003,17 @@ class Attack:
                 middle_border -= 200
                 higher_border -= 60
             elif opponent.weapon.weapon_type is "light":
-                lower_border -= 15
-                middle_border -= 20
-                higher_border -= 15
+                lower_border -= 10
+                middle_border -= 13
+                higher_border -= 8
+            elif opponent.weapon.weapon_type is "medium":
+                lower_border += 3
+                middle_border += 3
+                higher_border += 2
             else:  # opponent weapon type is heavy
-                lower_border += 15
-                middle_border += 15
-                higher_border += 10
+                lower_border += 5
+                middle_border += 12
+                higher_border += 14
 
             # player helmet effects
             lower_border += (0.2 * player.helmet.heaviness)
@@ -1012,72 +1046,72 @@ class Attack:
             # opponent action effects
             if self.opponent_direction == "kvinta":
                 if strike_dir is "head":
-                    lower_border += 24
-                    middle_border += 20
-                    higher_border += 17
+                    lower_border += 8
+                    middle_border += 26
+                    higher_border += 30
                 elif strike_dir is "body":
-                    lower_border -= 8
-                    middle_border -= 5
-                    higher_border -= 3
+                    lower_border -= 12
+                    middle_border -= 16
+                    higher_border -= 8
                 elif strike_dir is "belly":
-                    lower_border -= 14
-                    middle_border -= 12
+                    lower_border -= 18
+                    middle_border -= 22
                     higher_border -= 16
                 else:  # player strike direction is side
-                    lower_border -= 13
-                    middle_border -= 11
+                    lower_border -= 20
+                    middle_border -= 20
                     higher_border -= 14
             elif self.opponent_direction == "kvarta":
                 if strike_dir is "head":
-                    lower_border -= 15
-                    middle_border -= 11
+                    lower_border -= 20
+                    middle_border -= 20
                     higher_border -= 16
                 elif strike_dir is "body":
-                    lower_border += 3
-                    middle_border -= 6
-                    higher_border -= 7
+                    lower_border -= 8
+                    middle_border -= 3
+                    higher_border -= 4
                 elif strike_dir is "belly":
-                    lower_border += 26
-                    middle_border += 21
-                    higher_border += 18
+                    lower_border += 9
+                    middle_border += 29
+                    higher_border += 34
                 else:  # player strike direction is side
-                    lower_border -= 14
-                    middle_border -= 8.0
-                    higher_border -= 15
+                    lower_border -= 17
+                    middle_border -= 17
+                    higher_border -= 13
             elif self.opponent_direction == "terca":
                 if strike_dir is "head":
-                    lower_border -= 14
+                    lower_border -= 17
                     middle_border -= 20
-                    higher_border -= 15
+                    higher_border -= 16
                 elif strike_dir is "body":
-                    lower_border -= 5
-                    middle_border -= 8.0
-                    higher_border -= 11
+                    lower_border -= 13
+                    middle_border -= 11
+                    higher_border -= 8
                 elif strike_dir is "belly":
                     lower_border -= 12
                     middle_border -= 7
                     higher_border -= 13
                 else:  # player strike direction is side
-                    lower_border += 31
-                    middle_border += 27
-                    higher_border += 24
+                    lower_border += 11
+                    middle_border += 33
+                    higher_border += 37
             else:  # opponent block is second
                 if strike_dir is "head":
-                    lower_border -= 8
-                    middle_border -= 15
-                    higher_border -= 18
-                elif strike_dir is "body":
-                    lower_border += 28
-                    middle_border += 26
-                    higher_border += 25
-                elif strike_dir is "belly":
-                    lower_border += 17
-                    middle_border += 15
-                    higher_border += 12
-                else:  # player strike direction is side
                     lower_border -= 19
                     middle_border -= 17
-                    higher_border -= 16
+                    higher_border -= 12
+                elif strike_dir is "body":
+                    lower_border += 8
+                    middle_border += 29
+                    higher_border += 33
+                elif strike_dir is "belly":
+                    lower_border -= 6
+                    middle_border += 4
+                    higher_border -= 2
+                else:  # player strike direction is side
+                    lower_border -= 17
+                    middle_border -= 14
+                    higher_border -= 11
 
             # opponent block skill effects
             lower_border += opponent.block_effectiveness
