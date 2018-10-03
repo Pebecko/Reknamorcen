@@ -176,6 +176,11 @@ rusty_ork_helmet.stab_damage_reduction = 4  # 1 - 10(%)
 rusty_ork_helmet.smash_damage_reduction = 6  # 1 - 10(%)
 rusty_ork_helmet.special_abilities = ["rusty", "elf_debuff"]
 
+helmet_1 = rusty_ork_helmet
+helmet_1.hit_points += 500
+
+helmet_2 = rusty_ork_helmet
+
 # armors
 no_armor = Armor()
 
@@ -196,10 +201,10 @@ chainmail_hauberk.special_abilities = []
 player = Player()
 player.char = "human"
 player.weapon = long_sword
-player.helmet = rusty_ork_helmet_1
+player.helmet = helmet_1
 player.print_time = 0
-player.health = 800
-player.max_health = 800
+player.health = 640
+player.max_health = 640
 
 # enemies
 ork = Opponent()
@@ -212,7 +217,4 @@ ork.awareness = 3
 ork.dodge_effectiveness = 0
 ork.block_effectiveness = 7  # 7
 ork.weapons = [two_handed_axe]
-ork.defence = ["block", "dodge"]
-
-rusty_ork_helmet_1 = rusty_ork_helmet
-rusty_ork_helmet_2 = rusty_ork_helmet
+ork.defence = ["block"]

@@ -49,7 +49,7 @@ class Preparation:
                 ork.health = random.randint(ork.lowest_health, ork.highest_health)
                 ork.max_health = ork.health
                 ork.weapon = two_handed_axe
-                ork.helmet = rusty_ork_helmet_2
+                ork.helmet = helmet_2
                 opponent = ork
 
                 opponent_weapon_number = random.randint(0, 1)
@@ -159,10 +159,14 @@ class Attack:
     player_attack_type = ""
     player_last_attack_type_I = ""
     player_last_attack_type_II = ""
+    player_attack_power = ""
+    player_last_attack_power_I = ""
+    player_last_attack_power_II = ""
 
     def strike_direction_choosing(self, opponent):
         strike_type = "stab"
         strike_dir = "body"
+
         if "cut" and "stab" in player.weapon.damage_type:
             while True:
                 slow_print("Chcete [b]odat, nebo [s]ekat?")
@@ -253,12 +257,26 @@ class Attack:
                     break
                 elif attack_direction != "skip":
                     wrong_input(0)
+        while True:
+            slow_print("Jakou moc se chcete rozmáchnout, [m]álo, [s]tředně, nebo [h]odně?\n")
+            power_selection = base_options()
+            if power_selection == "m":
+                strike_power = "small"
+                break
+            elif power_selection == "s":
+                strike_power = "medium"
+                break
+            elif power_selection == "h":
+                strike_power = "high"
+                break
+            elif power_selection != "skip":
+                wrong_input(0)
 
-        return self.attack_output(strike_type, strike_dir, opponent)
+        return self.attack_output(strike_type, strike_dir, strike_power, opponent)
 
-    def opponent_defence_action(self, opponent, strike_dir):
+    def opponent_defence_action(self, opponent, strike_dir, strike_power):
         # opponent action choosing
-        if opponent.defence is []:
+        if opponent.defence == []:
             self.opponent_action = ""
         elif "dodge" in opponent.defence and "block" not in opponent.defence:
             self.opponent_action = "dodge"
@@ -309,6 +327,23 @@ class Attack:
 
             self.opponent_last_action_II = self.opponent_last_action_I
             self.opponent_last_action_I = self.opponent_action
+
+            if self.player_last_attack_power_II == "low":
+                split -= 1
+            elif self.player_last_attack_power_II == "high":
+                split += 1
+            if self.player_last_attack_power_I == "low":
+                split -= 2
+            elif self.player_last_attack_power_I == "high":
+                split += 2
+            if self.player_attack_power == "low":
+                split -= 3
+            elif self.player_attack_power == "high":
+                split += 3
+
+            self.player_last_attack_power_II = self.player_last_attack_power_I
+            self.player_last_attack_power_I = self.player_attack_power
+            self.player_attack_power = strike_power
 
             if opponent_action_num < split:
                 self.opponent_action = "block"
@@ -689,10 +724,15 @@ class Attack:
 
         return
 
-    def attack_minor_success(self, strike_dir, strike_type, opponent):
+    def attack_minor_success(self, strike_dir, strike_type, strike_power, opponent):
         multiplier = 0.5
 
-        if self.opponent_action == "block":
+        if self.opponent_action == "":
+            slow_print("Soupeř se vám nijak nebránil, jenže vám se nepodařilo ho dobře trefit a tak jste ho"
+                       " nezasáhli plnou silou.")
+            multiplier += 0.25
+        elif self.opponent_action == "block":
+            block_message = ""
             if random.randint(0, 5) == 0:
                 block_output = "Ale vy jste úplně neodhadli vzdálenost a tak jste soupeře jen lehce zasáhli"
             elif random.randint(0, 4) != 0:
@@ -722,10 +762,10 @@ class Attack:
                     block_output = "Jeho kryt ovšem nebyl dost rychlý, a tak váš úder zablokoval jen částečně, takže" \
                                    " mu způsobil lehké zranění"
                     opponent.weapon.hit_points -= player.weapon.damage
-            else:
+            elif self.opponent_direction == "second":
                 block_message = "proti bodání"
                 if random.randint(0, 1) == 0 and self.opponent_direction != "side":
-                    block_output = "Ale vatáčel ji příliš rychle zakže vaši zbraň jen částečně odklonil a tak ho váš" \
+                    block_output = "Ale vatáčel ji příliš rychle takže vaši zbraň jen částečně odklonil a tak ho váš" \
                                    " útok lehce zranil"
                 else:
                     block_output = "Ale vytáčel svou zbraň dost pomalu a tak nestihl úplně odklonit váš rychlý útok," \
@@ -739,7 +779,7 @@ class Attack:
                 if strike_dir == "belly":
                     if random.randint(0, 1) == 0:
                         dodge_output = "Ale váš útok byl příliš rychlý a tak ještě než soupeř uhnul máchli jste tam" \
-                                       " kam jste předpokládali že se dostane a se štěstím jste ho lehce zasáhli"
+                                       " kam jste předpokládali, že se dostane a se štěstím jste ho lehce zasáhli"
                     else:
                         dodge_output = "Ale váš útok trval dost dlouho takže se oponentovi téměř podařilo se mu" \
                                        " vyhnout, jen se štěstím jste ho lehce zasáhli"
@@ -773,7 +813,6 @@ class Attack:
 
             slow_print("Soupeř se snažil uhnout {}. {}.".format(dodge_message, dodge_output))
 
-
         if strike_dir == "head":
             if opponent.helmet != no_helmet:
                 opponent.helmet.hit_points -= 1.5 * player.weapon.damage
@@ -793,12 +832,93 @@ class Attack:
             elif strike_type == "stab":
                 multiplier -= opponent.armor.stab_damage_reduction * 0.05
 
+        if strike_power == "low":
+            multiplier -= 0.25
+        elif strike_power == "high":
+            multiplier += 0.25
+
         opponent.health -= multiplier * player.weapon.damage
 
-    def attack_major_success(self, strike_dir, strike_type, opponent):
+    def attack_major_success(self, strike_dir, strike_type, strike_power, opponent):
         multiplier = 1
-        slow_print("Váš útok supeře těžce zranil.\n")
+
+        if self.opponent_action == "":
+            slow_print("Váš soupeř se vám nebránil a váš úder ho tvrdě zasáhl, takže jste ho velmi poranili.")
+            multiplier += 0.5
+        elif self.opponent_action == "block":
+            block_message = ""
+            if random.randint(0, 4) == 0:
+                block_output = "Ale všiml si že sekáte jinam tak se ještě snažil svou zbraň nastavit tak aby váš úder" \
+                               " vykryl ale už to nestihl a vy jste mu uštedřili silný úder"
+            elif random.randint(0, 3) != 0:
+                block_output = "Takže váš úder čistě prošel a tak zasáhl soupeře plnou silou"
+            else:
+                block_output = "Což vám dovolilo zasadit soupeři těžký zásah"
+
+            if self.opponent_direction == "terca":
+                block_message = "bok"
+                if strike_dir == "side":
+                    block_output = "Jeho kryt byl ovšem dost slabý a váš úder naopak velmi silný takže jste ho tvrdě" \
+                                   " zasáhli"
+                    opponent.weapon.hit_points -= 0.5 * player.weapon.damage
+            elif self.opponent_direction == "kvinta":
+                block_message = "hlavu"
+                if strike_dir == "head":
+                    block_output = "Ale pozdě vytočil svou zbraň a tak váše zbraň čistě prošla a zasáhla ho plnou silou"
+                    opponent.weapon.hit_points -= 0.5 * player.weapon.damage
+            elif self.opponent_direction == "kvarta":
+                block_message = "břicho"
+                if strike_dir == "belly":
+                    block_output = "Jeho kryt byl ovšem dost slabý a váš úder naopak velmi silný takže jste ho tvrdě" \
+                                   " zasáhli"
+                    opponent.weapon.hit_points -= 0.5 * player.weapon.damage
+            elif self.opponent_direction == "second":
+                block_message = "proti bodání"
+                if random.randint(0, 1) == 0 and self.opponent_direction != "side":
+                    block_output = "Ale vatáčel ji hrozně rychle, takže vaši zbraň úplně minul a váš úder mohl" \
+                                   " zasáhnout plnou silou"
+                else:
+                    block_output = "Ale vytáčel svou zbraň příliš pomalu, tím pádem jeho zbraň vaši ani neškrtla, než" \
+                                   " se vám povedlo dokončit svůj bleskový úder"
+
+            slow_print("Váš soupeř se snažil krýt {}. {}.\n".format(block_message, block_output))
+        else:
+            if self.opponent_direction == "left":
+                dodge_message = "doleva"
+                if strike_dir != "belly":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale vášemu soupeři trvalo příliš dlouho než se rozhýbat a tak jste ho zasáhli"
+                    else:
+                        dodge_output = "Jenže váš soupež si špatně načasoval svůj pohyb a tak uhnul moc brzo čímž vám" \
+                                       " dal ideální prostor pro výpad kterým jste mu uštědřili tvrdou ránu"
+                else:
+                    dodge_output = "Soupeř vám uskočil přímo do rány a tak jste ho zasáhli plnou silou"
+            elif self.opponent_direction == "back":
+                dodge_message = "dozadu"
+                if strike_dir != "head" or strike_dir == "body":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale vášemu soupeři trvalo příliš dlouho než se rozhýbat a tak jste ho zasáhli"
+                    else:
+                        dodge_output = "Jenže váš soupež si špatně načasoval svůj pohyb a tak uhnul moc brzo čímž vám" \
+                                       " dal ideální prostor pro výpad kterým jste mu uštědřili tvrdou ránu"
+                else:
+                    dodge_output = "Soupeř vám uskočil přímo do rány a tak jste ho zasáhli plnou silou"
+            else:
+                dodge_message = "doprava"
+                if strike_dir != "side":
+                    if random.randint(0, 1) == 0:
+                        dodge_output = "Ale vášemu soupeři trvalo příliš dlouho než se rozhýbat a tak jste ho zasáhli"
+                    else:
+                        dodge_output = "Jenže váš soupež si špatně načasoval svůj pohyb a tak uhnul moc brzo čímž vám" \
+                                       " dal ideální prostor pro výpad kterým jste mu uštědřili tvrdou ránu"
+                else:
+                    dodge_output = "Soupeř vám uskočil přímo do rány a tak jste ho zasáhli plnou silou"
+
+            slow_print("Soupeř se snažil uhnout {}. {}.".format(dodge_message, dodge_output))
+
         if strike_dir == "head":
+            if opponent.helmet != no_helmet:
+                opponent.helmet.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
                 multiplier -= opponent.helmet.cut_damage_reduction * 0.09
             elif strike_type == "smash":
@@ -806,6 +926,8 @@ class Attack:
             elif strike_type == "stab":
                 multiplier -= opponent.helmet.stab_damage_reduction * 0.09
         else:
+            if opponent.armor != no_armor:
+                opponent.armor.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
                 multiplier -= opponent.armor.cut_damage_reduction * 0.09
             elif strike_type == "smash":
@@ -813,13 +935,41 @@ class Attack:
             elif strike_type == "stab":
                 multiplier -= opponent.armor.stab_damage_reduction * 0.09
 
+        if strike_power == "low":
+            multiplier -= 0.5
+        elif strike_power == "high":
+            multiplier += 0.5
+
         opponent.health -= multiplier * player.weapon.damage
 
-    def attack_output(self, strike_type, strike_dir, opponent):
+    def special_effects(self, opponent):
+        if "rusty" in opponent.helmet.special_abilities:
+            if random.randint(0, 4) == 3:
+                opponent.health -= 30
+                "Váš soupeř se ošklivě pořezal o svoji helmu.\n"
+
+        if "rusty" in opponent.armor.special_abilities:
+            if random.randint(0, 3) == 3:
+                opponent.health -= 30
+                "Váš soupeř se ošklivě pořezal o svoje brnění.\n"
+
+        if "rusty" in player.helmet.special_abilities:
+            if random.randint(0, 4) == 3:
+                player.health -= 30
+                "Ošklivě jste se pořezali o svoji helmu.\n"
+
+        if "rusty" in player.armor.special_abilities:
+            if random.randint(0, 3) == 3:
+                player.health -= 30
+                "Ošklivě jste se pořezali o svoje brnění.\n"
+
+        return
+
+    def attack_output(self, strike_type, strike_dir, strike_power, opponent):
         # generating random number
         random_num = random.randint(0, 100)
 
-        self.opponent_defence_action(opponent, strike_dir)
+        self.opponent_defence_action(opponent, strike_dir, strike_power)
 
         # editing of levels
         if self.opponent_action is "":
@@ -846,6 +996,12 @@ class Attack:
             lower_border += 0.5 * player.armor.heaviness
             middle_border += 0.4 * player.armor.heaviness
             higher_border += 0.4 * player.armor.heaviness
+
+            # player attack power effects
+            if strike_power == "small":
+                higher_border -= 10
+            elif strike_power == "high":
+                higher_border += 15
 
         elif self.opponent_action is "dodge":
             # setting base levels depending on player weapon
@@ -961,6 +1117,20 @@ class Attack:
             lower_border += opponent.dodge_effectiveness
             middle_border += opponent.dodge_effectiveness
             higher_border += opponent.dodge_effectiveness
+
+            # player attack power effects
+            if strike_power == "small":
+                lower_border -= 6
+                middle_border -= 14
+                higher_border -= 7
+            elif strike_power == "medium":
+                lower_border += 1
+                middle_border += 7
+                higher_border += 2
+            elif strike_power == "high":
+                lower_border += 4
+                middle_border += 16
+                higher_border += 9
 
         else:  # opponent action is block
             # setting base levels depending on player weapon
@@ -1118,6 +1288,20 @@ class Attack:
             middle_border += opponent.block_effectiveness
             higher_border += opponent.block_effectiveness
 
+            # player attack power effects
+            if strike_power == "small":
+                lower_border += 3
+                middle_border += 12
+                higher_border += 9
+            elif strike_power == "medium":
+                lower_border -= 2
+                middle_border -= 4
+                higher_border -= 1
+            elif strike_power == "high":
+                lower_border -= 3
+                middle_border -= 13
+                higher_border -= 8
+
         # rounding part
         lower_border = round(lower_border, 1)
         middle_border = round(middle_border, 1)
@@ -1136,11 +1320,12 @@ class Attack:
             last_action = "defence"
         elif random_num <= middle_border:
             self.attack_minor_fail(strike_dir, opponent)
-            last_action = "defence"
         elif random_num <= higher_border:
-            self.attack_minor_success(strike_dir, strike_type, opponent)
+            self.attack_minor_success(strike_dir, strike_type, strike_power, opponent)
         else:
-            self.attack_major_success(strike_dir, strike_type, opponent)
+            self.attack_major_success(strike_dir, strike_type, strike_power, opponent)
+
+        self.special_effects(opponent)
 
         return last_action
 
@@ -1212,6 +1397,8 @@ class Fight:
 
             # útok na soupeře
             if last_action == "defence":
+                print("Opponent weapon, helmet, armor info:", opponent.weapon.hit_points, opponent.helmet.hit_points,
+                      opponent.armor.hit_points, "\n")
                 last_action = self.attack.strike_direction_choosing(opponent)
 
             # test part

@@ -88,4 +88,16 @@ def base_options():
             else:
                 wrong_input(3)
 
+    elif option == "cman":
+        player.max_health = 10000
+        player.health = 10000
+
+        option = "skip"
+
+    elif option == "wari":
+        print(player.weapon.hit_points, "player weapon hit points\n", player.helmet.hit_points, player.armor.hit_points,
+              "player helmet and armor hit points\n\n")
+
+        option = "skip"
+
     return option
