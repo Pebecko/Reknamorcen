@@ -1,4 +1,4 @@
-from Reknamorcen.fight import *
+from fight import *
 
 
 class Travelling:
@@ -48,7 +48,6 @@ class Travelling:
             direction_choice = base_options()
             if direction_choice != "skip":
                 break
-
 
         self.last_direction = "{}".format(last_dir_new1)
         return self.get_coordinates()

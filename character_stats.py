@@ -72,6 +72,7 @@ class Opponent:
     dodge_effectiveness = 0
     block_effectiveness = 0
     weapon = Weapon()
+    unarmed_weapon = Weapon()
     weapons = []
     defence = []
     attack_power = []  # light, medium, heavy
@@ -140,7 +141,7 @@ two_handed_axe.max_stamina = 6
 two_handed_axe.stamina_regain = 1
 two_handed_axe.damage_type = ["cut"]
 two_handed_axe.weapon_type = "heavy"
-two_handed_axe.special_abilities = ["armor piercing", "weak dodge"]
+two_handed_axe.special_abilities = ["armor_piercing", "weak_dodge"]
 two_handed_axe.weapon_class = "axe"
 
 long_dagger = Weapon()
@@ -216,5 +217,6 @@ ork.highest_health = 560
 ork.awareness = 3
 ork.dodge_effectiveness = 0
 ork.block_effectiveness = 7  # 7
-ork.weapons = [two_handed_axe]
+ork.unarmed_weapon = fists
+ork.weapons = [two_handed_axe, fists, fists, short_sword, long_dagger]
 ork.defence = ["block"]

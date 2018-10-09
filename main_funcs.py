@@ -1,7 +1,7 @@
 import random
 import sys
 import time
-from Reknamorcen.character_stats import player
+from character_stats import player
 
 
 def wrong_input(call):

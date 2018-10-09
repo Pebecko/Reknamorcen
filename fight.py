@@ -1,5 +1,5 @@
-from Reknamorcen.character_stats import *
-from Reknamorcen.main_funcs import *
+from character_stats import *
+from main_funcs import *
 
 
 class Preparation:
@@ -46,10 +46,11 @@ class Preparation:
         elif opponent_level == 2:
             opponent_number = random.randint(0, 0)
             if opponent_number == 0:
-                ork.health = random.randint(ork.lowest_health, ork.highest_health)
-                ork.max_health = ork.health
-                ork.weapon = two_handed_axe
-                ork.helmet = helmet_2
+                opponent = ork
+                opponent.health = random.randint(opponent.lowest_health, opponent.highest_health)
+                opponent.max_health = opponent.health
+                opponent.weapon = opponent.weapons[random.randint(0, len(opponent.weapons) - 1)]
+                opponent.helmet = helmet_2
                 opponent = ork
 
                 opponent_weapon_number = random.randint(0, 1)
@@ -110,9 +111,8 @@ class Preparation:
         return opponent
 
     def first_fight_action(self, opponent):
-        loudness = 0
-        loudness += opponent.awareness
-        if player.last_fight == True:
+        loudness = opponent.awareness
+        if player.last_fight is True:
             loudness += 4
         if player.char == "dwarf":
             loudness += 3
@@ -628,21 +628,39 @@ class Attack:
             slow_print("Poté co váš útok nezasáhl soupeře vás nechal plně odkrytého a tím dal soupeři možnost vás"
                        " zasáhnout plnou silou. Váš soupeř se rozhodl vám jít po těle.\n")
             if "smash" in opponent.weapon.damage_type:
-                multiplier -= player.armor.smash_damage_reduction * 0.05
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.armor.smash_damage_reduction * 0.05
+                else:
+                    multiplier -= player.armor.smash_damage_reduction * 0.025
             elif "cut" in opponent.weapon.damage_type:
-                multiplier -= player.armor.cut_damage_reduction * 0.09
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.armor.cut_damage_reduction * 0.09
+                else:
+                    multiplier -= player.armor.cut_damage_reduction * 0.045
             elif "stab" in opponent.weapon.damage_type:
-                multiplier -= player.armor.stab_damage_reduction * 0.09
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.armor.stab_damage_reduction * 0.09
+                else:
+                    multiplier -= player.armor.stab_damage_reduction * 0.045
         else:
             slow_print("Váš nepovedený útok vás nechal úplně otevřeného soupeřovým útokům, na to byl váš soupeř"
                        " připraven a tak vám ihned zasadil ránu do hlavy.\n")
             multiplier += 0.2
             if "smash" in opponent.weapon.damage_type:
-                multiplier -= player.helmet.smash_damage_reduction * 0.05
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.helmet.smash_damage_reduction * 0.05
+                else:
+                    multiplier -= player.helmet.smash_damage_reduction * 0.025
             elif "cut" in opponent.weapon.damage_type:
-                multiplier -= player.helmet.cut_damage_reduction * 0.09
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.helmet.cut_damage_reduction * 0.09
+                else:
+                    multiplier -= player.helmet.cut_damage_reduction * 0.045
             elif "stab" in opponent.weapon.damage_type:
-                multiplier -= player.helmet.stab_damage_reduction * 0.09
+                if "armor_piercing" not in opponent.weapon.special_abilities:
+                    multiplier -= player.helmet.stab_damage_reduction * 0.09
+                else:
+                    multiplier -= player.helmet.stab_damage_reduction * 0.045
 
         player.health -= multiplier * opponent.weapon.damage
 
@@ -942,29 +960,6 @@ class Attack:
 
         opponent.health -= multiplier * player.weapon.damage
 
-    def special_effects(self, opponent):
-        if "rusty" in opponent.helmet.special_abilities:
-            if random.randint(0, 4) == 3:
-                opponent.health -= 30
-                "Váš soupeř se ošklivě pořezal o svoji helmu.\n"
-
-        if "rusty" in opponent.armor.special_abilities:
-            if random.randint(0, 3) == 3:
-                opponent.health -= 30
-                "Váš soupeř se ošklivě pořezal o svoje brnění.\n"
-
-        if "rusty" in player.helmet.special_abilities:
-            if random.randint(0, 4) == 3:
-                player.health -= 30
-                "Ošklivě jste se pořezali o svoji helmu.\n"
-
-        if "rusty" in player.armor.special_abilities:
-            if random.randint(0, 3) == 3:
-                player.health -= 30
-                "Ošklivě jste se pořezali o svoje brnění.\n"
-
-        return
-
     def attack_output(self, strike_type, strike_dir, strike_power, opponent):
         # generating random number
         random_num = random.randint(0, 100)
@@ -1131,6 +1126,90 @@ class Attack:
                 lower_border += 4
                 middle_border += 16
                 higher_border += 9
+
+            # player character effects
+            if player.char == "elf":
+                if "elf_debuff" in player.weapon.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "elf_buff" in player.weapon.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+
+                if "elf_debuff" in player.helmet.special_abilities:
+                    lower_border += 3
+                    middle_border += 4
+                    higher_border += 4
+                if "elf_buff" in player.helmet.special_abilities:
+                    lower_border -= 3
+                    middle_border -= 4
+                    higher_border -= 4
+
+                if "elf_debuff" in player.armor.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "elf_buff" in player.armor.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+            elif player.char == "dwarf":
+                if "dwarf_debuff" in player.weapon.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "dwarf_buff" in player.weapon.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+
+                if "dwarf_debuff" in player.helmet.special_abilities:
+                    lower_border += 3
+                    middle_border += 4
+                    higher_border += 4
+                if "dwarf_buff" in player.helmet.special_abilities:
+                    lower_border -= 3
+                    middle_border -= 4
+                    higher_border -= 4
+
+                if "dwarf_debuff" in player.armor.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "dwarf_buff" in player.armor.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+            elif player.char == "human":
+                if "human_debuff" in player.weapon.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "human_buff" in player.weapon.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+
+                if "human_debuff" in player.helmet.special_abilities:
+                    lower_border += 3
+                    middle_border += 4
+                    higher_border += 4
+                if "human_buff" in player.helmet.special_abilities:
+                    lower_border -= 3
+                    middle_border -= 4
+                    higher_border -= 4
+
+                if "human_debuff" in player.armor.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "human_buff" in player.armor.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+
 
         else:  # opponent action is block
             # setting base levels depending on player weapon
@@ -1325,8 +1404,6 @@ class Attack:
         else:
             self.attack_major_success(strike_dir, strike_type, strike_power, opponent)
 
-        self.special_effects(opponent)
-
         return last_action
 
 
@@ -1380,19 +1457,6 @@ class Fight:
             if player.health <= 0:
                 player_killed()
 
-            if player.helmet.hit_points <= 0 and player.helmet != no_helmet:
-                player.helmet = no_helmet
-                slow_print("Rozbila se vám helma.\n")
-            if player.armor.hit_points <= 0 and player.armor != no_armor:
-                player.armor = no_armor
-                slow_print("Rozbilo se vám brnění.\n")
-            if opponent.helmet.hit_points <= 0 and opponent.helmet != no_helmet:
-                opponent.helmet = no_helmet
-                slow_print("Vaše rána soupeři rozbila helmu.\n")
-            if opponent.armor.hit_points <= 0 and opponent.armor != no_armor:
-                opponent.armor = no_armor
-                slow_print("Vaše rána soupeři rozbila brnění.\n")
-
             self.fight_status(opponent)
 
             # útok na soupeře
@@ -1409,6 +1473,9 @@ class Fight:
             else:
                 last_action = self.random_num_definition(self.guard_choosing)
             """
+
+            self.special_effects(opponent)
+
         self.opponent_action = ""
         self.opponent_last_action_I = ""
         self.opponent_last_action_II = ""
@@ -1441,6 +1508,51 @@ class Fight:
         if player.test is True:
             print("        ", opponent.weapon.stamina, "/", opponent.weapon.max_stamina, "\n")
         time.sleep(0.25)
+
+        return
+
+    def special_effects(self, opponent):
+        # player gear destruction
+        if player.weapon.hit_points <= 0 and player.weapon.weapon_class != "unarmed":
+            player.weapon = fists
+            slow_print("Rozbila se vám zbraň.\n")
+        if player.helmet.hit_points <= 0 and player.helmet != no_helmet:
+            player.helmet = no_helmet
+            slow_print("Rozbila se vám helma.\n")
+        if player.armor.hit_points <= 0 and player.armor != no_armor:
+            player.armor = no_armor
+            slow_print("Rozbilo se vám brnění.\n")
+
+        # opponent gear destruction
+        if opponent.weapon.hit_points <= 0 and opponent.weapon.weapon_class != "unarmed":
+            opponent.weapon = opponent.unarmed_weapon
+            slow_print("Soupeřova zbraň nevydržela úder té vaší a roztříštila se na kusy.\n")
+        if opponent.helmet.hit_points <= 0 and opponent.helmet != no_helmet:
+            opponent.helmet = no_helmet
+            slow_print("Vaše rána soupeři rozbila helmu.\n")
+        if opponent.armor.hit_points <= 0 and opponent.armor != no_armor:
+            opponent.armor = no_armor
+            slow_print("Vaše rána soupeři rozbila brnění.\n")
+
+        # rusty effect on opponent
+        if "rusty" in opponent.helmet.special_abilities:
+            if random.randint(0, 4) == 3:
+                opponent.health -= 10
+                "Váš soupeř se ošklivě pořezal o svoji helmu.\n"
+        if "rusty" in opponent.armor.special_abilities:
+            if random.randint(0, 3) == 3:
+                opponent.health -= 10
+                "Váš soupeř se ošklivě pořezal o svoje brnění.\n"
+
+        # rusty effect on player
+        if "rusty" in player.helmet.special_abilities:
+            if random.randint(0, 4) == 3:
+                player.health -= 10
+                "Ošklivě jste se pořezali o svoji helmu.\n"
+        if "rusty" in player.armor.special_abilities:
+            if random.randint(0, 3) == 3:
+                player.health -= 10
+                "Ošklivě jste se pořezali o svoje brnění.\n"
 
         return
 
