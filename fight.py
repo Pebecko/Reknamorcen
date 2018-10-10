@@ -662,6 +662,22 @@ class Attack:
                 else:
                     multiplier -= player.helmet.stab_damage_reduction * 0.045
 
+        if "cut" in opponent.weapon.damage or "stab" in opponent.weapon.damage and "no_bleeding":
+            if "bleeding_1" in player.special_abilities:
+                player.special_abilities.remove("bleeding_1")
+                player.special_abilities.append("bleeding_3")
+                slow_print("Velmi těžce krvácíte.\n")
+            elif "bleeding_2" in player.special_abilities:
+                player.special_abilities.remove("bleeding_2")
+                player.special_abilities.append("bleeding_3")
+                slow_print("Velmi těžce krvácíte.\n")
+            elif "bleeding_3" in player.special_abilities:
+                slow_print("Velmi těžce krvácíte.\n")
+            else:
+                player.special_abilities.append("bleeding_2")
+                slow_print("Začali jste těžce krvácíte.\n")
+
+
         player.health -= multiplier * opponent.weapon.damage
 
         return
@@ -679,6 +695,8 @@ class Attack:
                                " kterou nevykryl zbraní absorbovala jeho helma."
                 opponent.weapon.hit_points -= player.weapon.damage
                 opponent.helmet.hit_points -= 1.5 * player.weapon.damage
+                if "armor_piercing" in player.weapon.special_abilities:
+                    opponent.helmet -= player.weapon.damage
             else:
                 block_output = "Ale vaše zbraň vám trochu sklouzla v prstech a netrefili jste se"
 
@@ -835,25 +853,58 @@ class Attack:
             if opponent.helmet != no_helmet:
                 opponent.helmet.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
-                multiplier -= opponent.helmet.cut_damage_reduction * 0.05
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.cut_damage_reduction * 0.05
+                else:
+                    multiplier -= opponent.helmet.cut_damage_reduction * 0.025
             elif strike_type == "smash":
-                multiplier -= opponent.helmet.smash_damage_reduction * 0.03
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.smash_damage_reduction * 0.02
+                else:
+                    multiplier -= opponent.helmet.smash_damage_reduction * 0.01
             elif strike_type == "stab":
-                multiplier -= opponent.helmet.stab_damage_reduction * 0.05
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.stab_damage_reduction * 0.05
+                else:
+                    multiplier -= opponent.helmet.stab_damage_reduction * 0.025
         else:
             if opponent.armor != no_armor:
                 opponent.armor.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
-                multiplier -= opponent.armor.cut_damage_reduction * 0.05
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.cut_damage_reduction * 0.05
+                else:
+                    multiplier -= opponent.armor.cut_damage_reduction * 0.025
             elif strike_type == "smash":
-                multiplier -= opponent.armor.smash_damage_reduction * 0.03
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.smash_damage_reduction * 0.02
+                else:
+                    multiplier -= opponent.armor.smash_damage_reduction * 0.01
             elif strike_type == "stab":
-                multiplier -= opponent.armor.stab_damage_reduction * 0.05
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.stab_damage_reduction * 0.05
+                else:
+                    multiplier -= opponent.armor.stab_damage_reduction * 0.025
 
         if strike_power == "low":
             multiplier -= 0.25
         elif strike_power == "high":
             multiplier += 0.25
+
+        if "no_bleeding" not in opponent.special_abilities:
+            if "bleeding_1" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_1")
+                opponent.special_abilities.append("bleeding_2")
+                slow_print("Váš soupeř těžce krvácí.\n")
+            elif "bleeding_2" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_2")
+                opponent.special_abilities.append("bleeding_3")
+                slow_print("Váš soupeř velmi těžce krvácí.\n")
+            elif "bleeding_3" in opponent.special_abilities:
+                slow_print("Váš soupeř velmi těžce krvácí.\n")
+            else:
+                opponent.special_abilities.append("bleeding_1")
+                slow_print("Váš soupeř začal lehce krvácet.\n")
 
         opponent.health -= multiplier * player.weapon.damage
 
@@ -938,25 +989,58 @@ class Attack:
             if opponent.helmet != no_helmet:
                 opponent.helmet.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
-                multiplier -= opponent.helmet.cut_damage_reduction * 0.09
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.cut_damage_reduction * 0.09
+                else:
+                    multiplier -= opponent.helmet.cut_damage_reduction * 0.045
             elif strike_type == "smash":
-                multiplier -= opponent.helmet.smash_damage_reduction * 0.06
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.smash_damage_reduction * 0.04
+                else:
+                    multiplier -= opponent.helmet.smash_damage_reduction * 0.02
             elif strike_type == "stab":
-                multiplier -= opponent.helmet.stab_damage_reduction * 0.09
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.helmet.stab_damage_reduction * 0.09
+                else:
+                    multiplier -= opponent.helmet.stab_damage_reduction * 0.045
         else:
             if opponent.armor != no_armor:
                 opponent.armor.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
-                multiplier -= opponent.armor.cut_damage_reduction * 0.09
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.cut_damage_reduction * 0.09
+                else:
+                    multiplier -= opponent.armor.cut_damage_reduction * 0.045
             elif strike_type == "smash":
-                multiplier -= opponent.armor.smash_damage_reduction * 0.06
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.smash_damage_reduction * 0.04
+                else:
+                    multiplier -= opponent.armor.smash_damage_reduction * 0.02
             elif strike_type == "stab":
-                multiplier -= opponent.armor.stab_damage_reduction * 0.09
+                if "armor_piercing" not in player.weapon.special_abilities:
+                    multiplier -= opponent.armor.stab_damage_reduction * 0.09
+                else:
+                    multiplier -= opponent.armor.stab_damage_reduction * 0.045
 
         if strike_power == "low":
             multiplier -= 0.5
         elif strike_power == "high":
             multiplier += 0.5
+
+        if "no_bleeding" not in opponent.special_abilities:
+            if "bleeding_1" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_1")
+                opponent.special_abilities.append("bleeding_3")
+                slow_print("Váš soupeř velmi těžce krvácí.\n")
+            elif "bleeding_2" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_2")
+                opponent.special_abilities.append("bleeding_3")
+                slow_print("Váš soupeř velmi těžce krvácí.\n")
+            elif "bleeding_3" in opponent.special_abilities:
+                slow_print("Váš soupeř velmi těžce krvácí.\n")
+            else:
+                player.special_abilities.append("bleeding_2")
+                slow_print("Váš soupeř začal těžce krvácet.\n")
 
         opponent.health -= multiplier * player.weapon.damage
 
@@ -1210,6 +1294,33 @@ class Attack:
                     middle_border -= 5
                     higher_border -= 5
 
+            # equipment special buffs and debuffs
+            if "extra_dodge" in  player.weapon.special_abilities:
+                lower_border -= 3
+                middle_border -= 5
+                higher_border -= 5
+            if "weak_dodge" in player.weapon.special_abilities:
+                lower_border += 3
+                middle_border += 5
+                higher_border += 5
+
+            if "extra_dodge" in  player.helmet.special_abilities:
+                lower_border -= 3
+                middle_border -= 5
+                higher_border -= 5
+            if "weak_dodge" in player.weapon.special_abilities:
+                lower_border += 3
+                middle_border += 5
+                higher_border += 5
+
+            if "extra_dodge" in  player.armor.special_abilities:
+                lower_border -= 4
+                middle_border -= 6
+                higher_border -= 6
+            if "weak_dodge" in player.weapon.special_abilities:
+                lower_border += 4
+                middle_border += 6
+                higher_border += 6
 
         else:  # opponent action is block
             # setting base levels depending on player weapon
@@ -1381,6 +1492,112 @@ class Attack:
                 middle_border -= 13
                 higher_border -= 8
 
+            # player character effects
+            if player.char == "elf":
+                if "elf_debuff" in player.weapon.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "elf_buff" in player.weapon.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+                if "elf_debuff" in player.helmet.special_abilities:
+                    lower_border += 1
+                    middle_border += 2
+                    higher_border += 2
+                if "elf_buff" in player.helmet.special_abilities:
+                    lower_border -= 1
+                    middle_border -= 2
+                    higher_border -= 2
+                if "elf_debuff" in player.armor.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "elf_buff" in player.armor.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+            elif player.char == "dwarf":
+                if "dwarf_debuff" in player.weapon.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "dwarf_buff" in player.weapon.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+                if "dwarf_debuff" in player.helmet.special_abilities:
+                    lower_border += 1
+                    middle_border += 2
+                    higher_border += 2
+                if "dwarf_buff" in player.helmet.special_abilities:
+                    lower_border -= 1
+                    middle_border -= 2
+                    higher_border -= 2
+                if "dwarf_debuff" in player.armor.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "dwarf_buff" in player.armor.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+            elif player.char == "human":
+                if "human_debuff" in player.weapon.special_abilities:
+                    lower_border += 4
+                    middle_border += 5
+                    higher_border += 5
+                if "human_buff" in player.weapon.special_abilities:
+                    lower_border -= 4
+                    middle_border -= 5
+                    higher_border -= 5
+                if "human_debuff" in player.helmet.special_abilities:
+                    lower_border += 1
+                    middle_border += 2
+                    higher_border += 2
+                if "human_buff" in player.helmet.special_abilities:
+                    lower_border -= 1
+                    middle_border -= 2
+                    higher_border -= 2
+                if "human_debuff" in player.armor.special_abilities:
+                    lower_border += 2
+                    middle_border += 3
+                    higher_border += 3
+                if "human_buff" in player.armor.special_abilities:
+                    lower_border -= 2
+                    middle_border -= 3
+                    higher_border -= 3
+
+            # equipment special buffs and debuffs
+            if "extra_block" in  player.weapon.special_abilities:
+                lower_border -= 3
+                middle_border -= 5
+                higher_border -= 5
+            if "weak_block" in player.weapon.special_abilities:
+                lower_border += 3
+                middle_border += 5
+                higher_border += 5
+
+            if "extra_block" in  player.helmet.special_abilities:
+                lower_border -= 3
+                middle_border -= 5
+                higher_border -= 5
+            if "weak_block" in player.weapon.special_abilities:
+                lower_border += 3
+                middle_border += 5
+                higher_border += 5
+
+            if "extra_block" in  player.armor.special_abilities:
+                lower_border -= 4
+                middle_border -= 6
+                higher_border -= 6
+            if "weak_block" in player.weapon.special_abilities:
+                lower_border += 4
+                middle_border += 6
+                higher_border += 6
+
+
         # rounding part
         lower_border = round(lower_border, 1)
         middle_border = round(middle_border, 1)
@@ -1461,8 +1678,9 @@ class Fight:
 
             # útok na soupeře
             if last_action == "defence":
-                print("Opponent weapon, helmet, armor info:", opponent.weapon.hit_points, opponent.helmet.hit_points,
-                      opponent.armor.hit_points, "\n")
+                if player.test is True:
+                    print("Opponent weapon, helmet, armor info:", opponent.weapon.hit_points, opponent.helmet.hit_points,
+                        opponent.armor.hit_points, "\n")
                 last_action = self.attack.strike_direction_choosing(opponent)
 
             # test part
@@ -1553,6 +1771,51 @@ class Fight:
             if random.randint(0, 3) == 3:
                 player.health -= 10
                 "Ošklivě jste se pořezali o svoje brnění.\n"
+
+        # bleeding effects
+        if "no_bleeding" not in player.special_abilities:
+            if "bleeding_1" in player.special_abilities:
+                player.special_abilities.remove("bleeding_1")
+                if "bleeding_resistance" in player.special_abilities:
+                    player.health -= 5
+                else:
+                    player.health -= 15
+            elif "bleeding_2" in player.special_abilities:
+                player.special_abilities.remove("bleeding_2")
+                player.special_abilities.append("bleeding_1")
+                if "bleeding_resistance" in player.special_abilities:
+                    player.health -= 10
+                else:
+                    player.health -= 25
+            elif "bleeding_3" in player.special_abilities:
+                player.special_abilities.remove("bleeding_3")
+                player.special_abilities.append("bleeding_2")
+                if "bleeding_resistance" in player.special_abilities:
+                    player.health -= 20
+                else:
+                    player.health -= 40
+
+        if "no_bleeding" not in opponent.special_abilities:
+            if "bleeding_1" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_1")
+                if "bleeding_resistance" in opponent.special_abilities:
+                    opponent.health -= 5
+                else:
+                    opponent.health -= 15
+            elif "bleeding_2" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_2")
+                opponent.special_abilities.append("bleeding_1")
+                if "bleeding_resistance" in opponent.special_abilities:
+                    opponent.health -= 10
+                else:
+                    opponent.health -= 25
+            elif "bleeding_3" in opponent.special_abilities:
+                opponent.special_abilities.remove("bleeding_3")
+                opponent.special_abilities.append("bleeding_2")
+                if "bleeding_resistance" in opponent.special_abilities:
+                    opponent.health -= 20
+                else:
+                    opponent.health -= 40
 
         return
 

@@ -100,4 +100,14 @@ def base_options():
 
         option = "skip"
 
+    elif option == "tmon":
+        player.test = True
+
+        option = "skip"
+
+    elif option == "tmof":
+        player.test = False
+
+        option = "skip"
+
     return option

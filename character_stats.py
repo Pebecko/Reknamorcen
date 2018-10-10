@@ -53,6 +53,7 @@ class Player:
     max_stamina = 0
     difficulty = "hard"
     print_time = 0.015
+    special_abilities = []
     test = True
     weapon = Weapon()
     helmet = Helmet()
@@ -153,7 +154,7 @@ long_dagger.max_stamina = 9
 long_dagger.stamina_regain = 2
 long_dagger.damage_type = ["cut", "stab"]
 long_dagger.weapon_type = "light"
-long_dagger.special_abilities = ["extra dodge", "weak block", "poison"]
+long_dagger.special_abilities = ["extra_dodge", "weak_block"]
 long_dagger.weapon_class = "dagger"
 
 fists = Weapon()
@@ -218,5 +219,5 @@ ork.awareness = 3
 ork.dodge_effectiveness = 0
 ork.block_effectiveness = 7  # 7
 ork.unarmed_weapon = fists
-ork.weapons = [two_handed_axe, fists, fists, short_sword, long_dagger]
+ork.weapons = [two_handed_axe, short_sword, long_dagger]
 ork.defence = ["block"]
