@@ -51,6 +51,7 @@ class Player:
     max_health = 0
     stamina = 0
     max_stamina = 0
+    health_potions = 0
     difficulty = "hard"
     print_time = 0.015
     special_abilities = []
@@ -207,6 +208,7 @@ player.helmet = helmet_1
 player.print_time = 0
 player.health = 640
 player.max_health = 640
+player.health_potions = 3
 
 # enemies
 ork = Opponent()

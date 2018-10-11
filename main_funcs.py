@@ -110,4 +110,28 @@ def base_options():
 
         option = "skip"
 
+    elif option == "hp":
+        if player.health_potions > 0:
+            if player.health + 200 <= player.max_health:
+                player.health += 200
+            else:
+                player.health = player.max_health
+
+            player.health_potions -= 1
+            slow_print("Váš život je: " + str(player.health))
+
+            if player.health_potions == 0:
+                slow_print("Už nemáte žádné léčivé lektvary.\n")
+            elif player.health_potions == 1:
+                slow_print("Zbývá vám poslední léčivý lektvar.\n")
+            elif player.health_potions in [2, 3, 4]:
+                slow_print("Zbývají vám " + str(player.health_potions) + " léčivé lektvary.\n")
+            else:
+                slow_print("Zbývá vám " + str(player.health_potions) + " léčivých lektvarů.\n")
+
+        else:
+            slow_print("Už nemáte žádné léčivé lektvary.\n")
+
+        option = "skip"
+
     return option
