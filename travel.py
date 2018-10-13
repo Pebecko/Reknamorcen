@@ -2,91 +2,89 @@ from fight import *
 
 
 class Travelling:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.last_direction = None
+    room_six_health_potions = True
 
     def room_picking(self):
         while True:
-            if self.x == 0 and self.y == 2:
+            if player.x == 0 and player.y == 2:
                 self.room_six_spawn_two()
-            elif self.x == 1 and self.y == 2:
+            elif player.x == 1 and player.y == 2:
                 self.room_five()
-            elif self.x == 2 and self.y == 2:
+            elif player.x == 2 and player.y == 2:
                 self.room_three()
-            elif self.x == 2 and self.y == 1:
+            elif player.x == 2 and player.y == 1:
                 self.room_four_exit()
-            elif self.x == 2 and self.y == 0:
+            elif player.x == 2 and player.y == 0:
                 slow_print("Šlápli jste na past a ze zdi vystřelily otrávené šipky, ale měli jste štěstí a netrefily"
                            " vás, ale najednou vidíte před sebou jak se na vás něco ohromného otáčí.")
                 # self.fight(3)
                 slow_print("Tohle je konec dema, na pokračování si musíte počkat.")
                 shutdown()
-            elif self.x == 3 and self.y == 2:
+            elif player.x == 3 and player.y == 2:
                 self.room_two()
-            elif self.x == 3 and self.y == 3:
+            elif player.x == 3 and player.y == 3:
                 self.room_one_spawn_one()
 
     def get_coordinates(self):
-        if self.last_direction is "North":
-            self.y -= 1
-        elif self.last_direction is "East":
-            self.x += 1
-        elif self.last_direction is "South":
-            self.y += 1
-        elif self.last_direction is "West":
-            self.x -= 1
+        if player.last_direction is "North":
+            player.y -= 1
+        elif player.last_direction is "East":
+            player.x += 1
+        elif player.last_direction is "South":
+            player.y += 1
+        elif player.last_direction is "West":
+            player.x -= 1
         return
 
     def room_pattern_one(self, last_dir_old1, last_dir_new1):
         while True:
-            if self.last_direction is None:
+            if player.last_direction is None:
                 slow_print("Můžete jít pouze rovně, zmáčkněte enter až budete připraveni.\n")
-            elif self.last_direction is "{}".format(last_dir_old1):
+            elif player.last_direction is "{}".format(last_dir_old1):
                 slow_print("Můžete jít pouze zpět, zmáčkněte enter až budete připraveni.\n")
             direction_choice = base_options()
             if direction_choice != "skip":
                 break
 
-        self.last_direction = "{}".format(last_dir_new1)
+        player.last_direction = "{}".format(last_dir_new1)
+
         return self.get_coordinates()
 
     def room_pattern_two(self, msg1, msg2, msg3, pl_opt1, pl_opt2, pl_opt3, pl_opt4, pl_opt5, pl_opt6,
                          last_dir_old1, last_dir_old2, last_dir_new1, last_dir_new2):
         while True:
-            if self.last_direction is None:
+            if player.last_direction is None:
                 slow_print("{}".format(msg1))
                 direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt1):
-                    self.last_direction = "{}".format(last_dir_new1)
+                    player.last_direction = "{}".format(last_dir_new1)
                     break
                 elif direction_choice is "{}".format(pl_opt2):
-                    self.last_direction = "{}".format(last_dir_new2)
+                    player.last_direction = "{}".format(last_dir_new2)
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
 
-            elif self.last_direction is "{}".format(last_dir_old1):
+            elif player.last_direction is "{}".format(last_dir_old1):
                 slow_print("{}".format(msg2))
                 direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt3):
-                    self.last_direction = "{}".format(last_dir_new1)
+                    player.last_direction = "{}".format(last_dir_new1)
                     break
                 elif direction_choice is "{}".format(pl_opt4):
-                    self.last_direction = "{}".format(last_dir_new2)
+                    player.last_direction = "{}".format(last_dir_new2)
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
 
-            elif self.last_direction is "{}".format(last_dir_old2):
+            elif player.last_direction is "{}".format(last_dir_old2):
                 slow_print("{}".format(msg3))
                 direction_choice = base_options()
                 if direction_choice is "{}".format(pl_opt5):
-                    self.last_direction = "{}".format(last_dir_new2)
+                    player.last_direction = "{}".format(last_dir_new2)
                     break
                 elif direction_choice is "{}".format(pl_opt6):
-                    self.last_direction = "{}".format(last_dir_new1)
+                    player.last_direction = "{}".format(last_dir_new1)
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
@@ -97,62 +95,62 @@ class Travelling:
                            pl_opt8, pl_opt9, pl_opt10, pl_opt11, pl_opt12, last_dir_old1, last_dir_old2, last_dir_old3,
                            last_dir_new1, last_dir_new2, last_dir_new3):
         while True:
-            if self.last_direction is None:
+            if player.last_direction is None:
                 slow_print(msg1)
                 direction_choice = base_options()
                 if direction_choice is pl_opt1:
-                    self.last_direction = last_dir_new1
+                    player.last_direction = last_dir_new1
                     break
                 elif direction_choice is pl_opt2:
-                    self.last_direction = last_dir_new2
+                    player.last_direction = last_dir_new2
                     break
                 elif direction_choice is pl_opt3:
-                    self.last_direction = last_dir_new3
+                    player.last_direction = last_dir_new3
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
 
-            elif self.last_direction is last_dir_old1:
+            elif player.last_direction is last_dir_old1:
                 slow_print(msg2)
                 direction_choice = base_options()
                 if direction_choice is pl_opt4:
-                    self.last_direction = last_dir_new1
+                    player.last_direction = last_dir_new1
                     break
                 elif direction_choice is pl_opt5:
-                    self.last_direction = last_dir_new2
+                    player.last_direction = last_dir_new2
                     break
                 elif direction_choice is pl_opt6:
-                    self.last_direction = last_dir_new3
+                    player.last_direction = last_dir_new3
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
 
-            elif self.last_direction is last_dir_old2:
+            elif player.last_direction is last_dir_old2:
                 slow_print(msg3)
                 direction_choice = base_options()
                 if direction_choice is pl_opt7:
-                    self.last_direction = last_dir_new2
+                    player.last_direction = last_dir_new2
                     break
                 elif direction_choice is pl_opt8:
-                    self.last_direction = last_dir_new1
+                    player.last_direction = last_dir_new1
                     break
                 elif direction_choice is pl_opt9:
-                    self.last_direction = last_dir_new3
+                    player.last_direction = last_dir_new3
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
 
-            elif self.last_direction is last_dir_old3:
+            elif player.last_direction is last_dir_old3:
                 slow_print(msg4)
                 direction_choice = base_options()
                 if direction_choice is pl_opt10:
-                    self.last_direction = last_dir_new3
+                    player.last_direction = last_dir_new3
                     break
                 elif direction_choice is pl_opt11:
-                    self.last_direction = last_dir_new2
+                    player.last_direction = last_dir_new2
                     break
                 elif direction_choice is pl_opt12:
-                    self.last_direction = last_dir_new1
+                    player.last_direction = last_dir_new1
                     break
                 elif direction_choice != "skip":
                     wrong_input(0)
@@ -429,92 +427,92 @@ class Travelling:
 
     def room_type_nesw(self):
         while True:
-            if self.last_direction is None:
+            if player.last_direction is None:
                 slow_print("Můžete jít [r]ovně, v[p]ravo, v[l]evo, nebo v[z]ad.\n")
                 direction_choice = input()
                 if direction_choice is "r":
-                    self.last_direction = "North"
+                    player.last_direction = "North"
                     break
                 elif direction_choice is "p":
-                    self.last_direction = "East"
+                    player.last_direction = "East"
                     break
                 elif direction_choice is "z":
-                    self.last_direction = "South"
+                    player.last_direction = "South"
                     break
                 elif direction_choice is "l":
-                    self.last_direction = "West"
+                    player.last_direction = "West"
                     break
                 else:
                     wrong_input(0)
 
-            elif self.last_direction is "North":
+            elif player.last_direction is "North":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
                 direction_choice = input()
                 if direction_choice is "z":
-                    self.last_direction = "South"
+                    player.last_direction = "South"
                     break
                 elif direction_choice is "l":
-                    self.last_direction = "West"
+                    player.last_direction = "West"
                     break
                 elif direction_choice is "r":
-                    self.last_direction = "North"
+                    player.last_direction = "North"
                     break
                 elif direction_choice is "p":
-                    self.last_direction = "East"
+                    player.last_direction = "East"
                     break
                 else:
                     wrong_input(0)
 
-            elif self.last_direction is "East":
+            elif player.last_direction is "East":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
                 direction_choice = input()
                 if direction_choice is "z":
-                    self.last_direction = "West"
+                    player.last_direction = "West"
                     break
                 elif direction_choice is "l":
-                    self.last_direction = "North"
+                    player.last_direction = "North"
                     break
                 elif direction_choice is "r":
-                    self.last_direction = "East"
+                    player.last_direction = "East"
                     break
                 elif direction_choice is "p":
-                    self.last_direction = "South"
+                    player.last_direction = "South"
                     break
                 else:
                     wrong_input(0)
 
-            elif self.last_direction is "South":
+            elif player.last_direction is "South":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
                 direction_choice = input()
                 if direction_choice is "z":
-                    self.last_direction = "North"
+                    player.last_direction = "North"
                     break
                 elif direction_choice is "l":
-                    self.last_direction = "East"
+                    player.last_direction = "East"
                     break
                 elif direction_choice is "r":
-                    self.last_direction = "South"
+                    player.last_direction = "South"
                     break
                 elif direction_choice is "p":
-                    self.last_direction = "West"
+                    player.last_direction = "West"
                     break
                 else:
                     wrong_input(0)
 
-            elif self.last_direction is "West":
+            elif player.last_direction is "West":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
                 direction_choice = input()
                 if direction_choice is "z":
-                    self.last_direction = "East"
+                    player.last_direction = "East"
                     break
                 elif direction_choice is "l":
-                    self.last_direction = "South"
+                    player.last_direction = "South"
                     break
                 elif direction_choice is "r":
-                    self.last_direction = "West"
+                    player.last_direction = "West"
                     break
                 elif direction_choice is "p":
-                    self.last_direction = "North"
+                    player.last_direction = "North"
                     break
                 else:
                     wrong_input(0)
@@ -561,6 +559,19 @@ class Travelling:
         return
 
     def room_six_spawn_two(self):
+        if self.room_six_health_potions is True:
+            while True:
+                slow_print("Na zemi leží 2 léčící lektvary. Chcete si je [v]zít, nebo [n]e?\n")
+                potion_choice = base_options()
+                if potion_choice == "v":
+                    player.health_potions += 2
+                    self.room_six_health_potions = False
+                    break
+                elif potion_choice == "n":
+                    break
+                elif potion_choice != "skip":
+                    wrong_input(0)
+
         self.room_type_e()
 
         player.last_fight = False
@@ -568,7 +579,7 @@ class Travelling:
         return
 
 
-path = Travelling(3, 3)
+path = Travelling()
 path.room_picking()
 
 input()

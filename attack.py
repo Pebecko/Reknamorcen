@@ -747,7 +747,7 @@ class Attack:
         elif strike_power == "high":
             multiplier += 0.25
 
-        if "no_bleeding" not in opponent.special_abilities:
+        if "no_bleeding" not in opponent.special_abilities and strike_type is not "smash":
             if "bleeding_1" in opponent.special_abilities:
                 opponent.special_abilities.remove("bleeding_1")
                 opponent.special_abilities.append("bleeding_2")
@@ -883,7 +883,7 @@ class Attack:
         elif strike_power == "high":
             multiplier += 0.5
 
-        if "no_bleeding" not in opponent.special_abilities:
+        if "no_bleeding" not in opponent.special_abilities and strike_type is not "smash":
             if "bleeding_1" in opponent.special_abilities:
                 opponent.special_abilities.remove("bleeding_1")
                 opponent.special_abilities.append("bleeding_3")
@@ -895,7 +895,7 @@ class Attack:
             elif "bleeding_3" in opponent.special_abilities:
                 slow_print("Váš soupeř velmi těžce krvácí.\n")
             else:
-                player.special_abilities.append("bleeding_2")
+                opponent.special_abilities.append("bleeding_2")
                 slow_print("Váš soupeř začal těžce krvácet.\n")
 
         opponent.health -= multiplier * player.weapon.damage
@@ -941,32 +941,32 @@ class Attack:
         elif self.opponent_action is "dodge":
             # setting base levels depending on player weapon
             if player.weapon.weapon_class is "unarmed":
-                lower_border = 10
-                middle_border = 25
+                lower_border = 20
+                middle_border = 30
                 higher_border = 75
                 if player.difficulty is "easy":
                     lower_border = 3
                     middle_border = 20
                     higher_border = 65
             elif player.weapon.weapon_type is "light":
-                lower_border = 10
-                middle_border = 30
+                lower_border = 20
+                middle_border = 35
                 higher_border = 60
                 if player.difficulty is "easy":
                     lower_border = 5
                     middle_border = 25
                     higher_border = 50
             elif player.weapon.weapon_type is "medium":
-                lower_border = 15
-                middle_border = 35
+                lower_border = 25
+                middle_border = 40
                 higher_border = 65
                 if player.difficulty is "easy":
                     lower_border = 10
                     middle_border = 25
                     higher_border = 55
             else:
-                lower_border = 20
-                middle_border = 55
+                lower_border = 30
+                middle_border = 60
                 higher_border = 70
                 if player.difficulty is "easy":
                     lower_border = 25
@@ -994,29 +994,29 @@ class Attack:
             # opponent defence direction and player attack direction and type effects
             if self.opponent_direction is "back":
                 if strike_dir is "body" or strike_dir is "head":
-                    lower_border -= 18
+                    lower_border -= 14
                     middle_border -= 15
                     higher_border -= 13
                 else:
-                    lower_border += 9
+                    lower_border += 13
                     middle_border += 21
                     higher_border += 17
             elif self.opponent_direction is "left":
                 if strike_dir is "belly":
-                    lower_border -= 24
+                    lower_border -= 20
                     middle_border -= 21
                     higher_border -= 11
                 elif strike_dir is "body" or strike_dir is "head":
-                    lower_border += 7
+                    lower_border += 9
                     middle_border += 14
                     higher_border += 16
             else:
                 if strike_dir is "side":
-                    lower_border -= 26
+                    lower_border -= 21
                     middle_border -= 22
                     higher_border -= 13
                 elif strike_dir is "body" or strike_dir is "head":
-                    lower_border += 6
+                    lower_border += 8
                     middle_border += 13
                     higher_border += 15
 
@@ -1059,8 +1059,8 @@ class Attack:
                 middle_border -= 14
                 higher_border -= 7
             elif strike_power == "medium":
-                lower_border += 1
-                middle_border += 7
+                lower_border += 3
+                middle_border += 4
                 higher_border += 2
             elif strike_power == "high":
                 lower_border += 4
@@ -1189,24 +1189,24 @@ class Attack:
                     middle_border = 80
                     higher_border = 90
             elif player.weapon.weapon_type is "light":
-                lower_border = 25
-                middle_border = 60
+                lower_border = 35
+                middle_border = 65
                 higher_border = 95
                 if player.difficulty is "easy":
                     lower_border = 20
                     middle_border = 55
                     higher_border = 85
             elif player.weapon.weapon_type is "medium":
-                lower_border = 15
-                middle_border = 50
+                lower_border = 25
+                middle_border = 55
                 higher_border = 80
                 if player.difficulty is "easy":
                     lower_border = 10
                     middle_border = 40
                     higher_border = 70
             else:  # player weapon type is heavy
-                lower_border = 10
-                middle_border = 40
+                lower_border = 20
+                middle_border = 45
                 higher_border = 70
                 if player.difficulty is "easy":
                     lower_border = 5

@@ -45,8 +45,9 @@ class Armor:
 class Player:
     char = ""
     info = ""
-    x = 0
-    y = 0
+    x = 3
+    y = 3
+    last_direction = None
     health = 1
     max_health = 0
     stamina = 0
@@ -130,14 +131,40 @@ long_sword_mordhau.stamina = 8
 long_sword_mordhau.max_stamina = 8
 long_sword_mordhau.stamina_regain = 1.5
 long_sword_mordhau.damage_type = ["smash"]
-long_sword_mordhau.weapon_type = "heavy"
+long_sword_mordhau.weapon_type = "medium"
 long_sword_mordhau.special_abilities = ["mordhau"]
 long_sword_mordhau.weapon_class = "sword"
+
+two_handed_sword = Weapon()
+two_handed_sword.name = "obouruční meč"
+two_handed_sword.info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne jakéhokoliv" \
+                        " neobrněného nepřítele, tak ho i probodne"
+two_handed_sword.damage = 240
+two_handed_sword.stamina = 7
+two_handed_sword.max_stamina = 7
+two_handed_sword.stamina_regain = 1
+two_handed_sword.damage_type = ["cut", "stab"]
+two_handed_sword.weapon_type = "heavy"
+two_handed_sword.special_abilities = ["mordhau"]
+two_handed_sword.weapon_class = "sword"
+
+two_handed_sword_mordhau = Weapon()
+two_handed_sword_mordhau.name = "obouruční meč"
+two_handed_sword_mordhau.info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne jakéhokoliv" \
+                                " neobrněného nepřítele, tak ho i probodne"
+two_handed_sword_mordhau.damage = 210
+two_handed_sword_mordhau.stamina = 7
+two_handed_sword_mordhau.max_stamina = 7
+two_handed_sword_mordhau.stamina_regain = 1
+two_handed_sword_mordhau.damage_type = ["smash"]
+two_handed_sword_mordhau.weapon_type = "heavy"
+two_handed_sword_mordhau.special_abilities = ["mordhau"]
+two_handed_sword_mordhau.weapon_class = "sword"
 
 two_handed_axe = Weapon()
 two_handed_axe.name = "obouruční sekera"
 two_handed_axe.info = "ohromná dvoubřitvá zbraň, která nemá problém proseknout i tlusté brnění"
-two_handed_axe.damage = 240
+two_handed_axe.damage = 250
 two_handed_axe.stamina = 6
 two_handed_axe.max_stamina = 6
 two_handed_axe.stamina_regain = 1
@@ -145,6 +172,19 @@ two_handed_axe.damage_type = ["cut"]
 two_handed_axe.weapon_type = "heavy"
 two_handed_axe.special_abilities = ["armor_piercing", "weak_dodge"]
 two_handed_axe.weapon_class = "axe"
+
+two_handed_hammer = Weapon()
+two_handed_hammer.name = "obouruční kladivo"
+two_handed_hammer.info = "ohromná trpaslíky vyrobená zbraň, určená aby tříštila kosti všech obrněnců, jedno co mají" \
+                         " na sobě"
+two_handed_hammer.damage = 230
+two_handed_hammer.stamina = 5
+two_handed_hammer.max_stamina = 5
+two_handed_hammer.stamina_regain = 1
+two_handed_hammer.damage_type = ["smash"]
+two_handed_hammer.weapon_type = "heavy"
+two_handed_hammer.special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff"]
+two_handed_hammer.weapon_class = "hammer"
 
 long_dagger = Weapon()
 long_dagger.name = "dlouhá dýka"
@@ -155,14 +195,30 @@ long_dagger.max_stamina = 9
 long_dagger.stamina_regain = 2
 long_dagger.damage_type = ["cut", "stab"]
 long_dagger.weapon_type = "light"
-long_dagger.special_abilities = ["extra_dodge", "weak_block"]
+long_dagger.special_abilities = ["extra_dodge", "weak_block", "elf_debuff"]
 long_dagger.weapon_class = "dagger"
 
 fists = Weapon()
+fists.name = "pěsti"
 fists.weapon_class = "unarmed"
+
+claws = Weapon()
+claws.name = "drápy"
+claws.weapon_class = "unarmed"
 
 # helmets
 no_helmet = Helmet()
+
+dwarven_miner_helmet = Helmet()
+dwarven_miner_helmet.name = "trpasličí důlnická helma"
+dwarven_miner_helmet.info = "používaná trpaslíky v dolech slouží spíše jako ochrana hlavy při chození tunelem než" \
+                            " na boj, ale část úderu rozhodně zastaví"
+dwarven_miner_helmet.level = 1
+dwarven_miner_helmet.visibility = 1
+dwarven_miner_helmet.loudness = 2
+dwarven_miner_helmet.cut_damage_reduction = 5
+dwarven_miner_helmet.stab_damage_reduction = 3
+dwarven_miner_helmet.smash_damage_reduction = 5
 
 rusty_ork_helmet = Helmet()
 rusty_ork_helmet.name = "rezavá orkská helma"
@@ -175,14 +231,14 @@ rusty_ork_helmet.heaviness = 10  # 1 - 10
 rusty_ork_helmet.loudness = 3
 rusty_ork_helmet.hit_points = 500
 rusty_ork_helmet.cut_damage_reduction = 8  # 1 - 10(%)
-rusty_ork_helmet.stab_damage_reduction = 4  # 1 - 10(%)
-rusty_ork_helmet.smash_damage_reduction = 6  # 1 - 10(%)
+rusty_ork_helmet.stab_damage_reduction = 2  # 1 - 10(%)
+rusty_ork_helmet.smash_damage_reduction = 3  # 1 - 10(%)
 rusty_ork_helmet.special_abilities = ["rusty", "elf_debuff"]
 
-helmet_1 = rusty_ork_helmet
-helmet_1.hit_points += 500
+helmet_1 = dwarven_miner_helmet
 
 helmet_2 = rusty_ork_helmet
+helmet_2.hit_points += 500
 
 # armors
 no_armor = Armor()
@@ -202,13 +258,14 @@ chainmail_hauberk.special_abilities = []
 
 # player
 player = Player()
-player.char = "human"
-player.weapon = long_sword
+player.char = "dwarf"
+player.weapon = two_handed_hammer
 player.helmet = helmet_1
+player.armor = chainmail_hauberk
 player.print_time = 0
-player.health = 640
-player.max_health = 640
-player.health_potions = 3
+player.health = 800
+player.max_health = 800
+player.health_potions = 1
 
 # enemies
 ork = Opponent()
@@ -221,5 +278,5 @@ ork.awareness = 3
 ork.dodge_effectiveness = 0
 ork.block_effectiveness = 7  # 7
 ork.unarmed_weapon = fists
-ork.weapons = [two_handed_axe, short_sword, long_dagger]
+ork.weapons = [two_handed_axe, short_sword, long_dagger, two_handed_axe, two_handed_hammer]
 ork.defence = ["block"]

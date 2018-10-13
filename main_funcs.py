@@ -65,9 +65,6 @@ def base_options():
         else:
             slow_print("Jste v místnosti v které nejde uložit hru.\n")
 
-        time.sleep(1)
-        slow_print("Vyberte prosím další možnost.\n")
-
     elif option == "time":
         option = "skip"
         slow_print("Jak rychle chcete aby se text vypisoval:\n"
@@ -111,7 +108,10 @@ def base_options():
         option = "skip"
 
     elif option == "hp":
-        if player.health_potions > 0:
+        if player.health == player.max_health:
+            slow_print("Jste úplně v pořádku a nepotřebujete léčení.\n")
+
+        elif player.health_potions > 0:
             if player.health + 200 <= player.max_health:
                 player.health += 200
             else:

@@ -135,7 +135,12 @@ class Preparation:
                 slow_print("Chcete si meč [o]točit, abyste s ním mohli mlátit spíše než sekat, nebo [n]e??")
                 style_decision = base_options()
                 if style_decision == "o":
-                    player.weapon = short_sword_mordhau
+                    if player.weapon == short_sword:
+                        player.weapon = short_sword_mordhau
+                    elif player.weapon == long_sword:
+                        player.weapon = long_sword_mordhau
+                    elif player.weapon == two_handed_sword:
+                        player.weapon = two_handed_sword_mordhau
                     break
                 elif style_decision == "n":
                     break

@@ -4,8 +4,12 @@ from main_funcs import *
 
 class Conclusion:
     def returning_from_technique(self):
-        if player.weapon is short_sword_mordhau:
+        if player.weapon == short_sword_mordhau:
             player.weapon = short_sword
+        elif player.weapon == long_sword_mordhau:
+            player.weapon = long_sword
+        elif player.weapon == two_handed_sword_mordhau:
+            player.weapon = two_handed_sword
 
         return self.end_call()
 
