@@ -77,6 +77,8 @@ class Opponent:
     weapon = Weapon()
     unarmed_weapon = Weapon()
     weapons = []
+    helmets = []
+    armors = []
     defence = []
     attack_power = []  # light, medium, heavy
     special_abilities = []
@@ -206,6 +208,14 @@ claws = Weapon()
 claws.name = "drápy"
 claws.weapon_class = "unarmed"
 
+small_cheeks = Weapon()
+small_cheeks.name = "malá kusadla"
+small_cheeks.damage = 40
+small_cheeks.damage_type = ["stab"]
+small_cheeks.weapon_type = "light"
+small_cheeks.special_abilities = ["extra_dodge", "weak_block"]
+small_cheeks.weapon_class = "unarmed"
+
 # helmets
 no_helmet = Helmet()
 
@@ -274,9 +284,42 @@ ork.info = "ohromné zelené stvoření plné svalů schopné jen svýmy pařát
 ork.difficulty = 3
 ork.lowest_health = 480
 ork.highest_health = 560
-ork.awareness = 3
+ork.awareness = 4
 ork.dodge_effectiveness = 0
 ork.block_effectiveness = 7  # 7
-ork.unarmed_weapon = fists
-ork.weapons = [two_handed_axe, short_sword, long_dagger, two_handed_axe, two_handed_hammer]
+ork.unarmed_weapon = claws
+ork.weapons = [two_handed_axe, two_handed_axe, short_sword, long_dagger, two_handed_axe]
+ork.helmets = [helmet_2]
+ork.armors = [no_armor]
 ork.defence = ["block"]
+
+skeleton = Opponent()
+skeleton.name = "oživlá kostra"
+skeleton.info = "zbytek mrtvého člověka z kterého červi už ožrali všechno maso animovaná nějakým čarodějem"
+skeleton.difficulty = 2
+skeleton.lowest_health = 300
+skeleton.highest_health = 360
+skeleton.awareness = 1
+skeleton.dodge_effectiveness = 0
+skeleton.block_effectiveness = 3
+skeleton.unarmed_weapon = fists
+skeleton.weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
+skeleton.helmets = [no_helmet]
+skeleton.armors = [chainmail_hauberk]
+skeleton.defence = ["block"]
+
+small_spider = Opponent()
+small_spider.name = "malý pavouk"
+small_spider.info = "mládě ohromného pavouka, sice ještě nedorostlo plné velikosti ale i tak může být nebezpečné," \
+                    " obzvlášť když jich je víc"
+small_spider.difficulty = 1
+small_spider.lowest_health = 120
+small_spider.highest_health = 160
+small_spider.awareness = 5
+small_spider.dodge_effectiveness = 8
+small_spider.block_effectiveness = 0
+small_spider.unarmed_weapon = small_cheeks
+small_spider.weapons = [small_cheeks]
+small_spider.helmets = [no_helmet]
+small_spider.armors = [no_armor]
+small_spider.defence = ["dodge"]

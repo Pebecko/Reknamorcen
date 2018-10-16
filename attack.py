@@ -519,7 +519,7 @@ class Attack:
                 else:
                     multiplier -= player.helmet.stab_damage_reduction * 0.045
 
-        if "cut" in opponent.weapon.damage or "stab" in opponent.weapon.damage and "no_bleeding":
+        if "cut" in opponent.weapon.damage_type and "no_bleeding" in player.special_abilities:
             if "bleeding_1" in player.special_abilities:
                 player.special_abilities.remove("bleeding_1")
                 player.special_abilities.append("bleeding_3")
@@ -747,7 +747,7 @@ class Attack:
         elif strike_power == "high":
             multiplier += 0.25
 
-        if "no_bleeding" not in opponent.special_abilities and strike_type is not "smash":
+        if "no_bleeding" not in opponent.special_abilities and strike_type is "cut":
             if "bleeding_1" in opponent.special_abilities:
                 opponent.special_abilities.remove("bleeding_1")
                 opponent.special_abilities.append("bleeding_2")
@@ -883,7 +883,7 @@ class Attack:
         elif strike_power == "high":
             multiplier += 0.5
 
-        if "no_bleeding" not in opponent.special_abilities and strike_type is not "smash":
+        if "no_bleeding" not in opponent.special_abilities and strike_type is "cut":
             if "bleeding_1" in opponent.special_abilities:
                 opponent.special_abilities.remove("bleeding_1")
                 opponent.special_abilities.append("bleeding_3")
