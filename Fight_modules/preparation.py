@@ -44,7 +44,7 @@ class Preparation:
                 self.opponent = "goblin"
 
         elif opponent_level == 2:
-            opponent_number = random.randint(0, 1)
+            opponent_number = random.randint(0, 2)
             if opponent_number == 0:
                 opponent = ork
                 opponent.helmet = helmet_2

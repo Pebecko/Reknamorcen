@@ -1,7 +1,7 @@
-from preparation import *
-from attack import Attack
-from defence import Defence
-from conclusion import Conclusion
+from Fight_modules.preparation import *
+from Fight_modules.attack import Attack
+from Fight_modules.defence import Defence
+from Fight_modules.conclusion import Conclusion
 
 
 class Fight:
