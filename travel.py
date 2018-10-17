@@ -542,7 +542,7 @@ class Travelling:
         return
 
     def room_four_exit(self):
-        fighting = Fight(2)
+        fighting = Fight(0)
         fighting.main_()
 
         player.last_fight = True

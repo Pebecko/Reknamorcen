@@ -20,7 +20,7 @@ class Fight:
                    "".format(opponent.name, opponent.info, opponent.weapon.name, opponent.weapon.info))
         if opponent.armor.name != "":
             slow_print("Jeho brnění je {}, {}\n".format(opponent.armor.name, opponent.armor.info))
-        if opponent.helmet.name != "":
+        if opponent.helmet != "":
             slow_print("Jeho helma je {}, {}\n".format(opponent.helmet.name, opponent.helmet.info))
         print("")
 

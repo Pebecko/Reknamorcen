@@ -51,7 +51,7 @@ def player_killed():
         wrong_input(0)
 
 
-def base_options(**opponent):
+def base_options():
     option = input()
 
     if option == "quit" or option == "leave" or option == "exit" or option == "vypnout":

@@ -13,132 +13,154 @@ class Weapon:
     weapon_class = ""
 
 
+# weapons class patterns
+class Sword(Weapon):
+    damage_type = ["cut", "stab"]
+    special_abilities = ["mordhau"]
+    weapon_class = "sword"
+
+
+class Axe(Weapon):
+    damage_type = ["cut"]
+    weapon_class = "axe"
+
+
+class Hammer(Weapon):
+    damage_type = ["smash"]
+    weapon_class = "hammer"
+
+
+class Dagger(Weapon):
+    damage_type = ["cut", "stab"]
+    weapon_type = "light"
+    special_abilities = ["extra_dodge", "weak_block"]
+    weapon_class = "dagger"
+
+
+class Unarmed(Weapon):
+    weapon_type = "light"
+    special_abilities = ["extra_dodge", "weak_block"]
+    weapon_class = "unarmed"
+
+
+# weapons patterns
+class ShortSword(Sword):
+    name = "krátký meč"
+    info = "krátší ostrá zbraň schopná jak sekat, tak i bodat"
+    damage = 160
+    stamina = 8
+    max_stamina = 8
+    stamina_regain = 1.5
+    weapon_type = "light"
+    special_abilities = ["mordhau", "extra_dodge"]
+
+
+class ShortSwordMordhau(ShortSword):
+    damage = 110
+    damage_type = ["smash"]
+
+
+class LongSword(Sword):
+    name = "dlouhý meč"
+    info = "dlouhý meč určen pro obouruční držení, ale možný používat i v jedné ruce, který je" \
+           " schopný jak sekat, tak i bodat"
+    damage = 210
+    stamina = 8
+    max_stamina = 8
+    stamina_regain = 1.5
+    weapon_type = "medium"
+
+
+class LongSwordMordhau(LongSword):
+    damage = 180
+    damage_type = ["smash"]
+
+
+class TwoHandedSword(Sword):
+    name = "obouruční meč"
+    info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne jakéhokoliv" \
+           " neobrněného nepřítele, tak ho i probodne"
+    damage = 240
+    stamina = 7
+    max_stamina = 7
+    stamina_regain = 1
+    weapon_type = "heavy"
+    special_abilities = ["mordhau", "human_buff", "weak_dodge"]
+
+
+class TwoHandedSwordMordhau(TwoHandedSword):
+    damage = 210
+    damage_type = "smash"
+
+
+class TwoHandedAxe(Axe):
+    name = "obouruční sekera"
+    info = "ohromná dvoubřitvá zbraň, která nemá problém proseknout i tlusté brnění"
+    damage = 250
+    stamina = 6
+    max_stamina = 6
+    stamina_regain = 1
+    weapon_type = "heavy"
+    special_abilities = ["armor_piercing", "weak_dodge"]
+
+
+class TwoHandedHammer(Hammer):
+    name = "obouruční kladivo"
+    info = "ohromná trpaslíky vyrobená zbraň, určená aby tříštila kosti všech obrněnců, jedno co mají" \
+           " na sobě"
+    damage = 230
+    stamina = 5
+    max_stamina = 5
+    stamina_regain = 1
+    weapon_type = "heavy"
+    special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff"]
+
+
+class LongDagger(Dagger):
+    name = "dlouhá dýka"
+    info = "krátká, velice lehká, jednobřitvá zbraň"
+    damage = 120
+    stamina = 9
+    max_stamina = 9
+    stamina_regain = 2
+
+
+class Fists(Unarmed):
+    name = "pěsti"
+
+
+class Claws(Unarmed):
+    name = "drápy"
+
+
+class SmallCheeks(Unarmed):
+    name = "malá kusadla"
+    damage = 40
+    damage_type = ["stab"]
+    weapon_type = "light"
+
+
 # weapons
-short_sword = Weapon()
-short_sword.name = "krátký meč"
-short_sword.info = "krátší ostrá zbraň schopná jak sekat, tak i bodat"
-short_sword.damage = 160
-short_sword.stamina = 8
-short_sword.max_stamina = 8
-short_sword.stamina_regain = 1.5
-short_sword.damage_type = ["cut", "stab"]
-short_sword.weapon_type = "light"
-short_sword.special_abilities = ["mordhau"]
-short_sword.weapon_class = "sword"
+short_sword = ShortSword()
 
-short_sword_mordhau = Weapon()
-short_sword_mordhau.name = "krátký meč"
-short_sword_mordhau.info = "ostrá zbraň schopná jak sekat, tak i bodat"
-short_sword_mordhau.damage = 110
-short_sword_mordhau.stamina = 8
-short_sword_mordhau.max_stamina = 8
-short_sword_mordhau.stamina_regain = 1.5
-short_sword_mordhau.damage_type = ["smash"]
-short_sword_mordhau.weapon_type = "light"
-short_sword_mordhau.special_abilities = ["mordhau"]
-short_sword_mordhau.weapon_class = "sword"
+short_sword_mordhau = ShortSwordMordhau()
 
-long_sword = Weapon()
-long_sword.name = "dlouhý meč"
-long_sword.info = "dlouhý meč určen pro obouruční držení, ale možný používat i v jedné ruce, který je" \
-                  " schopný jak sekat, tak i bodat"
-long_sword.damage = 210
-long_sword.stamina = 8
-long_sword.max_stamina = 8
-long_sword.stamina_regain = 1.5
-long_sword.damage_type = ["cut", "stab"]
-long_sword.weapon_type = "medium"
-long_sword.special_abilities = ["mordhau"]
-long_sword.weapon_class = "sword"
+long_sword = LongSword()
 
-long_sword_mordhau = Weapon()
-long_sword_mordhau.name = "dlouhý meč"
-long_sword_mordhau.info = "dlouhý meč určen pro obouruční držení, ale možný používat i v jedné ruce, který je" \
-                          " schopný jak sekat, tak i bodat"
-long_sword_mordhau.damage = 180
-long_sword_mordhau.stamina = 8
-long_sword_mordhau.max_stamina = 8
-long_sword_mordhau.stamina_regain = 1.5
-long_sword_mordhau.damage_type = ["smash"]
-long_sword_mordhau.weapon_type = "medium"
-long_sword_mordhau.special_abilities = ["mordhau"]
-long_sword_mordhau.weapon_class = "sword"
+long_sword_mordhau = LongSwordMordhau()
 
-two_handed_sword = Weapon()
-two_handed_sword.name = "obouruční meč"
-two_handed_sword.info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne jakéhokoliv" \
-                        " neobrněného nepřítele, tak ho i probodne"
-two_handed_sword.damage = 240
-two_handed_sword.stamina = 7
-two_handed_sword.max_stamina = 7
-two_handed_sword.stamina_regain = 1
-two_handed_sword.damage_type = ["cut", "stab"]
-two_handed_sword.weapon_type = "heavy"
-two_handed_sword.special_abilities = ["mordhau"]
-two_handed_sword.weapon_class = "sword"
+two_handed_sword = TwoHandedSword()
 
-two_handed_sword_mordhau = Weapon()
-two_handed_sword_mordhau.name = "obouruční meč"
-two_handed_sword_mordhau.info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne" \
-                                " jakéhokoliv neobrněného nepřítele, tak ho i probodne"
-two_handed_sword_mordhau.damage = 210
-two_handed_sword_mordhau.stamina = 7
-two_handed_sword_mordhau.max_stamina = 7
-two_handed_sword_mordhau.stamina_regain = 1
-two_handed_sword_mordhau.damage_type = ["smash"]
-two_handed_sword_mordhau.weapon_type = "heavy"
-two_handed_sword_mordhau.special_abilities = ["mordhau"]
-two_handed_sword_mordhau.weapon_class = "sword"
+two_handed_sword_mordhau = TwoHandedSwordMordhau()
 
-two_handed_axe = Weapon()
-two_handed_axe.name = "obouruční sekera"
-two_handed_axe.info = "ohromná dvoubřitvá zbraň, která nemá problém proseknout i tlusté brnění"
-two_handed_axe.damage = 250
-two_handed_axe.stamina = 6
-two_handed_axe.max_stamina = 6
-two_handed_axe.stamina_regain = 1
-two_handed_axe.damage_type = ["cut"]
-two_handed_axe.weapon_type = "heavy"
-two_handed_axe.special_abilities = ["armor_piercing", "weak_dodge"]
-two_handed_axe.weapon_class = "axe"
+two_handed_axe = TwoHandedAxe()
 
-two_handed_hammer = Weapon()
-two_handed_hammer.name = "obouruční kladivo"
-two_handed_hammer.info = "ohromná trpaslíky vyrobená zbraň, určená aby tříštila kosti všech obrněnců, jedno co mají" \
-                         " na sobě"
-two_handed_hammer.damage = 230
-two_handed_hammer.stamina = 5
-two_handed_hammer.max_stamina = 5
-two_handed_hammer.stamina_regain = 1
-two_handed_hammer.damage_type = ["smash"]
-two_handed_hammer.weapon_type = "heavy"
-two_handed_hammer.special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff"]
-two_handed_hammer.weapon_class = "hammer"
+two_handed_hammer = TwoHandedHammer()
 
-long_dagger = Weapon()
-long_dagger.name = "dlouhá dýka"
-long_dagger.info = "krátká, velice lehká, jednobřitvá zbraň"
-long_dagger.damage = 120
-long_dagger.stamina = 9
-long_dagger.max_stamina = 9
-long_dagger.stamina_regain = 2
-long_dagger.damage_type = ["cut", "stab"]
-long_dagger.weapon_type = "light"
-long_dagger.special_abilities = ["extra_dodge", "weak_block", "elf_debuff"]
-long_dagger.weapon_class = "dagger"
+long_dagger = LongDagger()
 
-fists = Weapon()
-fists.name = "pěsti"
-fists.weapon_class = "unarmed"
+fists = Fists()
 
-claws = Weapon()
-claws.name = "drápy"
-claws.weapon_class = "unarmed"
+claws = Claws()
 
-small_cheeks = Weapon()
-small_cheeks.name = "malá kusadla"
-small_cheeks.damage = 40
-small_cheeks.damage_type = ["stab"]
-small_cheeks.weapon_type = "light"
-small_cheeks.special_abilities = ["extra_dodge", "weak_block"]
-small_cheeks.weapon_class = "unarmed"
+small_cheeks = SmallCheeks()

@@ -1227,7 +1227,7 @@ class Attack:
                 middle_border += 3
                 higher_border += 2
             else:  # opponent weapon type is heavy
-                lower_border += 5
+                lower_border += 7
                 middle_border += 12
                 higher_border += 14
 
@@ -1262,62 +1262,62 @@ class Attack:
             # opponent action effects
             if self.opponent_direction == "kvinta":
                 if strike_dir is "head":
-                    lower_border += 8
-                    middle_border += 26
-                    higher_border += 30
+                    lower_border += 16
+                    middle_border += 35
+                    higher_border += 40
                 elif strike_dir is "body":
-                    lower_border -= 12
-                    middle_border -= 16
-                    higher_border -= 8
+                    lower_border -= 10
+                    middle_border -= 20
+                    higher_border -= 11
                 elif strike_dir is "belly":
-                    lower_border -= 18
-                    middle_border -= 22
+                    lower_border -= 12
+                    middle_border -= 24
                     higher_border -= 16
                 else:  # player strike direction is side
-                    lower_border -= 20
-                    middle_border -= 20
+                    lower_border -= 15
+                    middle_border -= 25
                     higher_border -= 14
             elif self.opponent_direction == "kvarta":
                 if strike_dir is "head":
-                    lower_border -= 20
-                    middle_border -= 20
-                    higher_border -= 16
+                    lower_border -= 16
+                    middle_border -= 24
+                    higher_border -= 18
                 elif strike_dir is "body":
-                    lower_border -= 8
-                    middle_border -= 3
-                    higher_border -= 4
+                    lower_border -= 6
+                    middle_border -= 5
+                    higher_border -= 6
                 elif strike_dir is "belly":
-                    lower_border += 9
-                    middle_border += 29
-                    higher_border += 34
+                    lower_border += 16
+                    middle_border += 32
+                    higher_border += 37
                 else:  # player strike direction is side
-                    lower_border -= 17
-                    middle_border -= 17
+                    lower_border -= 12
+                    middle_border -= 21
                     higher_border -= 13
             elif self.opponent_direction == "terca":
                 if strike_dir is "head":
                     lower_border -= 17
-                    middle_border -= 20
+                    middle_border -= 23
                     higher_border -= 16
                 elif strike_dir is "body":
                     lower_border -= 13
-                    middle_border -= 11
-                    higher_border -= 8
+                    middle_border -= 17
+                    higher_border -= 9
                 elif strike_dir is "belly":
                     lower_border -= 12
-                    middle_border -= 7
+                    middle_border -= 26
                     higher_border -= 13
                 else:  # player strike direction is side
-                    lower_border += 11
+                    lower_border += 19
                     middle_border += 33
                     higher_border += 37
             else:  # opponent block is second
                 if strike_dir is "head":
-                    lower_border -= 19
-                    middle_border -= 17
-                    higher_border -= 12
+                    lower_border -= 41
+                    middle_border -= 38
+                    higher_border -= 30
                 elif strike_dir is "body":
-                    lower_border += 8
+                    lower_border += 20
                     middle_border += 29
                     higher_border += 33
                 elif strike_dir is "belly":
@@ -1325,9 +1325,9 @@ class Attack:
                     middle_border += 4
                     higher_border -= 2
                 else:  # player strike direction is side
-                    lower_border -= 17
-                    middle_border -= 14
-                    higher_border -= 11
+                    lower_border -= 5
+                    middle_border -= 1
+                    higher_border -= 3
 
             # opponent block skill effects
             lower_border += opponent.block_effectiveness
@@ -1336,17 +1336,17 @@ class Attack:
 
             # player attack power effects
             if strike_power == "small":
-                lower_border += 3
+                lower_border += 7
                 middle_border += 12
                 higher_border += 9
             elif strike_power == "medium":
-                lower_border -= 2
-                middle_border -= 4
-                higher_border -= 1
+                lower_border += 2
+                middle_border += 3
+                higher_border += 1
             elif strike_power == "high":
-                lower_border -= 3
+                lower_border -= 8
                 middle_border -= 13
-                higher_border -= 8
+                higher_border -= 9
 
             # player character effects
             if player.char == "elf":
