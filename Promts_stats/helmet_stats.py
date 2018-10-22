@@ -11,6 +11,7 @@ class Helmet:
     stab_damage_reduction = 0  # 1 - 10(%)
     smash_damage_reduction = 0  # 1 - 10(%)
     special_abilities = []
+    occupied = False
 
 
 no_helmet = Helmet()

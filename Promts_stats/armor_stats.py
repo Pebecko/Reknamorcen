@@ -2,7 +2,7 @@ class Armor:
     name = ""
     info = ""
     level = 0
-    _type = ""
+    material = ""
     heaviness = 0
     loudness = 0
     hit_points = 10000
@@ -10,6 +10,7 @@ class Armor:
     stab_damage_reduction = 0  # 1 - 10(%)
     smash_damage_reduction = 0  # 1 - 10(%)
     special_abilities = []
+    occupied = False
 
 
 no_armor = Armor()
@@ -19,7 +20,7 @@ class ChainmailHauberk(Armor):
     name = "kroužkový hauberk"
     info = "lidmi vyrobená kroužková košile"
     level = 2
-    _type = "chaimail"
+    material = "chaimail"
     heaviness = 4
     loudness = 7  # 1 - 9
     hit_points = 5000
@@ -33,7 +34,7 @@ class LeatherTunic(Armor):
     name = "kožená tunika"
     info = "z kůže vyrobená vesta, je celkem tichá a dobře se v ní hýbe, ale tělo moc neochrání"
     level = 1
-    _type = "leather"
+    material = "leather"
     heaviness = 1
     loudness = 2  # 1 - 9
     hit_points = 3000

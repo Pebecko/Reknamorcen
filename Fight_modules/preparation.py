@@ -13,17 +13,34 @@ class Preparation:
         if opponent_level == 1:
             opponent_number = random.randint(0, 0)
             if opponent_number == 0:
-                opponent = small_spider
+                opponent = opponent_7
 
         elif opponent_level == 2:
-            opponent_number = random.randint(0, 0)
+            opponent_number = random.randint(0, 1)
             if opponent_number == 0:
-                opponent = skeleton
+                opponent = opponent_3
+            else:
+                opponent = opponent_5
 
         elif opponent_level == 3:
             opponent_number = random.randint(0, 0)
             if opponent_number == 0:
-                opponent = ork
+                opponent = opponent_1
+
+        elif opponent_level == 4:
+            opponent_number = random.randint(0, 0)
+            if opponent_number == 0:
+                pass
+
+        elif opponent_level == 5:
+            opponent_number = random.randint(0, 0)
+            if opponent_number == 0:
+                pass
+
+        else:
+            opponent_number = random.randint(0, 0)
+            if opponent_number == 0:
+                pass
 
         opponent.health = random.randint(opponent.lowest_health, opponent.highest_health)
         opponent.max_health = opponent.health

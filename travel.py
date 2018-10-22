@@ -1,30 +1,7 @@
 from fight import *
 
 
-class Travelling:
-    room_six_health_potions = True
-
-    def room_picking(self):
-        while True:
-            if player.x == 0 and player.y == 2:
-                self.room_six_spawn_two()
-            elif player.x == 1 and player.y == 2:
-                self.room_five()
-            elif player.x == 2 and player.y == 2:
-                self.room_three()
-            elif player.x == 2 and player.y == 1:
-                self.room_four_exit()
-            elif player.x == 2 and player.y == 0:
-                slow_print("Šlápli jste na past a ze zdi vystřelily otrávené šipky, ale měli jste štěstí a netrefily"
-                           " vás, ale najednou vidíte před sebou jak se na vás něco ohromného otáčí.")
-                # self.fight(3)
-                slow_print("Tohle je konec dema, na pokračování si musíte počkat.")
-                shutdown()
-            elif player.x == 3 and player.y == 2:
-                self.room_two()
-            elif player.x == 3 and player.y == 3:
-                self.room_one_spawn_one()
-
+class RoomTypes:
     def get_coordinates(self):
         if player.last_direction is "North":
             player.y -= 1
@@ -519,17 +496,35 @@ class Travelling:
 
         return self.get_coordinates()
 
+
+class Rooms:
+    fighting = Fight()
+    r_types = RoomTypes()
+
+    room_six_health_potions = True
+    room_two_fight = False  # 1
+    room_four_fight = True  # 2
+    room_six_fight = True  # 2
+    room_seven_fight = False  # 1
+    room_eight_fight = True  # 3
+    room_twelve_fight = False  # 1
+
+
     def room_one_spawn_one(self):
-        self.room_type_n()
+        self.r_types.room_type_n()
 
         player.last_fight = False
 
         return
 
     def room_two(self):
-        self.room_type_sw()
+        if self.room_two_fight is True:
+            self.fighting.main_(1)
+            self.room_two_fight = False
 
-        player.last_fight = False
+            player.last_fight = True
+
+        self.r_types.room_type_sw()
 
         return
 
@@ -537,28 +532,35 @@ class Travelling:
 
         player.last_fight = False
 
-        self.room_type_new()
+        self.r_types.room_type_nesw()
 
         return
 
-    def room_four_exit(self):
-        fighting = Fight(0)
-        fighting.main_()
+    def room_four(self):
+        if self.room_four_fight is True:
+            self.fighting.main_(2)
+            self.room_four_fight = False
 
-        player.last_fight = True
+            player.last_fight = True
 
-        self.room_type_ns()
+        self.r_types.room_type_ns()
 
         return
 
     def room_five(self):
-        self.room_type_ew()
-
         player.last_fight = False
+
+        self.r_types.room_type_ew()
 
         return
 
-    def room_six_spawn_two(self):
+    def room_six(self):
+        if self.room_six_fight is True:
+            self.fighting.main_(2)
+            self.room_six_fight = False
+
+            player.last_fight = True
+
         if self.room_six_health_potions is True:
             while True:
                 slow_print("Na zemi leží 2 léčící lektvary. Chcete si je [v]zít, nebo [n]e?\n")
@@ -572,14 +574,114 @@ class Travelling:
                 elif potion_choice != "skip":
                     wrong_input(0)
 
-        self.room_type_e()
-
-        player.last_fight = False
+        self.r_types.room_type_e()
 
         return
 
+    def room_seven(self):
+        if self.room_seven_fight is True:
+            self.fighting.main_(1)
+            self.room_seven_fight = False
 
-path = Travelling()
+            player.last_fight = True
+
+        self.r_types.room_type_ns()
+
+        return
+
+    def room_eight(self):
+        if self.room_eight_fight is True:
+            self.fighting.main_(3)
+            self.room_eight_fight = False
+
+            player.last_fight = True
+
+        self.r_types.room_type_nsw()
+
+        return
+
+    def room_nine(self):
+        player.last_fight = False
+
+        self.r_types.room_type_n()
+
+        return
+
+    def room_ten_exit(self):
+        player.last_fight = False
+
+        slow_print("Vstoupili jste do další místnosti, vidíte před sebou schody vedoucí směrem dolů...\n")
+
+        time.sleep(2)
+
+        shutdown()
+
+        self.r_types.room_type_e()
+
+        return
+
+    def room_eleven(self):
+        player.last_fight = False
+
+        self.r_types.room_type_ns()
+
+        return
+
+    def room_twelve(self):
+        if self.room_twelve_fight is True:
+            self.fighting.main_(1)
+            self.room_twelve_fight = False
+
+            player.last_fight = True
+
+        self.r_types.room_type_sw()
+
+        return
+
+    def room_thirteen_spawn_two(self):
+        player.last_fight = False
+
+        self.r_types.room_type_e()
+
+        return
+
+class RoomChanging:
+    rooms = Rooms()
+
+    def room_picking(self):
+        while True:
+            if player.x == 0 and player.y == 2:
+                self.rooms.room_six()
+            elif player.x == 1 and player.y == 2:
+                self.rooms.room_five()
+            elif player.x == 2 and player.y == 2:
+                self.rooms.room_three()
+            elif player.x == 2 and player.y == 1:
+                self.rooms.room_four()
+            elif player.x == 2 and player.y == 0:
+                self.rooms.room_eleven()
+            elif player.x == 2 and player.y == -1:
+                self.rooms.room_twelve()
+            elif player.x == 1 and player.y == -1:
+                self.rooms.room_thirteen_spawn_two()
+            elif player.x == 3 and player.y == 2:
+                self.rooms.room_two()
+            elif player.x == 3 and player.y == 3:
+                self.rooms.room_one_spawn_one()
+            elif player.x == 2 and player.y == 3:
+                self.rooms.room_seven()
+            elif player.x == 2 and player.y == 4:
+                self.rooms.room_eight()
+            elif player.x == 2 and player.y == 5:
+                self.rooms.room_nine()
+            elif player.x == 1 and player.y == 4:
+                self.rooms.room_ten_exit()
+            else:
+                # control part
+                print("Na x - {} a y - {} nic není.".format(player.x, player.y))
+
+
+path = RoomChanging()
 path.room_picking()
 
 input()

@@ -24,29 +24,6 @@ class Player:
     last_fight = False
 
 
-class Opponent:
-    name = ""
-    info = ""
-    difficulty = 0
-    health = 0
-    max_health = 0
-    lowest_health = 0
-    highest_health = 0
-    awareness = 0
-    dodge_effectiveness = 0
-    block_effectiveness = 0
-    weapon = Weapon()
-    unarmed_weapon = Weapon()
-    weapons = []
-    helmets = [no_helmet]
-    armors = [no_armor]
-    defence = []
-    attack_power = []  # light, medium, heavy
-    special_abilities = []
-    helmet = Helmet()
-    armor = Armor()
-
-
 # player
 player = Player()
 player.char = "dwarf"
@@ -58,46 +35,186 @@ player.health = 800
 player.max_health = 800
 player.health_potions = 1
 
-# enemies
-ork = Opponent()
-ork.name = "ork"
-ork.info = "ohromné zelené stvoření plné svalů schopné jen svýmy pařáty roztrhat nechráněného člověka na kusy"
-ork.difficulty = 3
-ork.lowest_health = 480
-ork.highest_health = 560
-ork.awareness = 4
-ork.dodge_effectiveness = 0
-ork.block_effectiveness = 7  # 7
-ork.unarmed_weapon = claws
-ork.weapons = [two_handed_axe, two_handed_axe, short_sword, long_dagger, two_handed_axe]
-ork.helmets = [helmet_1, no_helmet]
-ork.armors = [no_armor, no_armor, no_armor, armor_3]
-ork.defence = ["block"]
 
-skeleton = Opponent()
-skeleton.name = "oživlá kostra"
-skeleton.info = "zbytek mrtvého člověka z kterého červi už ožrali všechno maso animovaná nějakým čarodějem"
-skeleton.difficulty = 2
-skeleton.lowest_health = 300
-skeleton.highest_health = 360
-skeleton.awareness = 1
-skeleton.dodge_effectiveness = 0
-skeleton.block_effectiveness = 3
-skeleton.unarmed_weapon = fists
-skeleton.weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
-skeleton.armors = [armor_2, armor_4, no_armor, no_armor]
-skeleton.defence = ["block"]
+class Opponent:
+    name = ""
+    info = ""
+    difficulty = 0
+    health = 0
+    max_health = 0
+    lowest_health = 0
+    highest_health = 0
+    awareness = 0
+    dodge_effectiveness = 0
+    block_effectiveness = 0
+    kind = ""
+    weapon = Weapon()
+    unarmed_weapon = Weapon()
+    weapons = []
+    helmets = [no_helmet]
+    armors = [no_armor]
+    defence = []
+    attack_power = []  # light, medium, heavy
+    special_abilities = []
+    helmet = Helmet()
+    armor = Armor()
 
-small_spider = Opponent()
-small_spider.name = "malý pavouk"
-small_spider.info = "mládě ohromného pavouka, sice ještě nedorostlo plné velikosti ale i tak může být nebezpečné," \
-                    " obzvlášť když jich je víc"
-small_spider.difficulty = 1
-small_spider.lowest_health = 120
-small_spider.highest_health = 160
-small_spider.awareness = 5
-small_spider.dodge_effectiveness = 8
-small_spider.block_effectiveness = 0
-small_spider.unarmed_weapon = small_cheeks
-small_spider.weapons = [small_cheeks]
-small_spider.defence = ["dodge"]
+# zelené kůže
+class Greenskin(Opponent):
+    kind = "greenskin"
+    unarmed_weapon = claws
+    defence = ["block"]
+
+
+class OrkBoy(Greenskin):
+    name = "ork"
+    info = "ohromné zelené stvoření plné svalů schopné jen svýmy pařáty roztrhat nechráněného člověka na kusy"
+    difficulty = 3
+    lowest_health = 480
+    highest_health = 560
+    awareness = 4
+    dodge_effectiveness = 0
+    block_effectiveness = 7
+    weapons = [two_handed_axe, two_handed_axe, short_sword, long_dagger, two_handed_axe]
+    helmets = [helmet_1, no_helmet]
+    armors = [no_armor, no_armor, no_armor, armor_3]
+    attack_power = ["medium", "heavy", "heavy"]
+
+
+class Goblin(Greenskin):
+    name = "skřet"
+    attack_power = ["light"]
+
+
+class BlackOrk(Greenskin):
+    name = "černý ork"
+
+
+# nemrtví
+class Undead(Opponent):
+    unarmed_weapon = fists
+    defence = ["block"]
+    kind = "undead"
+    special_abilities = ["no_bleeding"]
+
+
+class Skeleton(Undead):
+    name = "oživlá kostra"
+    info = "zbytek mrtvého člověka z kterého červi už ožrali všechno maso animovaná nějakým čarodějem"
+    difficulty = 2
+    lowest_health = 300
+    highest_health = 360
+    awareness = 1
+    dodge_effectiveness = 0
+    block_effectiveness = 3
+    weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
+    armors = [armor_2, armor_4, no_armor, no_armor]
+    attack_power = ["low", "low", "medium"]
+
+
+class Zombie(Undead):
+    name = "oživlá mrtvola"
+    info = "ještě nerozložené tělo mrtvého člověka, animované nějakým čarodějem co ho donutil vstát z hrobu"
+    difficulty = 2
+    lowest_health = 340
+    highest_health = 420
+    awareness = 1
+    dodge_effectiveness = 0
+    block_effectiveness = 4
+    weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
+    armors = [armor_2, armor_4, no_armor, no_armor]
+    attack_power = ["low", "medium"]
+
+
+# pavouci
+class Spider(Opponent):
+    kind = "spider"
+    defence = ["dodge"]
+
+
+class SmallSpider(Spider):
+    name = "malý pavouk"
+    info = "mládě ohromného pavouka, sice ještě nedorostlo plné velikosti ale i tak může být nebezpečné," \
+           " obzvlášť když jich je víc"
+    difficulty = 1
+    lowest_health = 120
+    highest_health = 160
+    awareness = 5
+    dodge_effectiveness = 8
+    block_effectiveness = 0
+    unarmed_weapon = small_cheeks
+    weapons = [small_cheeks]
+
+
+class GiantSpider(Spider):
+    name = "velký pavouk"
+    info = "dorostlý pavouk ohromné velikosti který si bez problému troufne na dospělého jedince"
+    difficulty = 3
+    lowest_health = 280
+    highest_health = 430
+    awareness = 4
+    dodge_effectiveness = 6
+    block_effectiveness = 0
+    unarmed_weapon = cheeks
+    weapons = [cheeks]
+
+
+class MotherSpider(Spider):
+    name = "pavoučí matka"
+    defence = []
+
+
+# oponenti
+class Opponent1(OrkBoy):
+    pass
+
+
+opponent_1 = Opponent1()
+
+class Opponent2(OrkBoy):
+    pass
+
+
+opponent_2 = Opponent2()
+
+
+class Opponent3(Skeleton):
+    pass
+
+
+opponent_3 = Opponent3()
+
+
+class Opponent4(Skeleton):
+    pass
+
+
+opponent_4 = Opponent4()
+
+
+class Opponent5(Zombie):
+    pass
+
+
+opponent_5 = Opponent5()
+
+
+class Opponent6(Zombie):
+    pass
+
+
+opponent_6 = Opponent6()
+
+
+class Opponent7(SmallSpider):
+    pass
+
+
+opponent_7 = Opponent7()
+
+
+class Opponent8(SmallSpider):
+    pass
+
+
+opponent_8 = Opponent8()

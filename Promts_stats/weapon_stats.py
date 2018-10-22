@@ -140,6 +140,13 @@ class SmallCheeks(Unarmed):
     weapon_type = "light"
 
 
+class Cheeks(Unarmed):
+    name = "kusadla"
+    damage = 120
+    damage_type = ["stab"]
+    weapon_type = "medium"
+    special_abilities = ["poison"]
+
 # weapons
 short_sword = ShortSword()
 
@@ -164,3 +171,5 @@ fists = Fists()
 claws = Claws()
 
 small_cheeks = SmallCheeks()
+
+cheeks = Cheeks()

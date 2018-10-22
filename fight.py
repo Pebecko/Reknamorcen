@@ -1,26 +1,23 @@
 from Fight_modules.preparation import *
 from Fight_modules.attack import Attack
-from Fight_modules.defence import Defence
+from Fight_modules.defence import *
 from Fight_modules.conclusion import Conclusion
 
 
 class Fight:
     preparation = Preparation()
     attack = Attack()
-    defence = Defence()
+    defence = DefencePreparation()
     conclusion = Conclusion()
 
-    def __init__(self, opponent_level):
-        self.opponent_level = opponent_level
-
-    def main_(self):
+    def main_(self, opponent_level):
         # preparation
-        opponent = self.preparation.opponent_creation(self.opponent_level)
+        opponent = self.preparation.opponent_creation(opponent_level)
         slow_print("Stojí před vámi {}, {}. A jeho zbraň je {}, {}.\n"
                    "".format(opponent.name, opponent.info, opponent.weapon.name, opponent.weapon.info))
         if opponent.armor.name != "":
             slow_print("Jeho brnění je {}, {}\n".format(opponent.armor.name, opponent.armor.info))
-        if opponent.helmet != "":
+        if opponent.helmet.name != "":
             slow_print("Jeho helma je {}, {}\n".format(opponent.helmet.name, opponent.helmet.info))
         print("")
 
@@ -42,14 +39,10 @@ class Fight:
                         opponent.armor.hit_points, "\n")
                 last_action = self.attack.strike_direction_choosing(opponent)
 
-            # test part
-            last_action = "defence"
-
             # obrana před soupeřovým útokem
-            """
             else:
-                last_action = self.random_num_definition(self.guard_choosing)
-            """
+                last_action = self.defence.opponent_attack_action(opponent)
+
 
             self.special_effects(opponent)
 
