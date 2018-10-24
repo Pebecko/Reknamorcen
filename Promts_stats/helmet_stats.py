@@ -17,7 +17,7 @@ class Helmet:
 no_helmet = Helmet()
 
 
-# helmets patterns
+# helmet patterns
 class RustyOrkHelmet(Helmet):
     name = "rezavá orkská helma"
     info = "vyrobená skřety ve velmi primitivní podmínkách velmi primitivními nástroji, která se" \

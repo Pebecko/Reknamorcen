@@ -100,12 +100,8 @@ class DefencePreparation:
 
     def opponent_attack_power(self):
         rand_num = random.randint(0, 2)
-        if rand_num == 0:
-            self.opponent_power = "small"
-        elif rand_num == 1:
-            self.opponent_power = "medium"
-        else:
-            self.opponent_power = "high"
+
+        self.opponent_power = self.opponent.attack_power[random.randint(0, len(self.opponent.attack_power) - 1)]
 
         return self.defence_action_choosing()
 
