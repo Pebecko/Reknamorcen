@@ -28,6 +28,7 @@ class Room:
         else:
             self.fighting.main_(self.fight)
             player.last_fight = True
+            self.fight = None
 
         return
 
@@ -37,10 +38,11 @@ class Room:
                 slow_print("Na zemi leží 1 léčící lektvar. Chcete si ho [v]zít, nebo [n]e?\n")
             elif self.health_potions < 5:
                 slow_print("Na zemi leží {} léčící lektvary. Chcete si je [v]zít, nebo [n]e?\n"
-                           ).format(self.health_potions)
+                           "".format(self.health_potions))
+
             else:
                 slow_print("Na zemi leží {} léčících lektvarů. Chcete si je [v]zít, nebo [n]e?\n"
-                           ).format(self.health_potions)
+                           "".format(self.health_potions))
             potion_choice = base_options()
             if potion_choice == "v":
                 player.health_potions += self.health_potions

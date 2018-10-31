@@ -45,6 +45,14 @@ class LeatherTunic(Armor):
     special_abilities = []
 
 
+class SteelBrestplate(Armor):
+    pass
+
+
+class GromrilBrestplate(Armor):
+    pass
+
+
 # armors
 class Armor1(ChainmailHauberk):
     pass

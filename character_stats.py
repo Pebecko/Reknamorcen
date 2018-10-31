@@ -15,15 +15,16 @@ class Player:
     max_stamina = 0
     health_potions = 0
     difficulty = "hard"
-    print_time = 0.015
+    print_time = 0.005
     special_abilities = []
     test = True
-    weapon = Weapon()
-    helmet = Helmet()
-    armor = Armor()
+    weapon = fists
+    helmet = no_helmet
+    armor = no_armor
     last_fight = False
 
 
+# races
 class Dwarf(Player):
     char = "dwarf"
     health = 720
@@ -46,15 +47,46 @@ class Elf(Player):
     health_potions = 2
 
 
+# characters
 class Slayer(Dwarf):
     role = "slayer"
     name = "Gurni Gordrengi"
     info = "starý trpaslík co se před dlouhou dobou přidal k sektě trolobijců, co v poslední době bloudí daleko od" \
            " svého domova na jihu země lidí a hledá dalšího nepřítele s kterým by mohl hrdinně padnout v souboji"
-    health = 820
+    health = 500
     max_health = 820
     special_abilities = ["poison_resistance", "no_armor"]
+    weapon = two_handed_axe
+
+
+class Ironbreaker(Dwarf):
+    role = "ironbreaker"
+    health = 260
+    max_health = 780
+    weapon = two_handed_hammer
+    helmet = gromril_helmet_1
+    armor = armor_1
+
+
+class Miner(Dwarf):
+    pass
+
+
+class Engineer(Dwarf):
+    pass
+
+
+class Guardsman(Human):
+    role = "guardsman"
+    name = "Erwin Grünbaum"
+    armor = armor_1
+    weapon = long_sword
+
+
+class Assasin(Elf):
+    pass
+
 
 # player
-player = Slayer()
-player.weapon = two_handed_axe
+player = Ironbreaker()
+player.print_time = 0

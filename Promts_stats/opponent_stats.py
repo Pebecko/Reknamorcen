@@ -11,10 +11,12 @@ class Opponent:
     max_health = 0
     lowest_health = 0
     highest_health = 0
+    stamina = 0
+    max_stamina = 0
     awareness = 0
     dodge_effectiveness = 0
     block_effectiveness = 0
-    kind = ""
+    faction = ""
     weapon = Weapon()
     unarmed_weapon = Weapon()
     weapons = []
@@ -29,7 +31,7 @@ class Opponent:
 
 # zelené kůže
 class Greenskin(Opponent):
-    kind = "greenskin"
+    faction = "greenskin"
     unarmed_weapon = claws
     defence = ["block"]
 
@@ -62,7 +64,7 @@ class BlackOrk(Greenskin):
 class Undead(Opponent):
     unarmed_weapon = fists
     defence = ["block"]
-    kind = "undead"
+    faction = "undead"
     special_abilities = ["no_bleeding"]
 
 
@@ -96,8 +98,9 @@ class Zombie(Undead):
 
 # pavouci
 class Spider(Opponent):
-    kind = "spider"
+    faction = "beast"
     defence = ["dodge"]
+    special_abilities = ["no_bones", "no_limbs"]
 
 
 class SmallSpider(Spider):
@@ -112,6 +115,7 @@ class SmallSpider(Spider):
     block_effectiveness = 0
     unarmed_weapon = small_cheeks
     weapons = [small_cheeks]
+    attack_power = ["small"]
 
 
 class GiantSpider(Spider):

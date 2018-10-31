@@ -1,87 +1,84 @@
 from Fight_modules.preparation import *
-from Fight_modules.attack import Attack
+from Fight_modules.attack import *
 from Fight_modules.defence import *
 from Fight_modules.conclusion import Conclusion
 
 
 class Fight:
-    preparation = Preparation()
-    attack = Attack()
-    defence = DefencePreparation()
-    conclusion = Conclusion()
+    def __init__(self):
+        self.preparation = Preparation()
+        self.attack = AttackPreparation()
+        self.defence = DefencePreparation()
+        self.conclusion = Conclusion()
+
+        self.opponent = Opponent()
 
     def main_(self, opponent_level):
         # preparation
-        opponent = self.preparation.opponent_creation(opponent_level)
-        slow_print("Stojí před vámi {}, {}. A jeho zbraň je {}, {}.\n"
-                   "".format(opponent.name, opponent.info, opponent.weapon.name, opponent.weapon.info))
-        if opponent.armor.name != "":
-            slow_print("Jeho brnění je {}, {}\n".format(opponent.armor.name, opponent.armor.info))
-        if opponent.helmet.name != "":
-            slow_print("Jeho helma je {}, {}\n".format(opponent.helmet.name, opponent.helmet.info))
-        print("")
+        self.opponent = self.preparation.opponent_creation(opponent_level)
 
-        last_action = self.preparation.first_fight_action(opponent)
+        self.opponent_introduction()
+
+        last_action = self.preparation.first_fight_action(self.opponent)
 
         self.preparation.special_fight_techniques()
 
         # fight
-        while opponent.health > 0:
+        while self.opponent.health > 0:
             if player.health <= 0:
                 player_killed()
 
-            self.fight_status(opponent)
+            self.fight_status()
 
-            # útok na soupeře
             if last_action == "defence":
-                if player.test is True:
-                    print("Opponent weapon, helmet, armor info:", opponent.weapon.hit_points, opponent.helmet.hit_points,
-                        opponent.armor.hit_points, "\n")
-                last_action = self.attack.strike_direction_choosing(opponent)
+                last_action = self.attack.opponent_defence_action(self.opponent)
 
-            # obrana před soupeřovým útokem
             else:
-                last_action = self.defence.opponent_attack_action(opponent)
+                last_action = self.defence.opponent_attack_action(self.opponent)
 
+            self.special_effects()
 
-            self.special_effects(opponent)
+        return self.fight_reseting()
 
-        self.opponent_action = ""
-        self.opponent_last_action_I = ""
-        self.opponent_last_action_II = ""
-        self.last_attack_zone = ""
+    def opponent_introduction(self):
+        slow_print("Stojí před vámi {}.\n".format(self.opponent.name))
+        if self.opponent.weapon.number == "sin":
+            slow_print("Jeho zbraň je {}.\n".format(self.opponent.weapon.name))
+        elif self.opponent.weapon.number == "plu":
+            slow_print("Jeho zbraň jsou {}.\n".format(self.opponent.weapon.name))
 
-        self.conclusion.returning_from_technique()
+        if self.opponent.armor.name != "":
+            slow_print("Jeho brnění je {}\n".format(self.opponent.armor.name))
+        if self.opponent.helmet.name != "":
+            slow_print("Jeho helma je {}\n".format(self.opponent.helmet.name))
 
-        return
-
-    def fight_status(self, opponent):
-        if opponent.max_health * 0.95 <= opponent.health:
+    def fight_status(self):
+        if self.opponent.max_health * 0.95 <= self.opponent.health:
             opponent_health_state = "bez zranění"
-        elif opponent.max_health * 0.75 <= opponent.health:
+        elif self.opponent.max_health * 0.75 <= self.opponent.health:
             opponent_health_state = "lehce zraněn"
-        elif opponent.max_health * 0.40 <= opponent.health:
+        elif self.opponent.max_health * 0.40 <= self.opponent.health:
             opponent_health_state = "středně zraněn"
-        elif opponent.max_health * 0.20 <= opponent.health:
+        elif self.opponent.max_health * 0.20 <= self.opponent.health:
             opponent_health_state = "těžce zraněn"
         else:
             opponent_health_state = "velmi těžce zraněn"
+
         opponent_stamina_state = "plný energie"
-        time.sleep(0.3)
-        slow_print("    Váš život: " + str(player.health) + "/" + str(player.max_health))
-        slow_print("    Vaše energie: " + str(player.weapon.stamina) + "/" + str(player.weapon.max_stamina) + "\n")
-        time.sleep(0.3)
-        slow_print("    Soupeř vypadá " + opponent_health_state)
+
+        slow_print("    Váš život: {}/{}".format(player.health, player.max_health))
+        slow_print("    Vaše energie: {}/{}\n".format(player.stamina, player.max_stamina))
+
+        slow_print("    Soupeř vypadá {}".format(opponent_health_state))
         if player.test is True:
-            print("        ", opponent.health, "/", opponent.max_health)
-        slow_print("    Soupeř vypadá " + opponent_stamina_state + "\n")
+            print("        {}/{}".format(self.opponent.health, self.opponent.max_health))
+        slow_print("    Soupeř vypadá {}".format(opponent_stamina_state))
         if player.test is True:
-            print("        ", opponent.weapon.stamina, "/", opponent.weapon.max_stamina, "\n")
-        time.sleep(0.25)
+            print("        {}/{}\n".format(self.opponent.stamina, self.opponent.max_stamina))
 
         return
 
-    def special_effects(self, opponent):
+    def special_effects(self):
         # player gear destruction
         if player.weapon.hit_points <= 0 and player.weapon.weapon_class != "unarmed":
             player.weapon = fists
@@ -94,35 +91,31 @@ class Fight:
             slow_print("Rozbilo se vám brnění.\n")
 
         # opponent gear destruction
-        if opponent.weapon.hit_points <= 0 and opponent.weapon.weapon_class != "unarmed":
-            opponent.weapon = opponent.unarmed_weapon
+        if self.opponent.weapon.hit_points <= 0 and self.opponent.weapon.weapon_class != "unarmed":
+            self.opponent.weapon = self.opponent.unarmed_weapon
             slow_print("Soupeřova zbraň nevydržela úder té vaší a roztříštila se na kusy.\n")
-        if opponent.helmet.hit_points <= 0 and opponent.helmet != no_helmet:
-            opponent.helmet = no_helmet
+        if self.opponent.helmet.hit_points <= 0 and self.opponent.helmet != no_helmet:
+            self.opponent.helmet = no_helmet
             slow_print("Vaše rána soupeři rozbila helmu.\n")
-        if opponent.armor.hit_points <= 0 and opponent.armor != no_armor:
-            opponent.armor = no_armor
+        if self.opponent.armor.hit_points <= 0 and self.opponent.armor != no_armor:
+            self.opponent.armor = no_armor
             slow_print("Vaše rána soupeři rozbila brnění.\n")
 
         # rusty effect on opponent
-        if "rusty" in opponent.helmet.special_abilities:
-            if random.randint(0, 4) == 3:
-                opponent.health -= 10
-                slow_print("Váš soupeř se ošklivě pořezal o svoji helmu.\n")
-        if "rusty" in opponent.armor.special_abilities:
-            if random.randint(0, 3) == 3:
-                opponent.health -= 10
-                slow_print("Váš soupeř se ošklivě pořezal o svoje brnění.\n")
+        if "rusty" in self.opponent.helmet.special_abilities and random.randint(0, 4) == 3:
+            self.opponent.health -= 10
+            slow_print("Váš soupeř se ošklivě pořezal o svoji helmu.\n")
+        if "rusty" in self.opponent.armor.special_abilities and random.randint(0, 3) == 3:
+            self.opponent.health -= 10
+            slow_print("Váš soupeř se ošklivě pořezal o svoje brnění.\n")
 
         # rusty effect on player
-        if "rusty" in player.helmet.special_abilities:
-            if random.randint(0, 4) == 3:
-                player.health -= 10
-                slow_print("Ošklivě jste se pořezali o svoji helmu.\n")
-        if "rusty" in player.armor.special_abilities:
-            if random.randint(0, 3) == 3:
-                player.health -= 10
-                slow_print("Ošklivě jste se pořezali o svoje brnění.\n")
+        if "rusty" in player.helmet.special_abilities and random.randint(0, 4) == 3:
+            player.health -= 10
+            slow_print("Ošklivě jste se pořezali o svoji helmu.\n")
+        if "rusty" in player.armor.special_abilities and random.randint(0, 3) == 3:
+            player.health -= 10
+            slow_print("Ošklivě jste se pořezali o svoje brnění.\n")
 
         # bleeding effects
         if "no_bleeding" not in player.special_abilities:
@@ -147,32 +140,45 @@ class Fight:
                 else:
                     player.health -= 40
 
-        if "no_bleeding" not in opponent.special_abilities:
-            if "bleeding_1" in opponent.special_abilities:
-                opponent.special_abilities.remove("bleeding_1")
-                if "bleeding_resistance" in opponent.special_abilities:
-                    opponent.health -= 5
+        if "no_bleeding" not in self.opponent.special_abilities:
+            if "bleeding_1" in self.opponent.special_abilities:
+                self.opponent.special_abilities.remove("bleeding_1")
+                if "bleeding_resistance" in self.opponent.special_abilities:
+                    self.opponent.health -= 5
                 else:
-                    opponent.health -= 15
-            elif "bleeding_2" in opponent.special_abilities:
-                opponent.special_abilities.remove("bleeding_2")
-                opponent.special_abilities.append("bleeding_1")
-                if "bleeding_resistance" in opponent.special_abilities:
-                    opponent.health -= 10
+                    self.opponent.health -= 15
+            elif "bleeding_2" in self.opponent.special_abilities:
+                self.opponent.special_abilities.remove("bleeding_2")
+                self.opponent.special_abilities.append("bleeding_1")
+                if "bleeding_resistance" in self.opponent.special_abilities:
+                    self.opponent.health -= 10
                 else:
-                    opponent.health -= 25
-            elif "bleeding_3" in opponent.special_abilities:
-                opponent.special_abilities.remove("bleeding_3")
-                opponent.special_abilities.append("bleeding_2")
-                if "bleeding_resistance" in opponent.special_abilities:
-                    opponent.health -= 20
+                    self.opponent.health -= 25
+            elif "bleeding_3" in self.opponent.special_abilities:
+                self.opponent.special_abilities.remove("bleeding_3")
+                self.opponent.special_abilities.append("bleeding_2")
+                if "bleeding_resistance" in self.opponent.special_abilities:
+                    self.opponent.health -= 20
                 else:
-                    opponent.health -= 40
+                    self.opponent.health -= 40
 
         return
 
+    def fight_reseting(self):
+        self.attack.opponent_action = ""
+        self.attack.opponent_last_action_I = ""
+        self.attack.opponent_last_action_II = ""
+        self.attack.opponent_direction = ""
+        self.attack.opponent_last_direction_I = ""
+        self.attack.opponent_last_direction_II = ""
+        self.attack.player_action = ""
+        self.attack.player_last_action_I = ""
+        self.attack.player_last_action_II = ""
+        self.attack.player_direction = ""
+        self.attack.player_last_direction_I = ""
+        self.attack.player_last_direction_II = ""
+        self.attack.player_power = ""
+        self.attack.player_last_power_I = ""
+        self.attack.player_last_power_II = ""
 
-"""
-fight = Fight(2)
-fight.main_()
-"""
+        self.conclusion.returning_from_technique()

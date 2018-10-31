@@ -3,14 +3,14 @@ class Weapon:
     info = ""
     xp = 0
     damage = 0
-    stamina = 0
-    max_stamina = 0
     stamina_regain = 0
     hit_points = 10000
     damage_type = []
     weapon_type = ""
     special_abilities = []
     weapon_class = ""
+    number = ""
+    hands = []
 
 
 # weapons class patterns
@@ -18,16 +18,19 @@ class Sword(Weapon):
     damage_type = ["cut", "stab"]
     special_abilities = ["mordhau"]
     weapon_class = "sword"
+    number = "sin"
 
 
 class Axe(Weapon):
     damage_type = ["cut"]
     weapon_class = "axe"
+    number = "sin"
 
 
 class Hammer(Weapon):
     damage_type = ["smash"]
     weapon_class = "hammer"
+    number = "sin"
 
 
 class Dagger(Weapon):
@@ -35,13 +38,43 @@ class Dagger(Weapon):
     weapon_type = "light"
     special_abilities = ["extra_dodge", "weak_block"]
     weapon_class = "dagger"
+    number = "sin"
+    hands = [1]
+
+class Spear(Weapon):
+    hands = [1, 2]
+
+
+class Halberd(Weapon):
+    hands = [2]
+
+
+class Mace(Weapon):
+    hands = [1]
+
+
+class Chopper(Weapon):
+    hands = [1]
+
+
+class Flail(Weapon):
+    hands = [1]
+
+
+class Staff(Weapon):
+    pass
+
+
+class Pickaxe(Weapon):
+    hands = [2]
 
 
 class Unarmed(Weapon):
     weapon_type = "light"
     special_abilities = ["extra_dodge", "weak_block"]
     weapon_class = "unarmed"
-
+    number = "plu"
+    hands = [1, 2]
 
 # weapons patterns
 class ShortSword(Sword):
@@ -53,6 +86,7 @@ class ShortSword(Sword):
     stamina_regain = 1.5
     weapon_type = "light"
     special_abilities = ["mordhau", "extra_dodge"]
+    hands = [1]
 
 
 class ShortSwordMordhau(ShortSword):
@@ -69,6 +103,7 @@ class LongSword(Sword):
     max_stamina = 8
     stamina_regain = 1.5
     weapon_type = "medium"
+    hands = [1, 2]
 
 
 class LongSwordMordhau(LongSword):
@@ -86,6 +121,7 @@ class TwoHandedSword(Sword):
     stamina_regain = 1
     weapon_type = "heavy"
     special_abilities = ["mordhau", "human_buff", "weak_dodge"]
+    hands = [2]
 
 
 class TwoHandedSwordMordhau(TwoHandedSword):
@@ -102,6 +138,7 @@ class TwoHandedAxe(Axe):
     stamina_regain = 1
     weapon_type = "heavy"
     special_abilities = ["armor_piercing", "weak_dodge"]
+    hands = [2]
 
 
 class TwoHandedHammer(Hammer):
@@ -114,6 +151,7 @@ class TwoHandedHammer(Hammer):
     stamina_regain = 1
     weapon_type = "heavy"
     special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff"]
+    hands = [2]
 
 
 class LongDagger(Dagger):

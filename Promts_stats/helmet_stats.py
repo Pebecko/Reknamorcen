@@ -46,6 +46,29 @@ class DwarvenMinerHelmet(Helmet):
     smash_damage_reduction = 5
 
 
+class GromrilHelmet(Helmet):
+    name = "gromrilová přilba"
+    info = "přilba vyrobená trpaslíky z nejtvrdšího kovu jim známého, gromrilu, který nejen že je ohromně pevný, ale" \
+           " dokonce ho jeho váhu na sobě nositel téměř necítí, bohužel je ohromně vzácný a tak se tato brnění" \
+           " předávájí z generace na generaci a každý klan jich má jen pár jestli nějaká má"
+    level = 3
+    visibility = 3
+    heaviness = 3
+    loudness = 3
+    hit_points = 1000000
+    cut_damage_reduction = 10
+    stab_damage_reduction = 10
+    smash_damage_reduction = 10
+
+
+class GuardsmenHelmet(Helmet):
+    pass
+
+
+class ElvenPathfinderHelmet(Helmet):
+    pass
+
+
 # helmets
 class Helmet1(RustyOrkHelmet):
     hit_points = 500
@@ -58,7 +81,10 @@ class Helmet2(RustyOrkHelmet):
 class Helmet3(DwarvenMinerHelmet):
     pass
 
+class Helmet4(GromrilHelmet):
+    pass
 
 helmet_1 = Helmet1()
 helmet_2 = Helmet2()
 helmet_3 = Helmet3()
+gromril_helmet_1 = Helmet4()

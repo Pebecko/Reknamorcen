@@ -39,13 +39,13 @@ class RoomNine(RoomTypeS):
 
 room1 = RoomOne()
 room2 = RoomTwo(y=1)
-room3 = RoomThree(x=-1, y=1)
+room3 = RoomThree(x=-1, y=1, health_potions=1)
 room4 = RoomFour(x=-2, y=1)
-room5 = RoomFive(x=-3, y=1)
+room5 = RoomFive(x=-3, y=1, fight=2, health_potions=2)
 room6 = RoomSix(x=-2)
-room7 = RoomSeven(x=-2, y=-1)
+room7 = RoomSeven(x=-2, y=-1, fight=3)
 room8 = RoomEight(x=-3, y=-1)
-room9 = RoomNine(x=-1, y=2)
+room9 = RoomNine(x=-1, y=2, fight=1)
 
 
 class RoomSwitching:

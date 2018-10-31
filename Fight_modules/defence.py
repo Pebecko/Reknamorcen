@@ -33,34 +33,35 @@ class DefenceEvaluation:
 
     def defence_output(self, opponent, defence_type, defence_direction, strike_type, strike_dir, strike_power):
         random_num = random.randint(0, 100)
-        lower_border = 25
+        lower_border = 20
         middle_border = 50
-        higher_border = 75
+        higher_border = 80
 
         last_action = "defence"
         if random_num <= lower_border:
             self.def_conc.defence_major_fail(opponent)
-            last_action = "attack"
         elif random_num <= middle_border:
             self.def_conc.defence_minor_fail(opponent)
         elif random_num <= higher_border:
             self.def_conc.defence_minor_success(opponent)
         else:
+            last_action = "attack"
             self.def_conc.defence_major_success(opponent)
 
-        return  last_action
+        return last_action
 
 
 class DefencePreparation:
-    def_eval = DefenceEvaluation()
+    def __init__(self):
+        self.def_eval = DefenceEvaluation()
 
-    opponent = Opponent()
-    opponent_action = ""
-    opponent_direction = ""
-    opponent_power = ""
+        self.opponent = Opponent()
+        self.opponent_action = ""
+        self.opponent_direction = ""
+        self.opponent_power = ""
 
-    player_action = ""
-    player_direction = ""
+        self.player_action = ""
+        self.player_direction = ""
 
     def opponent_attack_action(self, opponent):
         self.opponent = opponent
