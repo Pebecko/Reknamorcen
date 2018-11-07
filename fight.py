@@ -30,7 +30,8 @@ class Fight:
 
             self.fight_status()
 
-            if last_action == "defence":
+            if (last_action == "defence" or "stun" in
+                self.opponent.special_abilities) and "stun" not in player.special_abilities:
                 last_action = self.attack.opponent_defence_action(self.opponent)
 
             else:
@@ -79,6 +80,14 @@ class Fight:
         return
 
     def special_effects(self):
+        if "no_right_arm" in player.special_abilities and "no_left_arm" in player.special_abilities:
+            slow_print("Poté co vám už nezbyly žádné ruce nemohli jste se bránito soupeři a ten vás jednoduše dorazil.")
+            player_killed()
+
+        if "no_right_arm" in self.opponent.special_abilities and "no_left_arm" in self.opponent.special_abilities:
+            slow_print("Poté co jste soupeře připravili o poslední ruku jste ho ještě stihli rychlým úderem"
+                       " připravit i o život.\n")
+            self.opponent.health = 0
         # player gear destruction
         if player.weapon.hit_points <= 0 and player.weapon.weapon_class != "unarmed":
             player.weapon = fists
@@ -161,6 +170,24 @@ class Fight:
                     self.opponent.health -= 20
                 else:
                     self.opponent.health -= 40
+
+        if "stun" in player.special_abilities:
+            player.special_abilities.append("stun_effect")
+            player.special_abilities.remove("stun")
+        elif "stun_effect" in player.special_abilities:
+            player.special_abilities.remove("stun_effect")
+        elif "super_stun" in player.special_abilities:
+            player.special_abilities.append("stun")
+            player.special_abilities.remove("super_stun")
+
+        if "stun" in self.opponent.special_abilities:
+            self.opponent.special_abilities.append("stun_effect")
+            self.opponent.special_abilities.remove("stun")
+        elif "stun_effect" in self.opponent.special_abilities:
+            self.opponent.special_abilities.remove("stun_effect")
+        elif "super_stun" in self.opponent.special_abilities:
+            self.opponent.special_abilities.append("stun")
+            self.opponent.special_abilities.remove("super_stun")
 
         return
 

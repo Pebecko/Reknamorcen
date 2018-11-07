@@ -81,8 +81,6 @@ class ShortSword(Sword):
     name = "krátký meč"
     info = "krátší ostrá zbraň schopná jak sekat, tak i bodat"
     damage = 160
-    stamina = 8
-    max_stamina = 8
     stamina_regain = 1.5
     weapon_type = "light"
     special_abilities = ["mordhau", "extra_dodge"]
@@ -99,8 +97,6 @@ class LongSword(Sword):
     info = "dlouhý meč určen pro obouruční držení, ale možný používat i v jedné ruce, který je" \
            " schopný jak sekat, tak i bodat"
     damage = 210
-    stamina = 8
-    max_stamina = 8
     stamina_regain = 1.5
     weapon_type = "medium"
     hands = [1, 2]
@@ -116,8 +112,6 @@ class TwoHandedSword(Sword):
     info = "dlouhá zbraň určená pro obouruční boj, jedno její seknutí bez broblému přesekne jakéhokoliv" \
            " neobrněného nepřítele, tak ho i probodne"
     damage = 240
-    stamina = 7
-    max_stamina = 7
     stamina_regain = 1
     weapon_type = "heavy"
     special_abilities = ["mordhau", "human_buff", "weak_dodge"]
@@ -133,34 +127,51 @@ class TwoHandedAxe(Axe):
     name = "obouruční sekera"
     info = "ohromná dvoubřitvá zbraň, která nemá problém proseknout i tlusté brnění"
     damage = 250
-    stamina = 6
-    max_stamina = 6
     stamina_regain = 1
     weapon_type = "heavy"
     special_abilities = ["armor_piercing", "weak_dodge"]
     hands = [2]
 
 
+class BattleAxe(Axe):
+    pass
+
+
+class LumberAxe(Axe):
+    pass
+
+
 class TwoHandedHammer(Hammer):
     name = "obouruční kladivo"
     info = "ohromná trpaslíky vyrobená zbraň, určená aby tříštila kosti všech obrněnců, jedno co mají" \
-           " na sobě"
+           " na sobě, používaná ochrankou jejich vůdců"
     damage = 230
-    stamina = 5
-    max_stamina = 5
     stamina_regain = 1
     weapon_type = "heavy"
-    special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff"]
+    special_abilities = ["weak_dodge", "dwarf_buff", "elf_debuff", "life_steal"]
     hands = [2]
+
+
+class BattleHammer(Hammer):
+    name = "jednoruční bojové kladivo"
+    info = "trpaslíky vyrobená zbraň, na jednoručku je dost těžká, ale zato to s ní opravdu bolí"
+    damage = 200
+    stamina_regain = 1.5
+    weapon_type = "medium"
+    special_abilities = ["dwarf_buff", "elf_debuff"]
+    hands = [1]
+
+
+class BlacksmithHammer(Hammer):
+    pass
 
 
 class LongDagger(Dagger):
     name = "dlouhá dýka"
     info = "krátká, velice lehká, jednobřitvá zbraň"
     damage = 120
-    stamina = 9
-    max_stamina = 9
     stamina_regain = 2
+    special_abilities = ["life_steal"]
 
 
 class Fists(Unarmed):

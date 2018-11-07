@@ -61,9 +61,9 @@ class Slayer(Dwarf):
 
 class Ironbreaker(Dwarf):
     role = "ironbreaker"
-    health = 260
+    health = 780
     max_health = 780
-    weapon = two_handed_hammer
+    weapon = long_dagger
     helmet = gromril_helmet_1
     armor = armor_1
 

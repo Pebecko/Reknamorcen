@@ -46,6 +46,9 @@ class AttackConclusion:
 
         player.health -= multiplier * opponent.weapon.damage
 
+        if "life_steal" in opponent.weapon.special_abilities:
+            opponent.health += multiplier * 0.5
+
         return self.major_fail_specials(opponent)
 
     def major_fail_specials(self, opponent):
@@ -67,23 +70,22 @@ class AttackConclusion:
         elif "smash" in opponent.weapon.damage_type and "no_bones" not in player.special_abilities:
             if player.helmet.name != "" and player.armor.name == "":
                 damage = random.randint(0, 15)
-                if damage < 3 and "broken_left_arm" not in player.special_abilities:
+                if damage < 3 and ("broken_left_arm" not in player.special_abilities and "no_left_arm" not in
+                                   player.special_abilities):
                     slow_print("Soupeři se povedlo jeho ranou vám zlomit levou ruku.\n")
                     player.special_abilities.append("broken_left_arm")
-                elif damage < 6 and "broken_right_arm" not in player.special_abilities:
+                elif damage < 6 and ("broken_right_arm" not in player.special_abilities and "no_right_arm" not in
+                                   player.special_abilities):
                     slow_print("Soupeři se povedlo jeho ranou vám zlomit pravou ruku.\n")
                     player.special_abilities.append("broken_right_arm")
-                elif damage < 7 and "broken_left_leg" not in player.special_abilities:
-                    slow_print("Soupeři se povedlo jeho ranou vám zlomit levou nohu.\n")
-                    player.special_abilities.append("broken_left_leg")
-                elif damage < 8 and "broken_right_leg" not in player.special_abilities:
-                    slow_print("Soupeři se povedlo jeho ranou vám zlomit pravou nohu.\n")
-                    player.special_abilities.append("broken_right_leg")
             else:
-                if random.randint(0, 2) == 0:
-                    if player.difficulty == "nightmare" and random.randint(0, 10) == 10:
-                        slow_print("Soupeřova rána byla tak tvrdá, že vám rozdrtila lebku na padrť.\n")
-                        player_killed()
+                if player.difficulty == "nightmare" and random.randint(0, 20) == 20:
+                    slow_print("Soupeřova rána byla tak tvrdá, že vám rozdrtila lebku na padrť.\n")
+                    player_killed()
+                elif random.randint(0, 9) == 9:
+                    slow_print("Soupeř vám dal takovou ránu, že vůbec nevíte co se děje.\n")
+                    player.special_abilities.append("super_stun")
+                elif random.randint(0, 2) == 0:
                     slow_print("Jeho rána byla dost tvrdá a tak se vám teď trochu motá hlava.\n")
                     player.special_abilities.append("stun")
 
@@ -93,22 +95,25 @@ class AttackConclusion:
                     damage = random.randint(0, 25)
                     if damage < 3 and "no_left_arm" not in player.special_abilities:
                         slow_print("Soupeři se povedlo jeho ranou vám useknout levou ruku.\n")
+                        if "broken_left_arm" in player.special_abilities:
+                            player.special_abilities.remove("broken_left_arm")
                         player.special_abilities.append("no_left_arm")
                     elif damage < 6 and "no_right_arm" not in player.special_abilities:
                         slow_print("Soupeři se povedlo jeho ranou vám useknout pravou ruku.\n")
+                        if "broken_right_arm" in player.special_abilities:
+                            player.special_abilities.remove("broken_right_arm")
                         player.special_abilities.append("no_right_arm")
-                    elif damage < 7 and "no_left_leg" not in player.special_abilities:
-                        slow_print("Soupeři se povedlo jeho ranou vám useknout levou nohu.\n")
-                        player.special_abilities.append("no_left_leg")
-                    elif damage < 8 and "no_right_leg" not in player.special_abilities:
-                        slow_print("Soupeři se povedlo jeho ranou vám useknout pravou nohu.\n")
-                        player.special_abilities.append("no_right_leg")
+                    elif player.difficulty == "nightmare" and damage == 25:
+                        slow_print("soupeřova rána vás rozťala vejpůl.\n")
+                        player_killed()
                 elif player.difficulty == "nightmare" and random.randint(0, 11) == 11:
                     if random.randint(0, 1) == 0:
                         slow_print("Soupeřova precizně mířená rána vám rozťala hlavu ve dví.\n")
                     else:
                         slow_print("Soupeřúv úder zaměřený na váš krk čistě prošel a usekl vám hlavu.\n")
                     player_killed()
+
+        return
 
     def attack_major_fail(self, strike_dir, opponent, defence_type, defence_dir):
         if defence_type == "block":
@@ -301,6 +306,9 @@ class AttackConclusion:
 
         opponent.health -= multiplier * player.weapon.damage
 
+        if "life_steal" in player.weapon.special_abilities:
+            player.health += multiplier * 0.5
+
         return self.minor_success_specials(opponent, strike_type)
 
     def minor_success_specials(self, opponent, strike_type):
@@ -458,6 +466,9 @@ class AttackConclusion:
 
         opponent.health -= multiplier * player.weapon.damage
 
+        if "life_steal" in player.weapon.special_abilities:
+            player.health += multiplier * 0.5
+
         return self.major_success_specials(opponent, strike_type, strike_dir)
 
     def major_success_specials(self, opponent, strike_type, strike_dir):
@@ -479,23 +490,22 @@ class AttackConclusion:
         elif strike_type == "smash" and "no_bones" not in opponent.special_abilities:
             if strike_dir != "head":
                 damage = random.randint(0, 13)
-                if damage < 3 and "broken_left_arm" not in opponent.special_abilities:
+                if damage < 3 and ("broken_left_arm" not in opponent.special_abilities and "no_left_arm"
+                                   not in opponent.special_abilities):
                     slow_print("Vaše rána soupeři zlomila levou ruku.\n")
                     opponent.special_abilities.append("broken_left_arm")
-                elif damage < 6 and "broken_right_arm" not in opponent.special_abilities:
+                elif damage < 6 and ("broken_right_arm" not in opponent.special_abilities and "no_right_arm"
+                                   not in opponent.special_abilities):
                     slow_print("Vaše rána soupeři zlomila pravou ruku.\n")
                     opponent.special_abilities.append("broken_right_arm")
-                elif damage < 7 and "broken_left_leg" not in opponent.special_abilities:
-                    slow_print("Vaše rána soupeři zlomila levou nohu.\n")
-                    opponent.special_abilities.append("broken_left_leg")
-                elif damage < 8 and "broken_right_leg" not in opponent.special_abilities:
-                    slow_print("Vaše rána soupeři zlomila pravou nohu.\n")
-                    opponent.special_abilities.append("broken_right_leg")
             else:
                 if random.randint(0, 1) == 0:
                     if random.randint(0, 7) == 0:
                         slow_print("Vaše rána byla tak tvrdá, že soupeři rozdrtila lebku na padrť.\n")
                         opponent.health = 0
+                    elif random.randint (0, 5) == 5:
+                        slow_print("Dali jste soupeři takovou ránu, že jste ho lehce omráčili\n")
+                        opponent.special_abilities.append("super_stun")
                     else:
                         slow_print("Vaše rána měla takovou sílu, že se soupeř začal motat.\n")
                         opponent.special_abilities.append("stun")
@@ -506,23 +516,32 @@ class AttackConclusion:
                 if damage < 3 and "no_left_arm" not in opponent.special_abilities:
                     slow_print("Povedlo se vám useknout soupeřovu levou ruku.\n")
                     opponent.special_abilities.append("no_left_arm")
+                    if "broken_left_arm" in opponent.special_abilities:
+                        opponent.special_abilities.remove("broken_left_arm")
                 elif damage < 6 and "no_right_arm" not in opponent.special_abilities:
                     slow_print("Povedlo se vám useknout soupeřovu pravou ruku.\n")
                     opponent.special_abilities.append("no_right_arm")
-                elif damage < 7 and "no_left_leg" not in opponent.special_abilities:
-                    slow_print("Povedlo se vám useknout soupeřovu levou nohu.\n")
-                    opponent.special_abilities.append("no_left_leg")
-                elif damage < 8 and "no_right_leg" not in opponent.special_abilities:
-                    slow_print("Povedlo se vám useknout soupeřovu pravou nohu.\n")
-                    opponent.special_abilities.append("no_right_leg")
-            elif random.randint(0, 7) == 0:
+                    if "broken_right_arm" in opponent.special_abilities:
+                        opponent.special_abilities.remove("broken_right_arm")
+                elif damage < 7:
+                    slow_print("Povedlo se vám useknout soupeřovu levou nohu, ten pak spadl na zem v proudu krve a"
+                               " vy už jste ho jen vaší další ranou dorazili.\n")
+                    opponent.health = 0
+                elif damage < 8:
+                    slow_print("Povedlo se vám useknout soupeřovu pravou nohu, ten pak spadl na zem v proudu krve a"
+                               " vy už jste ho jen vaší další ranou dorazili.\n")
+                    opponent.health = 0
+                elif damage < 9:
+                    slow_print("Vaše rána prošla soubeřovým tělem skrz na skrz a rozůlila ho. Zbytky poté spadly"
+                               " bezvládně na zem.\n")
+                    opponent.health = 0
+            elif random.randint(0, 7) == 7:
                 if random.randint(0, 1) == 0:
                     slow_print("Vaše rána rozsekla soupeřovi hlavu ve dví.\n")
                 else:
                     slow_print("Váš úder strefil soupeřův krk a čistě mu uťal hlavu, která se pak rozkutálela po"
                                " zemi v proudu jeho krve.\n")
-                if opponent.faction != "undead":
-                    opponent.health = 0
+                opponent.health = 0
 
         return
 
@@ -632,9 +651,6 @@ class AttackEvaluation:
     def defence_none(self, strike_dir, strike_power):
         self.border_setting(-200, -200, 60)
 
-        if player.difficulty is "easy":
-            self.higher_border = 45
-
         # player target effect
         if strike_dir is "head":
             self.higher_border += 6
@@ -645,11 +661,13 @@ class AttackEvaluation:
         self.border_multiplication(player.helmet.visibility, 3.5, 3, 4)
 
         # player armor effects
-        self.border_multiplication(player.armor.heaviness, 0.5, 0.4, 0.4)
+        self.border_multiplication(player.armor.heaviness, 0.3, 0.4, 0.4)
 
         # player attack power effects
         if strike_power == "small":
             self.higher_border -= 10
+        elif strike_power == "medium":
+            self.higher_border += 2
         elif strike_power == "high":
             self.higher_border += 15
 
@@ -718,11 +736,11 @@ class AttackEvaluation:
 
         # player attack power effects
         if strike_power == "small":
-            self.border_addition(-8, -10, -7)
+            self.border_addition(-9, -11, -8)
         elif strike_power == "medium":
             self.border_addition(2, 4, 3)
         elif strike_power == "high":
-            self.border_addition(6, 12, 10)
+            self.border_addition(7, 12, 10)
 
         # equipment special buffs and debuffs
         if "extra_dodge" in opponent.weapon.special_abilities:
@@ -740,7 +758,7 @@ class AttackEvaluation:
         if "weak_dodge" in opponent.weapon.special_abilities:
             self.border_addition(-5, -6, -6)
 
-        return self.player_char_effects()
+        return self.opponent_char_effects(opponent)
 
     def defence_block(self, opponent, strike_dir, strike_power, defence_dir):
         # setting base levels depending on player weapon
@@ -818,11 +836,11 @@ class AttackEvaluation:
 
         # player attack power effects
         if strike_power == "small":
-            self.border_addition(5, 13, 9)
+            self.border_addition(5, 10, 7)
         elif strike_power == "medium":
             self.border_addition(1, 4, 4)
         elif strike_power == "high":
-            self.border_addition(-6, -10, -9)
+            self.border_addition(-6, -8, -7)
 
         # equipment special buffs and debuffs
         if "extra_block" in opponent.weapon.special_abilities:
@@ -840,9 +858,87 @@ class AttackEvaluation:
         if "weak_block" in opponent.weapon.special_abilities:
             self.border_addition(2, 3, 3)
 
-        return self.player_char_effects()
+        # opponent injuries
+        if 1 in opponent.weapon.hands and 2 not in opponent.weapon.hands:
+            if "broken_left_arm" in opponent.special_abilities and "broken_right_arm" not in opponent.special_abilities:
+                self.border_addition(-2, -3, -3)
+            elif "broken_right_arm" in opponent.special_abilities and "broken_left_arm" not in opponent.special_abilities:
+                self.border_addition(-4, -5, -6)
+            elif "broken_right_arm" in opponent.special_abilities and "broken_left_arm" in opponent.special_abilities:
+                self.border_addition(-12, -17, -22)
+
+            if "no_right_arm" in opponent.special_abilities and "no_left_arm" not in opponent.special_abilities:
+                self.border_addition(-2, -3, -3)
+            elif "no_right_arm" not in opponent.special_abilities and "no_left_arm" in opponent.special_abilities:
+                self.border_addition(-5, -6, -7)
+        elif 2 in opponent.weapon.hands and 1 not in opponent.weapon.hands:
+            if "broken_right_arm" in opponent.special_abilities and "broken_left_arm" not in opponent.special_abilities:
+                self.border_addition(-8, -10, -11)
+            elif "broken_right_arm" not in opponent.special_abilities and "broken_left_arm" in opponent.special_abilities:
+                self.border_addition(-6, -8, -9)
+            elif "broken_right_arm" in opponent.special_abilities and "broken_left_arm" in opponent.special_abilities:
+                self.border_addition(-23, -28, -33)
+
+            if "no_right_arm" in opponent.special_abilities and "no_left_arm" not in opponent.special_abilities:
+                self.border_addition(-9, -11, -12)
+            elif "no_right_arm" not in opponent.special_abilities and "no_left_arm" in opponent.special_abilities:
+                self.border_addition(-7, -9, -10)
+        else:
+            if "broken_right_arm" in opponent.special_abilities and "broken_left_arm" not in opponent.special_abilities:
+                self.border_addition(-6, -7, -8)
+            elif "broken_right_arm" not in opponent.special_abilities and "broken_left_arm" in opponent.special_abilities:
+                self.border_addition(-5, -6, -6)
+            elif "broken_right_arm" in opponent.special_abilities and "broken_left_arm" in opponent.special_abilities:
+                self.border_addition(-17, -22, -27)
+
+            if "no_right_arm" in opponent.special_abilities and "no_left_arm" not in opponent.special_abilities:
+                self.border_addition(-8, -9, -10)
+            elif "no_right_arm" not in opponent.special_abilities and "no_left_arm" in opponent.special_abilities:
+                self.border_addition(-7, -8, -8)
+
+        return self.opponent_char_effects(opponent)
 
     def player_char_effects(self):
+        if "stun_effect" in player.special_abilities:
+            self.border_addition(3, 5, 5)
+
+        if 1 in player.weapon.hands and 2 not in player.weapon.hands:
+            if "broken_left_arm" in player.special_abilities and "broken_right_arm" not in player.special_abilities:
+                self.border_addition(1, 2, 2)
+            elif "broken_right_arm" in player.special_abilities and "broken_left_arm" not in player.special_abilities:
+                self.border_addition(3, 4, 5)
+            elif "broken_right_arm" in player.special_abilities and "broken_left_arm" in player.special_abilities:
+                self.border_addition(10, 15, 20)
+
+            if "no_right_arm" in player.special_abilities and "no_left_arm" not in player.special_abilities:
+                self.border_addition(1.5, 2.5, 2.5)
+            elif "no_right_arm" not in player.special_abilities and "no_left_arm" in player.special_abilities:
+                self.border_addition(4, 5, 6)
+        elif 2 in player.weapon.hands and 1 not in player.weapon.hands:
+            if "broken_right_arm" in player.special_abilities and "broken_left_arm" not in player.special_abilities:
+                self.border_addition(7, 9, 10)
+            elif "broken_right_arm" not in player.special_abilities and "broken_left_arm" in player.special_abilities:
+                self.border_addition(5, 7, 8)
+            elif "broken_right_arm" in player.special_abilities and "broken_left_arm" in player.special_abilities:
+                self.border_addition(20, 25, 30)
+
+            if "no_right_arm" in player.special_abilities and "no_left_arm" not in player.special_abilities:
+                self.border_addition(8, 10, 11)
+            elif "no_right_arm" not in player.special_abilities and "no_left_arm"in player.special_abilities:
+                self.border_addition(6, 8, 9)
+        else:
+            if "broken_right_arm" in player.special_abilities and "broken_left_arm" not in player.special_abilities:
+                self.border_addition(5, 6, 7)
+            elif "broken_right_arm" not in player.special_abilities and "broken_left_arm" in player.special_abilities:
+                self.border_addition(4, 5, 5)
+            elif "broken_right_arm" in player.special_abilities and "broken_left_arm" in player.special_abilities:
+                self.border_addition(15, 20, 25)
+
+            if "no_right_arm" in player.special_abilities and "no_left_arm" not in player.special_abilities:
+                self.border_addition(7, 8, 9)
+            elif "no_right_arm" not in player.special_abilities and "no_left_arm" in player.special_abilities:
+                self.border_addition(6, 7, 7)
+
         if player.char == "elf":
             if "elf_debuff" in player.weapon.special_abilities:
                 self.border_addition(4, 6, 6)
@@ -890,6 +986,12 @@ class AttackEvaluation:
                 self.border_addition(-3, -4, -4)
 
         return
+
+    def opponent_char_effects(self, opponent):
+        if "stun_effect" in opponent.special_abilities:
+            self.border_addition(-4, -6, -6)
+
+        return self.player_char_effects()
 
     def attack_output(self, opponent, strike_type, strike_dir, strike_power, defence_type, defence_dir):
         # generating random number

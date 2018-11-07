@@ -48,7 +48,7 @@ class OrkBoy(Greenskin):
     weapons = [two_handed_axe, two_handed_axe, short_sword, long_dagger, two_handed_axe]
     helmets = [helmet_1, no_helmet]
     armors = [no_armor, no_armor, no_armor, armor_3]
-    attack_power = ["medium", "heavy", "heavy"]
+    attack_power = ["medium", "high"]
 
 
 class Goblin(Greenskin):
@@ -79,7 +79,7 @@ class Skeleton(Undead):
     block_effectiveness = 3
     weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
     armors = [armor_2, armor_4, no_armor, no_armor]
-    attack_power = ["low", "low", "medium"]
+    attack_power = ["low", "medium"]
 
 
 class Zombie(Undead):
