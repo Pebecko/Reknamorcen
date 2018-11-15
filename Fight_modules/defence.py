@@ -2,6 +2,7 @@ from character_stats import *
 from main_funcs import *
 
 
+# TODO defence effects
 class DefenceConclusion:
     def defence_major_fail(self, opponent):
         slow_print("Soupeř vás těžce zranil.")
@@ -52,6 +53,7 @@ class DefenceEvaluation:
         self.higher_border += (number * higher_multiplier)
 
     def fistfight(self):
+        # TODO Add fistfight
         pass
 
     def defence_none(self, opponent, strike_dir, strike_power):
@@ -150,15 +152,19 @@ class DefenceEvaluation:
         return self.opponent_char_effects(opponent)
 
     def defence_block(self, opponent, strike_dir, strike_power, defence_dir):
+        # TODO Finish block level changing
         return self.opponent_char_effects(opponent)
 
     def opponent_char_effects(self, opponent):
+        # TODO Finnish opponent char effects
         return self.player_char_effects()
 
     def player_char_effects(self):
+        # TODO Finnish player char effects
         return
 
     def defence_output(self, opponent, defence_type, defence_dir, strike_type, strike_dir, strike_power):
+        # TODO Make def output cleaner
         # generating random number
         random_num = random.randint(0, 100)
 
@@ -218,6 +224,7 @@ class DefencePreparation:
     def opponent_attack_action(self, opponent):
         self.opponent = opponent
 
+        # TODO Make proper action choosing AI
         if "cut" in opponent.weapon.damage_type and "stab" in opponent.weapon.damage_type:
             if random.randint(0, 4) < 3:
                 self.opponent_action = "cut"
@@ -235,6 +242,7 @@ class DefencePreparation:
         return self.opponent_attack_direction()
 
     def opponent_attack_direction(self):
+        # TODO Make proper direction choosing AI
         if self.opponent_action == "stab" or self.opponent_action == "punch":
             if random.randint(0, 4) < 3:
                 self.opponent_direction = "body"
@@ -252,6 +260,7 @@ class DefencePreparation:
         return self.opponent_attack_power()
 
     def opponent_attack_power(self):
+        # TODO Make proper power choosing AI
         self.opponent_power = self.opponent.attack_power[random.randint(0, len(self.opponent.attack_power) - 1)]
 
         if player.test is True:

@@ -1,9 +1,10 @@
-from Fight_modules.preparation import *
+from Fight_modules.preparation import Preparation
 from Fight_modules.attack import *
 from Fight_modules.defence import *
 from Fight_modules.conclusion import Conclusion
 
 
+# TODO Add multiple opponent fights
 class Fight:
     def __init__(self):
         self.preparation = Preparation()

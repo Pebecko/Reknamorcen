@@ -4,7 +4,7 @@ from fight import *
 class Room:
     fighting = Fight()
 
-    def __init__(self, x = 0, y = 0, fight=None, health_potions=0, weapons=None, armors=None, helmets=None):
+    def __init__(self, x=0, y=0, fight=None, health_potions=0, weapons=None, armors=None, helmets=None):
         self.x = x
         self.y = y
         self.fight = fight
@@ -70,9 +70,11 @@ class Room:
             player.x -= 1
         return
 
+    # TODO Make function for picking up thing and putting them down
 
 # room patterns
 class RoomPatternOne(Room):
+    Window().updating(1, "kkt", "hmlt")
     old_dir = ""
     new_dir = ""
 

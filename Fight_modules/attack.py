@@ -647,6 +647,7 @@ class AttackEvaluation:
 
     def fistfight(self):
         pass
+        # TODO Add fistfight
 
     def defence_none(self, strike_dir, strike_power):
         self.border_setting(-200, -200, 60)
@@ -1069,6 +1070,7 @@ class AttackPreparation():
         self.player_last_power_II = ""
 
     def opponent_action_deciding(self):
+        # TODO Upgrade opponent action choosing
         self.action_split = 20
         # player weapon effects
         if "stab" in player.weapon.damage_type:
@@ -1146,6 +1148,7 @@ class AttackPreparation():
                 return self.opponent_dodge_direction()
 
     def opponent_block_direction(self):
+        # TODO Upgrade block direction choosing
         self.opponent_action = "block"
 
         direction_num = random.randint(0, 64)
@@ -1262,6 +1265,7 @@ class AttackPreparation():
         return self.opponent_action_debug()
 
     def opponent_dodge_direction(self):
+        # TODO Upgrade dodge direction choosing
         self.opponent_action = "dodge"
 
         direction_num = random.randint(0, 59)

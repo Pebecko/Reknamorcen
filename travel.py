@@ -1,5 +1,7 @@
 from room_types import *
 
+
+# TODO Make the full map with all the levels
 # rooms
 class RoomOne(RoomTypeN):
     pass

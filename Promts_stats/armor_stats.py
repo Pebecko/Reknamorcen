@@ -16,6 +16,7 @@ class Armor:
 no_armor = Armor()
 
 
+# TODO Add new armors
 # armor patterns
 class ChainmailHauberk(Armor):
     name = "kroužkový hauberk"

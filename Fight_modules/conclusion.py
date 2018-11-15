@@ -14,6 +14,7 @@ class Conclusion:
         return self.end_call()
 
     def end_call(self):
+        # TODO Upgrade end calls
         end_call = random.randint(0, 1)
         if end_call == 0:
             slow_print("Zabili jste ho.\n")
