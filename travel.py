@@ -70,6 +70,7 @@ class RoomSwitching:
             elif player.x == room9.x and player.y == room9.y:
                 room9.type()
 
-
+"""
 start = RoomSwitching()
 start.room_choosing()
+"""

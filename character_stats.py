@@ -88,5 +88,5 @@ class Assasin(Elf):
 
 
 # player
-player = Ironbreaker()
+player = Player()
 player.print_time = 0
