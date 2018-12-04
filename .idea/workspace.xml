@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3814b609-383a-4b4f-a93a-f02b0a107025" name="Default Changelist" comment="Console version">
-      <change afterPath="$PROJECT_DIR$/Reknamorcen_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_interface.py" afterDir="false" />
+    <list default="true" id="3814b609-383a-4b4f-a93a-f02b0a107025" name="Default Changelist" comment="UI introduction">
+      <change afterPath="$PROJECT_DIR$/introduction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Reknamorcen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Reknamorcen.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Room.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_versions/Room.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/character_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/character_stats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reknamorcen_pyqt5_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/old_versions/reknamorcen_pyqt5_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/travel.py" beforeDir="false" afterPath="$PROJECT_DIR$/travel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,23 +19,33 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Reknamorcen$main.coverage" NAME="main Coverage Results" MODIFIED="1543692843291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reknamorcen$reknamorcen_pyqt5_test.coverage" NAME="reknamorcen_pyqt5_test Coverage Results" MODIFIED="1542302212794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reknamorcen$Room.coverage" NAME="Room Coverage Results" MODIFIED="1540378272592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Reknamorcen$user_interface.coverage" NAME="user_interface Coverage Results" MODIFIED="1542397334750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Reknamorcen$user_interface.coverage" NAME="user_interface Coverage Results" MODIFIED="1543676362373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Reknamorcen$travel_py.coverage" NAME="travel.py Coverage Results" MODIFIED="1542380048375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DockManager">
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
-            <file leaf-file-name="character_stats.py" pinned="false" current-in-tab="true">
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+            <file leaf-file-name="character_stats.py" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/character_stats.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="723">
-                    <caret line="90" column="15" selection-start-line="90" selection-start-column="15" selection-end-line="90" selection-end-column="15" />
+                  <state relative-caret-position="1547">
+                    <caret line="91" column="17" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="user_interface.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/user_interface.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="85">
+                    <caret line="5" selection-start-line="5" selection-end-line="5" />
                     <folding>
-                      <element signature="e#62#428#0" />
+                      <element signature="e#0#27#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -88,30 +98,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="user_interface.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="user_interface.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="217" lean-forward="true" selection-start-line="217" selection-end-line="217" />
+            <state relative-caret-position="678">
+              <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#68#89#0" />
-                <element signature="e#5422#5546#0" />
-                <element signature="e#5615#5754#0" />
-                <element signature="e#5783#5922#0" />
-                <element signature="e#5959#6098#0" />
-                <element signature="e#4749#4820#0" />
-                <element signature="e#6435#6616#0" />
-                <element signature="e#6552#6697#0" />
-                <element signature="e#4854#4925#0" />
-                <element signature="e#7073#7248#0" />
-                <element signature="e#7122#7267#0" />
-                <element signature="e#5495#5571#0" />
-                <element signature="e#5614#5695#0" />
-                <element signature="e#5732#5807#0" />
-                <element signature="e#5847#5925#0" />
-                <element signature="e#5966#6045#0" />
-                <element signature="e#6084#6161#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="introduction.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/introduction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,8 +125,11 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="17">
+              <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -129,11 +137,8 @@
       <file leaf-file-name="travel.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/travel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="75" column="3" selection-start-line="75" selection-start-column="3" selection-end-line="75" selection-end-column="3" />
-              <folding>
-                <element signature="e#1570#1623#1" />
-              </folding>
+            <state relative-caret-position="680">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
             </state>
           </provider>
         </entry>
@@ -167,11 +172,12 @@
         <option value="$PROJECT_DIR$/fight.py" />
         <option value="$PROJECT_DIR$/room_types.py" />
         <option value="$PROJECT_DIR$/main_funcs.py" />
-        <option value="$PROJECT_DIR$/travel.py" />
         <option value="$PROJECT_DIR$/reknamorcen_pyqt5_test.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/character_stats.py" />
         <option value="$PROJECT_DIR$/user_interface.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/travel.py" />
+        <option value="$PROJECT_DIR$/introduction.py" />
       </list>
     </option>
   </component>
@@ -185,33 +191,20 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="20" />
-    <option name="y" value="20" />
-    <option name="width" value="1400" />
-    <option name="height" value="820" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1296" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Reknamorcen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Reknamorcen" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/old_versions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -235,7 +228,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.user_interface">
+  <component name="RunManager" selected="Python.main">
     <configuration name="Room" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Reknamorcen" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -250,6 +243,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="C:\Users\D3\Documents\PROG\Reknamorcen\old_versions\Room.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Reknamorcen" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -317,9 +329,11 @@
       <item itemvalue="Python.Room" />
       <item itemvalue="Python.reknamorcen_pyqt5_test" />
       <item itemvalue="Python.user_interface" />
+      <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.user_interface" />
         <item itemvalue="Python.reknamorcen_pyqt5_test" />
         <item itemvalue="Python.Room" />
@@ -351,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1542315486187</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="UI introduction">
+      <created>1542397420645</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1542397420645</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -366,24 +387,24 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.33178654" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50143266" side_tool="true" weight="0.32884097" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49925372" weight="0.3074246" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32884097" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49925372" visible="true" weight="0.3074246" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49856734" weight="0.32884097" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.20954692" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39892185" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,21 +416,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Split modules to different files" />
     <MESSAGE value="Console version" />
-    <option name="LAST_COMMIT_MESSAGE" value="Console version" />
+    <MESSAGE value="UI introduction" />
+    <option name="LAST_COMMIT_MESSAGE" value="UI introduction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="10" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Promts_stats/armor_stats.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fight.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -421,9 +436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1258">
           <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
-          <folding>
-            <element signature="e#1570#1623#1" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -431,10 +443,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2754">
           <caret line="163" selection-start-line="163" selection-end-line="167" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#58#79#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -492,10 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3349">
           <caret line="197" selection-start-line="197" selection-end-line="197" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#58#79#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -503,10 +507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#58#79#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -659,63 +659,49 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
           <caret line="201" selection-start-line="201" selection-end-line="201" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#58#79#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/travel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="75" column="3" selection-start-line="75" selection-start-column="3" selection-end-line="75" selection-end-column="3" />
-          <folding>
-            <element signature="e#1570#1623#1" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/character_stats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="723">
-          <caret line="90" column="15" selection-start-line="90" selection-start-column="15" selection-end-line="90" selection-end-column="15" />
+        <state relative-caret-position="1547">
+          <caret line="91" column="17" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/travel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
           <folding>
-            <element signature="e#62#428#0" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/user_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="217" lean-forward="true" selection-start-line="217" selection-end-line="217" />
+        <state relative-caret-position="678">
+          <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#68#89#0" />
-            <element signature="e#5422#5546#0" />
-            <element signature="e#5615#5754#0" />
-            <element signature="e#5783#5922#0" />
-            <element signature="e#5959#6098#0" />
-            <element signature="e#4749#4820#0" />
-            <element signature="e#6435#6616#0" />
-            <element signature="e#6552#6697#0" />
-            <element signature="e#4854#4925#0" />
-            <element signature="e#7073#7248#0" />
-            <element signature="e#7122#7267#0" />
-            <element signature="e#5495#5571#0" />
-            <element signature="e#5614#5695#0" />
-            <element signature="e#5732#5807#0" />
-            <element signature="e#5847#5925#0" />
-            <element signature="e#5966#6045#0" />
-            <element signature="e#6084#6161#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/introduction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>

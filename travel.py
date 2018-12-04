@@ -1,76 +1,40 @@
-from room_types import *
-
-# rooms
-class RoomOne(RoomTypeN):
-    pass
+from character_stats import player
 
 
-class RoomTwo(RoomTypeSW):
-    pass
+class Room:
+    def __init__(self, north=None, east=None, south=None, west=None):
+        self.north = north
+        self.east = east
+        self.south = south
+        self.west = west
+        self.exits = 0
+        if self.north != None:
+            self.exits += 1
+        if self.east != None:
+            self.exits += 1
+        if self.south != None:
+            self.exits += 1
+        if self.west != None:
+            self.exits += 1
+
+    def north_setting(self):
+        player.last_direction = "North"
+        player.room = player.room.north
+
+    def east_setting(self):
+        player.last_direction = "East"
+        player.room = player.room.east
+
+    def south_setting(self):
+        player.last_direction = "South"
+        player.room = player.room.south
+
+    def west_setting(self):
+        player.last_direction = "West"
+        player.room = player.room.west
 
 
-class RoomThree(RoomTypeNEW):
-    pass
+room1 = Room()
+room2 = Room(north=room1)
 
-
-class RoomFour(RoomTypeESW):
-    pass
-
-
-class RoomFive(RoomTypeE):
-    pass
-
-
-class RoomSix(RoomTypeNS):
-    pass
-
-
-class RoomSeven(RoomTypeNW):
-    pass
-
-
-class RoomEight(RoomTypeE):
-    pass
-
-
-class RoomNine(RoomTypeS):
-    pass
-
-
-room1 = RoomOne()
-room2 = RoomTwo(y=1)
-room3 = RoomThree(x=-1, y=1, health_potions=1)
-room4 = RoomFour(x=-2, y=1)
-room5 = RoomFive(x=-3, y=1, fight=2, health_potions=2)
-room6 = RoomSix(x=-2)
-room7 = RoomSeven(x=-2, y=-1, fight=3)
-room8 = RoomEight(x=-3, y=-1)
-room9 = RoomNine(x=-1, y=2, fight=1)
-
-
-class RoomSwitching:
-    def room_choosing(self):
-        while True:
-            if player.x == room1.x and player.y == room1.y:
-                room1.type()
-            elif player.x == room2.x and player.y == room2.y:
-                room2.type()
-            elif player.x == room3.x and player.y == room3.y:
-                room3.type()
-            elif player.x == room4.x and player.y == room4.y:
-                room4.type()
-            elif player.x == room5.x and player.y == room5.y:
-                room5.type()
-            elif player.x == room6.x and player.y == room6.y:
-                room6.type()
-            elif player.x == room7.x and player.y == room7.y:
-                room7.type()
-            elif player.x == room8.x and player.y == room8.y:
-                room8.type()
-            elif player.x == room9.x and player.y == room9.y:
-                room9.type()
-
-"""
-start = RoomSwitching()
-start.room_choosing()
-"""
+room1 = Room(south=room2)

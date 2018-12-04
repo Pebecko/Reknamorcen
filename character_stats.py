@@ -22,6 +22,7 @@ class Player:
     helmet = no_helmet
     armor = no_armor
     last_fight = False
+    room = None
 
 
 # races
