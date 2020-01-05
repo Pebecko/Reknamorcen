@@ -32,7 +32,7 @@ class Fight:
             self.fight_status()
 
             if (last_action == "defence" or "stun" in
-                self.opponent.special_abilities) and "stun" not in player.special_abilities:
+                    self.opponent.special_abilities) and "stun" not in player.special_abilities:
                 last_action = self.attack.opponent_defence_action(self.opponent)
 
             else:

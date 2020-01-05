@@ -184,7 +184,6 @@ def base_options(*message):
 
         option = "skip"
 
-
     elif option == "hpot":
         if player.health == player.max_health:
             slow_print("Jste úplně v pořádku a nepotřebujete léčení.\n")

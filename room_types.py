@@ -1,13 +1,17 @@
-from fight import *
+from main_funcs import slow_print, base_options, wrong_input
+from fight import Fight
+from character_stats import player
 
 
-class Room:
-    fighting = Fight()
-
-    def __init__(self, x=0, y=0, fight=None, health_potions=0, weapons=None, armors=None, helmets=None):
+class Coordinates:
+    def __init__(self, x=0, y=0, z=0):
         self.x = x
         self.y = y
-        self.fight = fight
+        self.z = z
+
+
+class Items:
+    def __init__(self, health_potions=0, weapons=None, armors=None, helmets=None):
         self.health_potions = health_potions
         if weapons is None:
             self.weapons = []
@@ -22,6 +26,15 @@ class Room:
         else:
             self.helmets = helmets
 
+
+class Room:
+    fighting = Fight()
+
+    def __init__(self, coordinates=Coordinates(), fight=None, items=Items()):
+        self.coordinates = coordinates
+        self.fight = fight
+        self.items = items
+
     def fights(self):
         if self.fight is None:
             player.last_fight = False
@@ -33,20 +46,20 @@ class Room:
         return
 
     def health_potion(self):
-        while self.health_potions > 0:
-            if self.health_potions == 1:
+        while self.items.health_potions > 0:
+            if self.items.health_potions == 1:
                 slow_print("Na zemi leží 1 léčící lektvar. Chcete si ho [v]zít, nebo [n]e?\n")
-            elif self.health_potions < 5:
+            elif self.items.health_potions < 5:
                 slow_print("Na zemi leží {} léčící lektvary. Chcete si je [v]zít, nebo [n]e?\n"
-                           "".format(self.health_potions))
+                           "".format(self.items.health_potions))
 
             else:
                 slow_print("Na zemi leží {} léčících lektvarů. Chcete si je [v]zít, nebo [n]e?\n"
-                           "".format(self.health_potions))
+                           "".format(self.items.health_potions))
             potion_choice = base_options()
             if potion_choice == "v":
-                player.health_potions += self.health_potions
-                self.health_potions = 0
+                player.health_potions += self.items.health_potions
+                self.items.health_potions = 0
             elif potion_choice == "n":
                 break
             elif potion_choice != "skip":
@@ -59,7 +72,8 @@ class Room:
 
         return
 
-    def get_coordinates(self):
+    @staticmethod
+    def get_coordinates():
         if player.last_direction is "North":
             player.y += 1
         elif player.last_direction is "East":
@@ -72,9 +86,9 @@ class Room:
 
     # TODO Make function for picking up thing and putting them down
 
+
 # room patterns
 class RoomPatternOne(Room):
-    Window().updating(1, "kkt", "hmlt")
     old_dir = ""
     new_dir = ""
 

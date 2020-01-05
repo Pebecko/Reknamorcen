@@ -1,77 +1,23 @@
-from room_types import *
+from room_types import RoomTypeE, RoomTypeES, RoomTypeESW, RoomTypeEW, RoomTypeN, RoomTypeNE, RoomTypeNES, \
+    RoomTypeNESW, RoomTypeNES, RoomTypeNESW, RoomTypeNEW, RoomTypeNS, RoomTypeNSW, RoomTypeNW, RoomTypeS, RoomTypeSW, \
+    RoomTypeW, Coordinates, Items
+
+
+def room_choosing(player, world_map):
+    while True:
+        for room in world_map:
+            if player.x == room.coordinates.x and player.y == room.coordinates.y and player.z == room.coordinates.z:
+                room.type()
+                break
 
 
 # TODO Make the full map with all the levels
-# rooms
-class RoomOne(RoomTypeN):
-    pass
-
-
-class RoomTwo(RoomTypeSW):
-    pass
-
-
-class RoomThree(RoomTypeNEW):
-    pass
-
-
-class RoomFour(RoomTypeESW):
-    pass
-
-
-class RoomFive(RoomTypeE):
-    pass
-
-
-class RoomSix(RoomTypeNS):
-    pass
-
-
-class RoomSeven(RoomTypeNW):
-    pass
-
-
-class RoomEight(RoomTypeE):
-    pass
-
-
-class RoomNine(RoomTypeS):
-    pass
-
-
-room1 = RoomOne()
-room2 = RoomTwo(y=1)
-room3 = RoomThree(x=-1, y=1, health_potions=1)
-room4 = RoomFour(x=-2, y=1)
-room5 = RoomFive(x=-3, y=1, fight=2, health_potions=2)
-room6 = RoomSix(x=-2)
-room7 = RoomSeven(x=-2, y=-1, fight=3)
-room8 = RoomEight(x=-3, y=-1)
-room9 = RoomNine(x=-1, y=2, fight=1)
-
-
-class RoomSwitching:
-    def room_choosing(self):
-        while True:
-            if player.x == room1.x and player.y == room1.y:
-                room1.type()
-            elif player.x == room2.x and player.y == room2.y:
-                room2.type()
-            elif player.x == room3.x and player.y == room3.y:
-                room3.type()
-            elif player.x == room4.x and player.y == room4.y:
-                room4.type()
-            elif player.x == room5.x and player.y == room5.y:
-                room5.type()
-            elif player.x == room6.x and player.y == room6.y:
-                room6.type()
-            elif player.x == room7.x and player.y == room7.y:
-                room7.type()
-            elif player.x == room8.x and player.y == room8.y:
-                room8.type()
-            elif player.x == room9.x and player.y == room9.y:
-                room9.type()
-
-
-start = RoomSwitching()
-start.room_choosing()
+rooms = [RoomTypeN(),
+         RoomTypeSW(Coordinates(y=1)),
+         RoomTypeNEW(Coordinates(-1, 1), items=Items(1)),
+         RoomTypeESW(Coordinates(-2, 1)),
+         RoomTypeE(Coordinates(-3, 1), 2, Items(2)),
+         RoomTypeNS(Coordinates(-2)),
+         RoomTypeNW(Coordinates(-2, -1), 3),
+         RoomTypeE(Coordinates(-3, -1)),
+         RoomTypeS(Coordinates(-2, -1), 1)]

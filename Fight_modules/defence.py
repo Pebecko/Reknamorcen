@@ -35,7 +35,7 @@ class DefenceEvaluation:
 
         self.lower_border = 30
         self.middle_border = 60
-        self.lower_border = 80
+        self.higher_border = 80
 
     def border_setting(self, lower_border, middle_border, higher_border):
         self.lower_border = lower_border

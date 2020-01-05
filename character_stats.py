@@ -8,6 +8,7 @@ class Player:
     info = ""
     x = 0
     y = 0
+    z = 0
     last_direction = None
     health = 1
     max_health = 0
@@ -88,5 +89,5 @@ class Assasin(Elf):
 
 
 # player
-player = Ironbreaker()
+player = Slayer()
 player.print_time = 0
