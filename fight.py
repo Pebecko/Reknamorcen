@@ -1,12 +1,20 @@
+from random import randint
+from main_funcs import slow_print, player_killed
 from Fight_modules.preparation import Preparation
-from Fight_modules.attack import *
-from Fight_modules.defence import *
+from Fight_modules.attack import AttackPreparation
+from Fight_modules.defence import DefencePreparation
 from Fight_modules.conclusion import Conclusion
+from Promts_stats.opponent_stats import Opponent
+from Promts_stats.helmet_stats import Helmet
+from Promts_stats.armor_stats import Armor
+from Promts_stats.weapon_stats import Fists
 
 
-# TODO Add multiple opponent fights
+# TODO Add fighting multiple opponents
 class Fight:
-    def __init__(self):
+    def __init__(self, player):
+        self.player = player
+
         self.preparation = Preparation()
         self.attack = AttackPreparation()
         self.defence = DefencePreparation()
@@ -14,7 +22,7 @@ class Fight:
 
         self.opponent = Opponent()
 
-    def main_(self, opponent_level):
+    def main(self, opponent_level):
         # preparation
         self.opponent = self.preparation.opponent_creation(opponent_level)
 
@@ -26,13 +34,13 @@ class Fight:
 
         # fight
         while self.opponent.health > 0:
-            if player.health <= 0:
+            if self.player.health <= 0:
                 player_killed()
 
             self.fight_status()
 
             if (last_action == "defence" or "stun" in
-                    self.opponent.special_abilities) and "stun" not in player.special_abilities:
+                    self.opponent.special_abilities) and "stun" not in self.player.special_abilities:
                 last_action = self.attack.opponent_defence_action(self.opponent)
 
             else:
@@ -40,7 +48,7 @@ class Fight:
 
             self.special_effects()
 
-        return self.fight_reseting()
+        return self.fight_resetting()
 
     def opponent_introduction(self):
         slow_print("Stojí před vámi {}.\n".format(self.opponent.name))
@@ -68,20 +76,20 @@ class Fight:
 
         opponent_stamina_state = "plný energie"
 
-        slow_print("    Váš život: {}/{}".format(player.health, player.max_health))
-        slow_print("    Vaše energie: {}/{}\n".format(player.stamina, player.max_stamina))
+        slow_print("    Váš život: {}/{}".format(self.player.health, self.player.max_health))
+        slow_print("    Vaše energie: {}/{}\n".format(self.player.stamina, self.player.max_stamina))
 
         slow_print("    Soupeř vypadá {}".format(opponent_health_state))
-        if player.test is True:
+        if self.player.test is True:
             print("        {}/{}".format(self.opponent.health, self.opponent.max_health))
         slow_print("    Soupeř vypadá {}".format(opponent_stamina_state))
-        if player.test is True:
+        if self.player.test is True:
             print("        {}/{}\n".format(self.opponent.stamina, self.opponent.max_stamina))
 
         return
 
     def special_effects(self):
-        if "no_right_arm" in player.special_abilities and "no_left_arm" in player.special_abilities:
+        if "no_right_arm" in self.player.special_abilities and "no_left_arm" in self.player.special_abilities:
             slow_print("Poté co vám už nezbyly žádné ruce nemohli jste se bránito soupeři a ten vás jednoduše dorazil.")
             player_killed()
 
@@ -90,65 +98,65 @@ class Fight:
                        " připravit i o život.\n")
             self.opponent.health = 0
         # player gear destruction
-        if player.weapon.hit_points <= 0 and player.weapon.weapon_class != "unarmed":
-            player.weapon = fists
+        if self.player.weapon.hit_points <= 0 and self.player.weapon.weapon_class != "unarmed":
+            self.player.weapon = Fists()
             slow_print("Rozbila se vám zbraň.\n")
-        if player.helmet.hit_points <= 0 and player.helmet != no_helmet:
-            player.helmet = no_helmet
+        if self.player.helmet.hit_points <= 0 and self.player.helmet != Helmet():
+            self.player.helmet = Helmet()
             slow_print("Rozbila se vám helma.\n")
-        if player.armor.hit_points <= 0 and player.armor != no_armor:
-            player.armor = no_armor
+        if self.player.armor.hit_points <= 0 and self.player.armor != Armor():
+            self.player.armor = Armor()
             slow_print("Rozbilo se vám brnění.\n")
 
         # opponent gear destruction
         if self.opponent.weapon.hit_points <= 0 and self.opponent.weapon.weapon_class != "unarmed":
             self.opponent.weapon = self.opponent.unarmed_weapon
             slow_print("Soupeřova zbraň nevydržela úder té vaší a roztříštila se na kusy.\n")
-        if self.opponent.helmet.hit_points <= 0 and self.opponent.helmet != no_helmet:
-            self.opponent.helmet = no_helmet
+        if self.opponent.helmet.hit_points <= 0 and self.opponent.helmet != Helmet():
+            self.opponent.helmet = Helmet()
             slow_print("Vaše rána soupeři rozbila helmu.\n")
-        if self.opponent.armor.hit_points <= 0 and self.opponent.armor != no_armor:
-            self.opponent.armor = no_armor
+        if self.opponent.armor.hit_points <= 0 and self.opponent.armor != Armor():
+            self.opponent.armor = Armor()
             slow_print("Vaše rána soupeři rozbila brnění.\n")
 
         # rusty effect on opponent
-        if "rusty" in self.opponent.helmet.special_abilities and random.randint(0, 4) == 3:
+        if "rusty" in self.opponent.helmet.special_abilities and randint(0, 4) == 3:
             self.opponent.health -= 10
             slow_print("Váš soupeř se ošklivě pořezal o svoji helmu.\n")
-        if "rusty" in self.opponent.armor.special_abilities and random.randint(0, 3) == 3:
+        if "rusty" in self.opponent.armor.special_abilities and randint(0, 3) == 3:
             self.opponent.health -= 10
             slow_print("Váš soupeř se ošklivě pořezal o svoje brnění.\n")
 
         # rusty effect on player
-        if "rusty" in player.helmet.special_abilities and random.randint(0, 4) == 3:
-            player.health -= 10
+        if "rusty" in self.player.helmet.special_abilities and randint(0, 4) == 3:
+            self.player.health -= 10
             slow_print("Ošklivě jste se pořezali o svoji helmu.\n")
-        if "rusty" in player.armor.special_abilities and random.randint(0, 3) == 3:
-            player.health -= 10
+        if "rusty" in self.player.armor.special_abilities and randint(0, 3) == 3:
+            self.player.health -= 10
             slow_print("Ošklivě jste se pořezali o svoje brnění.\n")
 
         # bleeding effects
-        if "no_bleeding" not in player.special_abilities:
-            if "bleeding_1" in player.special_abilities:
-                player.special_abilities.remove("bleeding_1")
-                if "bleeding_resistance" in player.special_abilities:
-                    player.health -= 5
+        if "no_bleeding" not in self.player.special_abilities:
+            if "bleeding_1" in self.player.special_abilities:
+                self.player.special_abilities.remove("bleeding_1")
+                if "bleeding_resistance" in self.player.special_abilities:
+                    self.player.health -= 5
                 else:
-                    player.health -= 15
-            elif "bleeding_2" in player.special_abilities:
-                player.special_abilities.remove("bleeding_2")
-                player.special_abilities.append("bleeding_1")
-                if "bleeding_resistance" in player.special_abilities:
-                    player.health -= 10
+                    self.player.health -= 15
+            elif "bleeding_2" in self.player.special_abilities:
+                self.player.special_abilities.remove("bleeding_2")
+                self.player.special_abilities.append("bleeding_1")
+                if "bleeding_resistance" in self.player.special_abilities:
+                    self.player.health -= 10
                 else:
-                    player.health -= 25
-            elif "bleeding_3" in player.special_abilities:
-                player.special_abilities.remove("bleeding_3")
-                player.special_abilities.append("bleeding_2")
-                if "bleeding_resistance" in player.special_abilities:
-                    player.health -= 20
+                    self.player.health -= 25
+            elif "bleeding_3" in self.player.special_abilities:
+                self.player.special_abilities.remove("bleeding_3")
+                self.player.special_abilities.append("bleeding_2")
+                if "bleeding_resistance" in self.player.special_abilities:
+                    self.player.health -= 20
                 else:
-                    player.health -= 40
+                    self.player.health -= 40
 
         if "no_bleeding" not in self.opponent.special_abilities:
             if "bleeding_1" in self.opponent.special_abilities:
@@ -172,14 +180,14 @@ class Fight:
                 else:
                     self.opponent.health -= 40
 
-        if "stun" in player.special_abilities:
-            player.special_abilities.append("stun_effect")
-            player.special_abilities.remove("stun")
-        elif "stun_effect" in player.special_abilities:
-            player.special_abilities.remove("stun_effect")
-        elif "super_stun" in player.special_abilities:
-            player.special_abilities.append("stun")
-            player.special_abilities.remove("super_stun")
+        if "stun" in self.player.special_abilities:
+            self.player.special_abilities.append("stun_effect")
+            self.player.special_abilities.remove("stun")
+        elif "stun_effect" in self.player.special_abilities:
+            self.player.special_abilities.remove("stun_effect")
+        elif "super_stun" in self.player.special_abilities:
+            self.player.special_abilities.append("stun")
+            self.player.special_abilities.remove("super_stun")
 
         if "stun" in self.opponent.special_abilities:
             self.opponent.special_abilities.append("stun_effect")
@@ -192,7 +200,7 @@ class Fight:
 
         return
 
-    def fight_reseting(self):
+    def fight_resetting(self):
         self.attack.opponent_action = ""
         self.attack.opponent_last_action_I = ""
         self.attack.opponent_last_action_II = ""

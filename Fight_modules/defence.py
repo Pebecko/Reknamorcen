@@ -1,5 +1,8 @@
-from character_stats import *
-from main_funcs import *
+from Promts_stats.opponent_stats import Opponent
+from Promts_stats.weapon_stats import Fists
+from character_stats import player
+from main_funcs import slow_print, base_options, wrong_input
+import random
 
 
 # TODO defence effects
@@ -171,12 +174,12 @@ class DefenceEvaluation:
         # editing of levels
         if defence_type == "":
             self.defence_none(opponent, strike_dir, strike_power)
-        elif player.weapon == fists:
+        elif player.weapon == Fists():
             self.fistfight()
         elif defence_type == "dodge":
             self.defence_dodge(opponent, strike_dir, strike_power, defence_dir)
         else:
-            if opponent.weapon != opponent.unarmed_weapon and player.weapon == fists:
+            if opponent.weapon != opponent.unarmed_weapon and player.weapon == Fists():
                 self.defence_none(opponent, strike_dir, strike_power)
             self.defence_block(opponent, strike_dir, strike_power, defence_dir)
 
@@ -280,7 +283,7 @@ class DefencePreparation:
                     self.player_action = "dodge"
                     break
                 elif defence_type_options != "skip":
-                    wrong_input(0)
+                    wrong_input()
         elif self.opponent.weapon.weapon_type == "unarmed":
             self.player_action = "dodge"
         else:
@@ -307,7 +310,7 @@ class DefencePreparation:
                     self.player_direction = "second"
                     break
                 elif block_direction != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         else:  # defence_type == "dodge"
             while True:
@@ -322,7 +325,7 @@ class DefencePreparation:
                     self.player_direction = "back"
                     break
                 elif dodge_direction != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         return self.def_eval.defence_output(self.opponent, self.player_action, self.player_direction,
                                             self.opponent_action, self.opponent_direction, self.opponent_power)

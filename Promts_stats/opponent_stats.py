@@ -1,6 +1,7 @@
-from Promts_stats.weapon_stats import *
-from Promts_stats.helmet_stats import *
-from Promts_stats.armor_stats import *
+from Promts_stats.weapon_stats import Weapon, Claws, TwoHandedAxe, ShortSword, LongDagger, Fists, LongSword, \
+    SmallCheeks, Cheeks
+from Promts_stats.helmet_stats import Helmet, RustyOrkHelmet, GromrilHelmet, DwarvenMinerHelmet
+from Promts_stats.armor_stats import Armor, LeatherTunic, ChainmailHauberk, GromrilBrestplate, SteelBrestplate
 
 
 class Opponent:
@@ -20,8 +21,8 @@ class Opponent:
     weapon = Weapon()
     unarmed_weapon = Weapon()
     weapons = []
-    helmets = [no_helmet]
-    armors = [no_armor]
+    helmets = [Helmet()]
+    armors = [Armor()]
     defence = []
     attack_power = []  # light, medium, heavy
     special_abilities = []
@@ -32,7 +33,7 @@ class Opponent:
 # zelené kůže
 class Greenskin(Opponent):
     faction = "greenskin"
-    unarmed_weapon = claws
+    unarmed_weapon = Claws()
     defence = ["block"]
 
 
@@ -45,9 +46,9 @@ class OrkBoy(Greenskin):
     awareness = 4
     dodge_effectiveness = 0
     block_effectiveness = 7
-    weapons = [two_handed_axe, two_handed_axe, short_sword, long_dagger, two_handed_axe]
-    helmets = [helmet_1, no_helmet]
-    armors = [no_armor, no_armor, no_armor, armor_3]
+    weapons = [TwoHandedAxe(), TwoHandedAxe(), ShortSword(), LongDagger(), TwoHandedAxe()]
+    helmets = [RustyOrkHelmet(), Helmet()]
+    armors = [Armor(), Armor(), Armor(), LeatherTunic()]
     attack_power = ["medium", "high"]
 
 
@@ -62,7 +63,7 @@ class BlackOrk(Greenskin):
 
 # nemrtví
 class Undead(Opponent):
-    unarmed_weapon = fists
+    unarmed_weapon = Fists()
     defence = ["block"]
     faction = "undead"
     special_abilities = ["no_bleeding"]
@@ -77,8 +78,8 @@ class Skeleton(Undead):
     awareness = 1
     dodge_effectiveness = 0
     block_effectiveness = 3
-    weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
-    armors = [armor_2, armor_4, no_armor, no_armor]
+    weapons = [ShortSword(), ShortSword(), ShortSword(), LongDagger(), LongSword()]
+    armors = [ChainmailHauberk(), LeatherTunic(), Armor(), Armor()]
     attack_power = ["low", "medium"]
 
 
@@ -91,8 +92,8 @@ class Zombie(Undead):
     awareness = 1
     dodge_effectiveness = 0
     block_effectiveness = 4
-    weapons = [short_sword, short_sword, short_sword, long_dagger, long_sword]
-    armors = [armor_2, armor_4, no_armor, no_armor]
+    weapons = [ShortSword(), ShortSword(), ShortSword(), LongDagger(), LongSword(), Fists()]
+    armors = [ChainmailHauberk(), LeatherTunic(), Armor(), Armor()]
     attack_power = ["low", "medium"]
 
 
@@ -113,8 +114,8 @@ class SmallSpider(Spider):
     awareness = 5
     dodge_effectiveness = 8
     block_effectiveness = 0
-    unarmed_weapon = small_cheeks
-    weapons = [small_cheeks]
+    unarmed_weapon = SmallCheeks()
+    weapons = [SmallCheeks()]
     attack_power = ["small"]
 
 
@@ -127,53 +128,10 @@ class GiantSpider(Spider):
     awareness = 4
     dodge_effectiveness = 6
     block_effectiveness = 0
-    unarmed_weapon = cheeks
-    weapons = [cheeks]
+    unarmed_weapon = Cheeks()
+    weapons = [Cheeks()]
 
 
 class MotherSpider(Spider):
     name = "pavoučí matka"
     defence = []
-
-
-# oponenti
-class Opponent1(OrkBoy):
-    pass
-
-
-class Opponent2(OrkBoy):
-    pass
-
-
-class Opponent3(Skeleton):
-    pass
-
-
-class Opponent4(Skeleton):
-    pass
-
-
-class Opponent5(Zombie):
-    pass
-
-
-class Opponent6(Zombie):
-    pass
-
-
-class Opponent7(SmallSpider):
-    pass
-
-
-class Opponent8(SmallSpider):
-    pass
-
-
-opponent_1 = Opponent1()
-opponent_2 = Opponent2()
-opponent_3 = Opponent3()
-opponent_4 = Opponent4()
-opponent_5 = Opponent5()
-opponent_6 = Opponent6()
-opponent_7 = Opponent7()
-opponent_8 = Opponent8()

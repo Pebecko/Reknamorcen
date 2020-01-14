@@ -1,5 +1,9 @@
-from character_stats import *
-from main_funcs import *
+from random import randint, choice
+from Promts_stats.opponent_stats import Skeleton, SmallSpider, Zombie, OrkBoy
+from main_funcs import slow_print, base_options, wrong_input
+from character_stats import player
+from Promts_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
+    TwoHandedSwordMordhau
 
 
 class Preparation:
@@ -8,49 +12,50 @@ class Preparation:
             num = 2
             if player.difficulty == "hard":
                 num = 3
-            opponent_level = random.randint(1, num)
+            opponent_level = randint(1, num)
 
         if opponent_level == 1:
-            opponent_number = random.randint(0, 0)
+            opponent_number = randint(0, 0)
             if opponent_number == 0:
-                opponent = opponent_7
+                opponent = SmallSpider()
 
         elif opponent_level == 2:
-            opponent_number = random.randint(0, 1)
+            opponent_number = randint(0, 1)
             if opponent_number == 0:
-                opponent = opponent_3
+                opponent = Skeleton()
             else:
-                opponent = opponent_5
+                opponent = Zombie()
 
         elif opponent_level == 3:
-            opponent_number = random.randint(0, 0)
+            opponent_number = randint(0, 0)
             if opponent_number == 0:
-                opponent = opponent_1
+                opponent = OrkBoy()
 
         elif opponent_level == 4:
-            opponent_number = random.randint(0, 0)
+            opponent_number = randint(0, 0)
             if opponent_number == 0:
                 pass
 
         elif opponent_level == 5:
-            opponent_number = random.randint(0, 0)
+            opponent_number = randint(0, 0)
             if opponent_number == 0:
                 pass
 
         else:
-            opponent_number = random.randint(0, 0)
+            opponent_number = randint(0, 0)
             if opponent_number == 0:
                 pass
 
-        opponent.health = random.randint(opponent.lowest_health, opponent.highest_health)
+        opponent.health = randint(opponent.lowest_health, opponent.highest_health)
         opponent.max_health = opponent.health
-        opponent.weapon = opponent.weapons[random.randint(0, len(opponent.weapons) - 1)]
-        opponent.helmet = opponent.helmets[random.randint(0, len(opponent.helmets) - 1)]
-        opponent.weapon = opponent.weapons[random.randint(0, len(opponent.armors) - 1)]
+        opponent.weapon = choice(opponent.weapons)
+        opponent.helmet = choice(opponent.helmets)
+        opponent.weapon = choice(opponent.weapons)
 
         return opponent
 
-    def first_fight_action(self, opponent):
+    @staticmethod
+    def first_fight_action(opponent):
         loudness = opponent.awareness
         if player.last_fight is True:
             loudness += 4
@@ -64,27 +69,28 @@ class Preparation:
         if loudness > 20:
             first_opponent_action = "attack"
         elif loudness > 10:
-            if random.randint(0, loudness) < 10:
+            if randint(0, loudness) < 10:
                 first_opponent_action = "attack"
 
         return first_opponent_action
 
-    def special_fight_techniques(self):
+    @staticmethod
+    def special_fight_techniques():
         if "mordhau" in player.weapon.special_abilities:
             while True:
                 slow_print("Chcete si meč [o]točit, abyste s ním mohli mlátit spíše než sekat, nebo [n]e??")
                 style_decision = base_options()
                 if style_decision == "o":
-                    if player.weapon == short_sword:
-                        player.weapon = short_sword_mordhau
-                    elif player.weapon == long_sword:
-                        player.weapon = long_sword_mordhau
-                    elif player.weapon == two_handed_sword:
-                        player.weapon = two_handed_sword_mordhau
+                    if player.weapon == ShortSword:
+                        player.weapon = ShortSwordMordhau(player.weapon.hit_points)
+                    elif player.weapon == LongSword:
+                        player.weapon = LongSwordMordhau(player.weapon.hit_points)
+                    elif player.weapon == TwoHandedSword:
+                        player.weapon = TwoHandedSwordMordhau(player.weapon.hit_points)
                     break
                 elif style_decision == "n":
                     break
                 elif style_decision != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             return

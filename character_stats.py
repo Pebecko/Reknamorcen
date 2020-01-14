@@ -1,4 +1,7 @@
-from Promts_stats.opponent_stats import *
+from Promts_stats.helmet_stats import Helmet, GromrilHelmet
+from Promts_stats.armor_stats import Armor, ChainmailHauberk, LeatherTunic
+from Promts_stats.weapon_stats import Fists, TwoHandedAxe, LongSword, LongDagger
+from coordinates import Coordinates
 
 
 class Player:
@@ -6,9 +9,7 @@ class Player:
     role = ""
     name = ""
     info = ""
-    x = 0
-    y = 0
-    z = 0
+    coordinates = Coordinates()
     last_direction = None
     health = 1
     max_health = 0
@@ -18,10 +19,10 @@ class Player:
     difficulty = "hard"
     print_time = 0.005
     special_abilities = []
-    test = True
-    weapon = fists
-    helmet = no_helmet
-    armor = no_armor
+    test = False
+    weapon = Fists()
+    helmet = Helmet()
+    armor = Armor()
     last_fight = False
 
 
@@ -57,16 +58,16 @@ class Slayer(Dwarf):
     health = 500
     max_health = 820
     special_abilities = ["poison_resistance", "no_armor"]
-    weapon = two_handed_axe
+    weapon = TwoHandedAxe()
 
 
 class Ironbreaker(Dwarf):
     role = "ironbreaker"
     health = 780
     max_health = 780
-    weapon = long_dagger
-    helmet = gromril_helmet_1
-    armor = armor_1
+    weapon = LongDagger()
+    helmet = GromrilHelmet()
+    armor = ChainmailHauberk()
 
 
 class Miner(Dwarf):
@@ -80,8 +81,8 @@ class Engineer(Dwarf):
 class Guardsman(Human):
     role = "guardsman"
     name = "Erwin Grünbaum"
-    armor = armor_1
-    weapon = long_sword
+    armor = ChainmailHauberk()
+    weapon = LongSword()
 
 
 class Assasin(Elf):

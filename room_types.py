@@ -1,45 +1,30 @@
 from main_funcs import slow_print, base_options, wrong_input
+from coordinates import Coordinates
 from fight import Fight
 from character_stats import player
+from items import Items
 
-
-class Coordinates:
-    def __init__(self, x=0, y=0, z=0):
-        self.x = x
-        self.y = y
-        self.z = z
-
-
-class Items:
-    def __init__(self, health_potions=0, weapons=None, armors=None, helmets=None):
-        self.health_potions = health_potions
-        if weapons is None:
-            self.weapons = []
-        else:
-            self.weapons = weapons
-        if armors is None:
-            self.armors = []
-        else:
-            self.armors = armors
-        if helmets is None:
-            self.helmets = []
-        else:
-            self.helmets = helmets
 
 
 class Room:
-    fighting = Fight()
+    fighting = Fight(player)
 
     def __init__(self, coordinates=Coordinates(), fight=None, items=Items()):
         self.coordinates = coordinates
         self.fight = fight
         self.items = items
 
+    def basic_functions(self):
+        self.fights()
+
+        self.health_potion()
+        return
+
     def fights(self):
         if self.fight is None:
             player.last_fight = False
         else:
-            self.fighting.main_(self.fight)
+            self.fighting.main(self.fight)
             player.last_fight = True
             self.fight = None
 
@@ -63,25 +48,18 @@ class Room:
             elif potion_choice == "n":
                 break
             elif potion_choice != "skip":
-                wrong_input(0)
-
-    def basic_functions(self):
-        self.fights()
-
-        self.health_potion()
-
-        return
+                wrong_input()
 
     @staticmethod
     def get_coordinates():
         if player.last_direction is "North":
-            player.y += 1
+            player.coordinates.y += 1
         elif player.last_direction is "East":
-            player.x += 1
+            player.coordinates.x += 1
         elif player.last_direction is "South":
-            player.y -= 1
+            player.coordinates.y -= 1
         elif player.last_direction is "West":
-            player.x -= 1
+            player.coordinates.x -= 1
         return
 
     # TODO Make function for picking up thing and putting them down
@@ -138,7 +116,7 @@ class RoomPatternTwo(Room):
                     player.last_direction = self.last_dir_new2
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction == self.last_dir_old1:
                 slow_print(self.msg2)
@@ -150,7 +128,7 @@ class RoomPatternTwo(Room):
                     player.last_direction = self.last_dir_new2
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction == self.last_dir_old2:
                 slow_print(self.msg3)
@@ -162,7 +140,7 @@ class RoomPatternTwo(Room):
                     player.last_direction = self.last_dir_new1
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         return self.get_coordinates()
 
@@ -206,7 +184,7 @@ class RoomPatternThree(Room):
                     player.last_direction = self.last_dir_new3
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction == self.last_dir_old1:
                 slow_print(self.msg2)
@@ -221,7 +199,7 @@ class RoomPatternThree(Room):
                     player.last_direction = self.last_dir_new3
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction == self.last_dir_old2:
                 slow_print(self.msg3)
@@ -236,7 +214,7 @@ class RoomPatternThree(Room):
                     player.last_direction = self.last_dir_new3
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction == self.last_dir_old3:
                 slow_print(self.msg4)
@@ -251,7 +229,7 @@ class RoomPatternThree(Room):
                     player.last_direction = self.last_dir_new1
                     break
                 elif direction_choice != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         return self.get_coordinates()
 
@@ -582,7 +560,7 @@ class RoomTypeNESW(Room):
                     player.last_direction = "West"
                     break
                 else:
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction is "North":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
@@ -600,7 +578,7 @@ class RoomTypeNESW(Room):
                     player.last_direction = "East"
                     break
                 else:
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction is "East":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
@@ -618,7 +596,7 @@ class RoomTypeNESW(Room):
                     player.last_direction = "South"
                     break
                 else:
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction is "South":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
@@ -636,7 +614,7 @@ class RoomTypeNESW(Room):
                     player.last_direction = "West"
                     break
                 else:
-                    wrong_input(0)
+                    wrong_input()
 
             elif player.last_direction is "West":
                 slow_print("Můžete jít [z]pět, v[l]evo, v[p]ravo, nebo [r]ovně.\n")
@@ -654,6 +632,6 @@ class RoomTypeNESW(Room):
                     player.last_direction = "North"
                     break
                 else:
-                    wrong_input(0)
+                    wrong_input()
 
         return self.get_coordinates()

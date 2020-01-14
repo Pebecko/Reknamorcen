@@ -1,5 +1,10 @@
-from character_stats import *
-from main_funcs import *
+from Promts_stats.opponent_stats import Opponent
+from Promts_stats.helmet_stats import Helmet
+from Promts_stats.armor_stats import Armor
+from Promts_stats.weapon_stats import Fists
+from character_stats import player
+from main_funcs import slow_print, player_killed, base_options, wrong_input
+import random
 
 
 class AttackConclusion:
@@ -75,7 +80,7 @@ class AttackConclusion:
                     slow_print("Soupeři se povedlo jeho ranou vám zlomit levou ruku.\n")
                     player.special_abilities.append("broken_left_arm")
                 elif damage < 6 and ("broken_right_arm" not in player.special_abilities and "no_right_arm" not in
-                                   player.special_abilities):
+                                     player.special_abilities):
                     slow_print("Soupeři se povedlo jeho ranou vám zlomit pravou ruku.\n")
                     player.special_abilities.append("broken_right_arm")
             else:
@@ -263,7 +268,7 @@ class AttackConclusion:
             multiplier += 0.25
 
         if strike_dir == "head":
-            if opponent.helmet != no_helmet:
+            if opponent.helmet != Helmet():
                 opponent.helmet.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -281,7 +286,7 @@ class AttackConclusion:
                 else:
                     multiplier -= opponent.helmet.stab_damage_reduction * 0.025
         else:
-            if opponent.armor != no_armor:
+            if opponent.armor != Armor():
                 opponent.armor.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -423,7 +428,7 @@ class AttackConclusion:
         if defence_type == "":
             multiplier += 0.5
         if strike_dir == "head":
-            if opponent.helmet != no_helmet:
+            if opponent.helmet != Helmet():
                 opponent.helmet.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -441,7 +446,7 @@ class AttackConclusion:
                 else:
                     multiplier -= opponent.helmet.stab_damage_reduction * 0.045
         else:
-            if opponent.armor != no_armor:
+            if opponent.armor != Armor():
                 opponent.armor.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -503,7 +508,7 @@ class AttackConclusion:
                     if random.randint(0, 7) == 0:
                         slow_print("Vaše rána byla tak tvrdá, že soupeři rozdrtila lebku na padrť.\n")
                         opponent.health = 0
-                    elif random.randint (0, 5) == 5:
+                    elif random.randint(0, 5) == 5:
                         slow_print("Dali jste soupeři takovou ránu, že jste ho lehce omráčili\n")
                         opponent.special_abilities.append("super_stun")
                     else:
@@ -1001,12 +1006,12 @@ class AttackEvaluation:
         # editing of levels
         if defence_type == "":
             self.defence_none(strike_dir, strike_power)
-        elif player.weapon == fists:
+        elif player.weapon == Fists():
             self.fistfight()
         elif defence_type == "dodge":
             self.defence_dodge(opponent, strike_dir, strike_power, defence_dir)
         else:  # opponent action is block
-            if opponent.weapon == opponent.unarmed_weapon and player.weapon != fists:
+            if opponent.weapon == opponent.unarmed_weapon and player.weapon != Fists():
                 self.defence_none(strike_dir, strike_power)
             self.defence_block(opponent, strike_dir, strike_power, defence_dir)
 
@@ -1046,7 +1051,7 @@ class AttackEvaluation:
         return last_action
 
 
-class AttackPreparation():
+class AttackPreparation:
     def __init__(self):
         self.atk_eval = AttackEvaluation()
 
@@ -1132,7 +1137,7 @@ class AttackPreparation():
         elif "block" in self.opponent.defence and "dodge" not in self.opponent.defence:
             return self.opponent_block_direction()
         else:
-            if opponent.weapon == opponent.unarmed_weapon and player.weapon != fists:
+            if opponent.weapon == opponent.unarmed_weapon and player.weapon != Fists():
                 return self.opponent_dodge_direction()
 
             self.opponent_action_deciding()
@@ -1384,7 +1389,7 @@ class AttackPreparation():
                     self.player_action = "cut"
                     break
                 elif attack_type != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         elif "cut" in player.weapon.damage_type:
             self.player_action = "cut"
@@ -1414,7 +1419,7 @@ class AttackPreparation():
                     self.player_direction = "head"
                     break
                 elif attack_direction != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         elif self.player_action == "punch":
             while True:
@@ -1427,7 +1432,7 @@ class AttackPreparation():
                     self.player_direction = "head"
                     break
                 elif attack_direction != "skip":
-                    wrong_input(0)
+                    wrong_input()
 
         return self.strike_power_choosing()
 
@@ -1445,7 +1450,7 @@ class AttackPreparation():
                 self.player_direction = "belly"
                 break
             elif attack_direction != "skip":
-                wrong_input(0)
+                wrong_input()
 
         return self.strike_power_choosing()
 
@@ -1466,7 +1471,7 @@ class AttackPreparation():
                 self.player_power = "high"
                 break
             elif power_selection != "skip":
-                wrong_input(0)
+                wrong_input()
 
         return self.atk_eval.attack_output(self.opponent, self.player_action, self.player_direction, self.player_power,
                                            self.opponent_action, self.opponent_direction)

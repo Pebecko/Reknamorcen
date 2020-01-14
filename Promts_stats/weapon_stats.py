@@ -4,13 +4,15 @@ class Weapon:
     xp = 0
     damage = 0
     stamina_regain = 0
-    hit_points = 10000
     damage_type = []
     weapon_type = ""
     special_abilities = []
     weapon_class = ""
     number = ""
     hands = []
+
+    def __init__(self, hit_points=10_000):
+        self.hit_points = hit_points
 
 
 # weapons class patterns
@@ -19,6 +21,7 @@ class Sword(Weapon):
     special_abilities = ["mordhau"]
     weapon_class = "sword"
     number = "sin"
+    mordhau_variant = Weapon()
 
 
 class Axe(Weapon):
@@ -40,6 +43,7 @@ class Dagger(Weapon):
     weapon_class = "dagger"
     number = "sin"
     hands = [1]
+
 
 class Spear(Weapon):
     hands = [1, 2]
@@ -76,7 +80,7 @@ class Unarmed(Weapon):
     number = "plu"
     hands = [1, 2]
 
-# weapons patterns
+
 class ShortSword(Sword):
     name = "krátký meč"
     info = "krátší ostrá zbraň schopná jak sekat, tak i bodat"
@@ -85,6 +89,7 @@ class ShortSword(Sword):
     weapon_type = "light"
     special_abilities = ["mordhau", "extra_dodge"]
     hands = [1]
+    mordhau_variant = None
 
 
 class ShortSwordMordhau(ShortSword):
@@ -195,30 +200,3 @@ class Cheeks(Unarmed):
     damage_type = ["stab"]
     weapon_type = "medium"
     special_abilities = ["poison"]
-
-# weapons
-short_sword = ShortSword()
-
-short_sword_mordhau = ShortSwordMordhau()
-
-long_sword = LongSword()
-
-long_sword_mordhau = LongSwordMordhau()
-
-two_handed_sword = TwoHandedSword()
-
-two_handed_sword_mordhau = TwoHandedSwordMordhau()
-
-two_handed_axe = TwoHandedAxe()
-
-two_handed_hammer = TwoHandedHammer()
-
-long_dagger = LongDagger()
-
-fists = Fists()
-
-claws = Claws()
-
-small_cheeks = SmallCheeks()
-
-cheeks = Cheeks()

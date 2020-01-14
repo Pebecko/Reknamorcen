@@ -13,11 +13,7 @@ class Armor:
     occupied = False
 
 
-no_armor = Armor()
-
-
 # TODO Add new armors
-# armor patterns
 class ChainmailHauberk(Armor):
     name = "kroužkový hauberk"
     info = "lidmi vyrobená kroužková košile"
@@ -53,26 +49,3 @@ class SteelBrestplate(Armor):
 class GromrilBrestplate(Armor):
     pass
 
-
-# armors
-class Armor1(ChainmailHauberk):
-    pass
-
-
-class Armor2(ChainmailHauberk):
-    pass
-
-
-class Armor3(LeatherTunic):
-    pass
-
-
-class Armor4(LeatherTunic):
-    pass
-
-
-# armors
-armor_1 = Armor1()
-armor_2 = Armor2()
-armor_3 = Armor3()
-armor_4 = Armor4()

@@ -1,21 +1,25 @@
-from character_stats import *
-from main_funcs import *
+from character_stats import player
+from main_funcs import slow_print
+from random import randint
+from Promts_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
+    TwoHandedSwordMordhau
+
 
 
 class Conclusion:
     def returning_from_technique(self):
-        if player.weapon == short_sword_mordhau:
-            player.weapon = short_sword
-        elif player.weapon == long_sword_mordhau:
-            player.weapon = long_sword
-        elif player.weapon == two_handed_sword_mordhau:
-            player.weapon = two_handed_sword
+        if player.weapon == ShortSwordMordhau:
+            player.weapon = ShortSword(player.weapon.hit_points)
+        elif player.weapon == LongSwordMordhau:
+            player.weapon = LongSword(player.weapon.hit_points)
+        elif player.weapon == TwoHandedSwordMordhau:
+            player.weapon = TwoHandedSword(player.weapon.hit_points)
 
         return self.end_call()
 
     def end_call(self):
         # TODO Upgrade end calls
-        end_call = random.randint(0, 1)
+        end_call = randint(0, 1)
         if end_call == 0:
             slow_print("Zabili jste ho.\n")
         elif end_call == 1:

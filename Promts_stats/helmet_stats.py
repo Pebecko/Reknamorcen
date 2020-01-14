@@ -6,7 +6,7 @@ class Helmet:
     _type = ""
     heaviness = 0
     loudness = 0
-    hit_points = 10000
+    hit_points = 10_000
     cut_damage_reduction = 0  # 1 - 10(%)
     stab_damage_reduction = 0  # 1 - 10(%)
     smash_damage_reduction = 0  # 1 - 10(%)
@@ -14,10 +14,6 @@ class Helmet:
     occupied = False
 
 
-no_helmet = Helmet()
-
-
-# helmet patterns
 class RustyOrkHelmet(Helmet):
     name = "rezavá orkská helma"
     info = "vyrobená skřety ve velmi primitivní podmínkách velmi primitivními nástroji, která se" \
@@ -55,7 +51,7 @@ class GromrilHelmet(Helmet):
     visibility = 3
     heaviness = 3
     loudness = 3
-    hit_points = 1000000
+    hit_points = 1_000_000
     cut_damage_reduction = 10
     stab_damage_reduction = 10
     smash_damage_reduction = 10
@@ -67,24 +63,3 @@ class GuardsmenHelmet(Helmet):
 
 class ElvenPathfinderHelmet(Helmet):
     pass
-
-
-# helmets
-class Helmet1(RustyOrkHelmet):
-    hit_points = 500
-
-
-class Helmet2(RustyOrkHelmet):
-    pass
-
-
-class Helmet3(DwarvenMinerHelmet):
-    pass
-
-class Helmet4(GromrilHelmet):
-    pass
-
-helmet_1 = Helmet1()
-helmet_2 = Helmet2()
-helmet_3 = Helmet3()
-gromril_helmet_1 = Helmet4()

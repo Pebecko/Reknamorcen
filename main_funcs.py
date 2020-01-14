@@ -1,56 +1,49 @@
-import random
-import sys
-import time
+from random import choice
+from sys import stdout
+from time import sleep
 from character_stats import player
 
 
-def wrong_input(call):
-    if call == 0:
-        call = random.randint(1, 4)
+def wrong_input():
+    error_messages = ["Špatný vstup, zkuste to znovu.\n",
+                      "Špatná možnost, zkuste to znovu.\n",
+                      "Nekompatibilní vstup, zkuste to znovu.\n",
+                      "To co jste zadali nesouhlasí s možnostmi.\n"]
 
-    if call is 1:
-        error_call = "Špatný vstup, zkuste to znovu.\n"
-    elif call is 2:
-        error_call = "Špatná možnost, zkuste to znovu.\n"
-    elif call is 3:
-        error_call = "Nekompatibilní vstup, zkuste to znovu.\n"
-    elif call is 4:
-        error_call = "To co jste zadali nesouhlasí s možnostmi.\n"
-    else:
-        error_call = "Špatný error call"
-    return slow_print(error_call)
+    return slow_print(choice(error_messages))
 
 
 def slow_print(s):
     writing_time = player.print_time
     for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(writing_time)
+        stdout.write(c)
+        stdout.flush()
+        sleep(writing_time)
     print("")
-    time.sleep(0.1)
+    sleep(0.1)
 
 
 def shutdown():
     slow_print("SHUTTING DOWN...\n")
-    time.sleep(0.8)
+    sleep(0.8)
     quit()
 
 
 def player_killed():
-    time.sleep(0.6)
+    sleep(0.6)
     slow_print("Jste mrtev.\n")
-    time.sleep(0.8)
+    sleep(0.8)
     slow_print("Chcete [z]ačít znovu, nebo [o]dejít?")
     escape_result = input()
     if escape_result == "o":
         shutdown()
     elif escape_result == "z":
-        print("no implemented")  # restarting the game
+        print("not implemented")  # restarting the game
     else:
-        wrong_input(0)
+        wrong_input()
 
 
+# TODO - Split everything into separate functions
 def base_options(*message):
     slow_print(message)
     option = input()
@@ -84,7 +77,7 @@ def base_options(*message):
                 player.print_time = 0.015
                 break
             else:
-                wrong_input(3)
+                wrong_input()
 
     elif option == "cman":
         player.max_health = 10000
@@ -154,7 +147,7 @@ def base_options(*message):
                     slow_print("Máte " + str(player.health_potions) + " léčivých lektvarů.\n")
                 break
             else:
-                wrong_input(0)
+                wrong_input()
 
         option = "skip"
 
@@ -180,7 +173,7 @@ def base_options(*message):
             elif type_decision == "b":
                 break
             else:
-                wrong_input(0)
+                wrong_input()
 
         option = "skip"
 
