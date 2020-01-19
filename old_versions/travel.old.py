@@ -1,4 +1,4 @@
-from fight import *
+from game.fight.fight import *
 
 
 class RoomTypes:

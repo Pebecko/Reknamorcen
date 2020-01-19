@@ -1,9 +1,8 @@
-from room_types import RoomTypeE, RoomTypeES, RoomTypeESW, RoomTypeEW, RoomTypeN, RoomTypeNE, RoomTypeNES, \
-    RoomTypeNESW, RoomTypeNES, RoomTypeNESW, RoomTypeNEW, RoomTypeNS, RoomTypeNSW, RoomTypeNW, RoomTypeS, RoomTypeSW, \
+from game.movement.room_types import RoomTypeES, RoomTypeESW, RoomTypeEW, RoomTypeN, RoomTypeNE, RoomTypeNEW, RoomTypeNS, RoomTypeNW, RoomTypeS, RoomTypeSW, \
     RoomTypeW
-from coordinates import Coordinates
-from items import Items
-from main_funcs import slow_print, shutdown
+from game.important_modules.coordinates import Coordinates
+from game.important_modules.items import Items
+from game.important_modules.main_funcs import slow_print, shutdown
 from random import randint
 
 

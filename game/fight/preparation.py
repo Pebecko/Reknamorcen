@@ -1,8 +1,8 @@
 from random import randint, choice
-from Promts_stats.opponent_stats import Skeleton, SmallSpider, Zombie, OrkBoy
-from main_funcs import slow_print, base_options, wrong_input
-from character_stats import player
-from Promts_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
+from game.character_stats.opponent_stats import Skeleton, SmallSpider, Zombie, OrkBoy
+from game.important_modules.main_funcs import slow_print, base_options, wrong_input
+from game.character_stats.player_stats import player
+from game.equipment_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
     TwoHandedSwordMordhau
 
 

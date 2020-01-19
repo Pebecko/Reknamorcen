@@ -1,7 +1,7 @@
 from random import choice
 from sys import stdout
 from time import sleep
-from character_stats import player
+from game.character_stats.player_stats import player
 
 
 def wrong_input():

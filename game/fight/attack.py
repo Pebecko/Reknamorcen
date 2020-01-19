@@ -1,9 +1,9 @@
-from Promts_stats.opponent_stats import Opponent
-from Promts_stats.helmet_stats import Helmet
-from Promts_stats.armor_stats import Armor
-from Promts_stats.weapon_stats import Fists
-from character_stats import player
-from main_funcs import slow_print, player_killed, base_options, wrong_input
+from game.character_stats.opponent_stats import Opponent
+from game.equipment_stats.helmet_stats import Helmet
+from game.equipment_stats.armor_stats import Armor
+from game.equipment_stats.weapon_stats import Fists
+from game.character_stats.player_stats import player
+from game.important_modules.main_funcs import slow_print, player_killed, base_options, wrong_input
 import random
 
 

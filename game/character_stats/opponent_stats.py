@@ -1,7 +1,7 @@
-from Promts_stats.weapon_stats import Weapon, Claws, TwoHandedAxe, ShortSword, LongDagger, Fists, LongSword, \
+from game.equipment_stats.weapon_stats import Weapon, Claws, TwoHandedAxe, ShortSword, LongDagger, Fists, LongSword, \
     SmallCheeks, Cheeks
-from Promts_stats.helmet_stats import Helmet, RustyOrkHelmet, GromrilHelmet, DwarvenMinerHelmet
-from Promts_stats.armor_stats import Armor, LeatherTunic, ChainmailHauberk, GromrilBrestplate, SteelBrestplate
+from game.equipment_stats.helmet_stats import Helmet, RustyOrkHelmet
+from game.equipment_stats.armor_stats import Armor, LeatherTunic, ChainmailHauberk
 
 
 class Opponent:
@@ -30,7 +30,6 @@ class Opponent:
     armor = Armor()
 
 
-# zelené kůže
 class Greenskin(Opponent):
     faction = "greenskin"
     unarmed_weapon = Claws()
@@ -61,7 +60,6 @@ class BlackOrk(Greenskin):
     name = "černý ork"
 
 
-# nemrtví
 class Undead(Opponent):
     unarmed_weapon = Fists()
     defence = ["block"]
@@ -97,7 +95,6 @@ class Zombie(Undead):
     attack_power = ["low", "medium"]
 
 
-# pavouci
 class Spider(Opponent):
     faction = "beast"
     defence = ["dodge"]

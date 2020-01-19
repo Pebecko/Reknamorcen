@@ -1,7 +1,7 @@
-from Promts_stats.helmet_stats import Helmet, GromrilHelmet
-from Promts_stats.armor_stats import Armor, ChainmailHauberk, LeatherTunic
-from Promts_stats.weapon_stats import Fists, TwoHandedAxe, LongSword, LongDagger
-from coordinates import Coordinates
+from game.equipment_stats.helmet_stats import Helmet, GromrilHelmet
+from game.equipment_stats.armor_stats import Armor, ChainmailHauberk
+from game.equipment_stats.weapon_stats import Fists, TwoHandedAxe, LongSword, LongDagger
+from game.important_modules.coordinates import Coordinates
 
 
 class Player:

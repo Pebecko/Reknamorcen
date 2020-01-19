@@ -1,9 +1,8 @@
-from main_funcs import slow_print, base_options, wrong_input
-from coordinates import Coordinates
-from fight import Fight
-from character_stats import player
-from items import Items
-
+from game.important_modules.main_funcs import slow_print, base_options, wrong_input
+from game.important_modules.coordinates import Coordinates
+from game.fight.fight import Fight
+from game.character_stats.player_stats import player
+from game.important_modules.items import Items
 
 
 class Room:

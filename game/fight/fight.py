@@ -1,13 +1,13 @@
 from random import randint
-from main_funcs import slow_print, player_killed
-from Fight_modules.preparation import Preparation
-from Fight_modules.attack import AttackPreparation
-from Fight_modules.defence import DefencePreparation
-from Fight_modules.conclusion import Conclusion
-from Promts_stats.opponent_stats import Opponent
-from Promts_stats.helmet_stats import Helmet
-from Promts_stats.armor_stats import Armor
-from Promts_stats.weapon_stats import Fists
+from game.important_modules.main_funcs import slow_print, player_killed
+from game.fight.preparation import Preparation
+from game.fight.attack import AttackPreparation
+from game.fight.defence import DefencePreparation
+from game.fight.conclusion import Conclusion
+from game.character_stats.opponent_stats import Opponent
+from game.equipment_stats.helmet_stats import Helmet
+from game.equipment_stats.armor_stats import Armor
+from game.equipment_stats.weapon_stats import Fists
 
 
 # TODO Add fighting multiple opponents
