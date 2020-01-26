@@ -1,13 +1,104 @@
 from random import randint, choice
-from game.character_stats.opponent_stats import Skeleton, SmallSpider, Zombie, OrkBoy
+from game.character_stats.opponent_stats import all_opponents
 from game.important_modules.main_funcs import slow_print, base_options, wrong_input
-from game.character_stats.player_stats import player
-from game.equipment_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
-    TwoHandedSwordMordhau
+from game.equipment_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, \
+    TwoHandedSword, TwoHandedSwordMordhau
 
 
 class Preparation:
-    def opponent_creation(self, opponent_level):
+    def __init__(self, player, room_info):
+        self.player = player
+        self.room_info = room_info
+
+        self.opponents = []
+
+    def main(self):
+        self.opponents_creation()
+
+        self.setting_base_balance()
+
+        self.special_fight_techniques()
+
+        self.opponents_introduction()
+
+        return self.opponents
+
+    def opponents_creation(self):
+        race = self.setting_opponents_race()
+
+        while len(self.opponents) <= 5:
+            possible_opponents = self.choosing_possible_opponents(race)
+
+            if not possible_opponents:
+                return
+            else:
+                self.opponents.append(choice(possible_opponents))
+
+    def setting_opponents_race(self):
+        if self.room_info.race is not None:
+            possible_races = [self.room_info.race for _ in range(5)]
+        else:
+            possible_races = []
+
+        for opponent in all_opponents:
+            if opponent.race not in possible_races:
+                possible_races.append(opponent.race)
+
+        return possible_races
+
+    def choosing_possible_opponents(self, race):
+        possible_opponents = []
+
+        opponents_size = self.finding_opponents_size()
+
+        for opponent in all_opponents:
+            if opponent.race == race and opponent.size <= self.room_info.size - opponents_size:
+                possible_opponents.append(opponent)
+
+        return possible_opponents
+
+    def finding_opponents_size(self):
+        opponents_size = 0
+
+        for opponent in self.opponents:
+            opponents_size += opponent.size
+
+        return opponents_size
+
+    def setting_base_balance(self):
+        pass
+
+    def special_fight_techniques(self):
+        pass
+
+    def opponents_introduction(self):
+        message = "=" * 20
+
+        for num, opponent in enumerate(self.opponents):
+            if num == 0:
+                message += "Stojí před vámi {}\n".format(str(opponent))
+            else:
+                message += "Dále před vámi stojí {}\n".format(str(opponent))
+            #
+            # if opponent.weapon.number == "sin":
+            #     slow_print(" Jeho zbraň je {}.\n".format(opponent.weapon.name))
+            # elif opponent.weapon.number == "plu":
+            #     slow_print(" Jeho zbraně jsou {}.\n".format(opponent.weapon.name))
+            #
+            # if isinstance(opponent.armor, Armor):
+            #     slow_print("Jeho brnění je {}\n".format(opponent.armor.name))
+            # if isinstance(opponent.helmet, Helmet):
+            #     slow_print("Jeho helma je {}\n".format(opponent.helmet.name))
+
+
+class _Preparation:
+    def __init__(self, player):
+        self.player = player
+
+    def opponents_creation(self, opponent_level):
+
+
+
         if opponent_level == 0:
             num = 2
             if player.difficulty == "hard":
@@ -52,7 +143,7 @@ class Preparation:
         opponent.helmet = choice(opponent.helmets)
         opponent.weapon = choice(opponent.weapons)
 
-        return opponent
+        return opponents
 
     @staticmethod
     def first_fight_action(opponent):
@@ -81,11 +172,11 @@ class Preparation:
                 slow_print("Chcete si meč [o]točit, abyste s ním mohli mlátit spíše než sekat, nebo [n]e??")
                 style_decision = base_options()
                 if style_decision == "o":
-                    if player.weapon == ShortSword:
+                    if isinstance(player.weapon, ShortSword):
                         player.weapon = ShortSwordMordhau(player.weapon.hit_points)
-                    elif player.weapon == LongSword:
+                    elif isinstance(player.weapon, LongSword):
                         player.weapon = LongSwordMordhau(player.weapon.hit_points)
-                    elif player.weapon == TwoHandedSword:
+                    elif isinstance(player.weapon, TwoHandedSword):
                         player.weapon = TwoHandedSwordMordhau(player.weapon.hit_points)
                     break
                 elif style_decision == "n":

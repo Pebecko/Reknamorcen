@@ -1,41 +1,76 @@
 from random import randint
+from game.movement.room_info import RoomInfo
 from game.important_modules.main_funcs import slow_print, player_killed
 from game.fight.preparation import Preparation
-from game.fight.attack import AttackPreparation
-from game.fight.defence import DefencePreparation
-from game.fight.conclusion import Conclusion
 from game.character_stats.opponent_stats import Opponent
-from game.equipment_stats.helmet_stats import Helmet
-from game.equipment_stats.armor_stats import Armor
+from game.equipment_stats.armor_stats.helmet_stats import Helmet
+from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor
 from game.equipment_stats.weapon_stats import Fists
 
 
 # TODO Add fighting multiple opponents
 class Fight:
+    def __init__(self, player, room_info=RoomInfo()):
+        self.player = player
+        self.room_info = room_info
+
+        self.opponents = Preparation(self.player, self.room_info).main()
+
+    def main(self):
+        while self.finding_if_any_opponents_live():
+            attacker = self.choosing_attacker()
+            defender = self.choosing_defender()
+
+            # Combat(attacker, defender).main()
+
+            self.applying_special_effects()
+
+            if self.player.health <= 0:
+                return []
+
+            self.fight_status()
+
+        else:
+            return self.all_opponents_dead()
+
+    def finding_if_any_opponents_live(self):
+        pass
+
+    def choosing_attacker(self):
+        pass
+
+    def choosing_defender(self):
+        pass
+
+    def applying_special_effects(self):
+        pass
+
+    def fight_status(self):
+        pass
+
+    def all_opponents_dead(self):
+        pass
+
+
+class _Fight:
     def __init__(self, player):
         self.player = player
 
-        self.preparation = Preparation()
-        self.attack = AttackPreparation()
-        self.defence = DefencePreparation()
-        self.conclusion = Conclusion()
+        self.opponents = [Opponent]
 
-        self.opponent = Opponent()
-
-    def main(self, opponent_level):
+    def main(self, fight_level):
         # preparation
-        self.opponent = self.preparation.opponent_creation(opponent_level)
+        self.opponents = Preparation(self.player).opponents_creation(fight_level)
 
         self.opponent_introduction()
 
-        last_action = self.preparation.first_fight_action(self.opponent)
+        last_action = Preparation(self.player).first_fight_action(self.opponents)
 
-        self.preparation.special_fight_techniques()
+        Preparation(self.player).special_fight_techniques()
 
         # fight
-        while self.opponent.health > 0:
-            if self.player.health <= 0:
-                player_killed()
+        while self.finding_if_any_opponents_live():
+
 
             self.fight_status()
 
@@ -62,31 +97,29 @@ class Fight:
         if self.opponent.helmet.name != "":
             slow_print("Jeho helma je {}\n".format(self.opponent.helmet.name))
 
+    def finding_if_any_opponents_live(self):
+        pass
+
     def fight_status(self):
-        if self.opponent.max_health * 0.95 <= self.opponent.health:
-            opponent_health_state = "bez zranění"
-        elif self.opponent.max_health * 0.75 <= self.opponent.health:
-            opponent_health_state = "lehce zraněn"
-        elif self.opponent.max_health * 0.40 <= self.opponent.health:
-            opponent_health_state = "středně zraněn"
-        elif self.opponent.max_health * 0.20 <= self.opponent.health:
-            opponent_health_state = "těžce zraněn"
-        else:
-            opponent_health_state = "velmi těžce zraněn"
-
-        opponent_stamina_state = "plný energie"
-
         slow_print("    Váš život: {}/{}".format(self.player.health, self.player.max_health))
-        slow_print("    Vaše energie: {}/{}\n".format(self.player.stamina, self.player.max_stamina))
 
-        slow_print("    Soupeř vypadá {}".format(opponent_health_state))
-        if self.player.test is True:
-            print("        {}/{}".format(self.opponent.health, self.opponent.max_health))
-        slow_print("    Soupeř vypadá {}".format(opponent_stamina_state))
-        if self.player.test is True:
-            print("        {}/{}\n".format(self.opponent.stamina, self.opponent.max_stamina))
+        for opponent in self.opponents:
+            if opponent.max_health * 0.95 <= opponent.health:
+                opponent_health_state = "bez zranění"
+            elif opponent.max_health * 0.75 <= opponent.health:
+                opponent_health_state = "lehce zraněn"
+            elif opponent.max_health * 0.40 <= opponent.health:
+                opponent_health_state = "středně zraněn"
+            elif opponent.max_health * 0.20 <= opponent.health:
+                opponent_health_state = "těžce zraněn"
+            else:
+                opponent_health_state = "velmi těžce zraněn"
 
-        return
+            slow_print("\t{} vypadá {}".format(opponent.name, opponent_health_state).capitalize())
+            if self.player.test is True:
+                print("        {}/{}".format(opponent.health, opponent.max_health))
+
+            return
 
     def special_effects(self):
         if "no_right_arm" in self.player.special_abilities and "no_left_arm" in self.player.special_abilities:
@@ -104,8 +137,8 @@ class Fight:
         if self.player.helmet.hit_points <= 0 and self.player.helmet != Helmet():
             self.player.helmet = Helmet()
             slow_print("Rozbila se vám helma.\n")
-        if self.player.armor.hit_points <= 0 and self.player.armor != Armor():
-            self.player.armor = Armor()
+        if self.player.armor.hit_points <= 0 and self.player.armor != ChestArmor():
+            self.player.armor = ChestArmor()
             slow_print("Rozbilo se vám brnění.\n")
 
         # opponent gear destruction
@@ -115,8 +148,8 @@ class Fight:
         if self.opponent.helmet.hit_points <= 0 and self.opponent.helmet != Helmet():
             self.opponent.helmet = Helmet()
             slow_print("Vaše rána soupeři rozbila helmu.\n")
-        if self.opponent.armor.hit_points <= 0 and self.opponent.armor != Armor():
-            self.opponent.armor = Armor()
+        if self.opponent.armor.hit_points <= 0 and self.opponent.armor != ChestArmor():
+            self.opponent.armor = ChestArmor()
             slow_print("Vaše rána soupeři rozbila brnění.\n")
 
         # rusty effect on opponent

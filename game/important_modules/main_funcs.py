@@ -2,6 +2,7 @@ from random import choice
 from sys import stdout
 from time import sleep
 from game.character_stats.player_stats import player
+from game.important_modules.settings import settings
 
 
 def wrong_input():
@@ -14,13 +15,12 @@ def wrong_input():
 
 
 def slow_print(s):
-    writing_time = player.print_time
     for c in s:
         stdout.write(c)
         stdout.flush()
-        sleep(writing_time)
-    print("")
-    sleep(0.1)
+        sleep(settings.print_time)
+    print()
+    sleep(settings.print_break)
 
 
 def shutdown():
@@ -33,12 +33,20 @@ def player_killed():
     sleep(0.6)
     slow_print("Jste mrtev.\n")
     sleep(0.8)
+
+    return player_restarting_choice()
+
+
+def player_restarting_choice():
     slow_print("Chcete [z]ačít znovu, nebo [o]dejít?")
+
     escape_result = input()
+
     if escape_result == "o":
         shutdown()
     elif escape_result == "z":
         print("not implemented")  # restarting the game
+        quit()
     else:
         wrong_input()
 
@@ -53,31 +61,11 @@ def base_options(*message):
 
     elif option == "save" or option == "uložit":
         option = "skip"
-        if player.x == 0 and player.y == 0:
-            save = ""
-            print("\nVáš save je: " + save)
-        else:
-            slow_print("Jste v místnosti v které nejde uložit hru.\n")
+        saving()
 
     elif option == "time":
         option = "skip"
-        slow_print("Jak rychle chcete aby se text vypisoval:\n"
-                   "    [i]nstantně\n"
-                   "    [r]ychle\n"
-                   "    [p]omalu")
-        while True:
-            time_setting = input()
-            if time_setting is "i":
-                player.print_time = 0
-                break
-            elif time_setting is "r":
-                player.print_time = 0.005
-                break
-            elif time_setting is "p":
-                player.print_time = 0.015
-                break
-            else:
-                wrong_input()
+        changing_print_time()
 
     elif option == "cman":
         player.max_health = 10000
@@ -102,52 +90,7 @@ def base_options(*message):
         option = "skip"
 
     elif option == "pinfo":
-        while True:
-            slow_print("Co byste chtěli vědět:\n"
-                       "    kolik máte [ž]ivotů\n"
-                       "    co máte za [p]ostavu\n"
-                       "    jakou máte [z]braň\n"
-                       "    jakou máte [h]elmu\n"
-                       "    jaké máte [b]rnění\n"
-                       "    kolik máte [l]éčivých lektvarů\n")
-            info_option = input()
-
-            if info_option == "ž":
-                slow_print("Vaše zdraví je: " + str(player.health) + "/" + str(player.max_health) + "\n")
-                break
-            elif info_option == "p":
-                slow_print("Vaše postava je {}, {}.".format(player.name, player.info))
-                break
-            elif info_option == "z":
-                if player.weapon.weapon_class != "unarmed":
-                    slow_print("Vaše zbraň je {}, {}.\n".format(player.weapon.name, player.weapon.info))
-                else:
-                    slow_print("Nemáte u sebe žádnou zbraň\n")
-                break
-            elif info_option == "h":
-                if player.helmet.name != "":
-                    slow_print("Vaše helma je {}, {}.\n".format(player.helmet.name, player.helmet.info))
-                else:
-                    slow_print("Nemáte žádnou helmu.\n")
-                break
-            elif info_option == "b":
-                if player.armor.name != "":
-                    slow_print("Vaše brnění je {}, {}.\n".format(player.armor.name, player.armor.info))
-                else:
-                    slow_print("Nemáte žádné brnění.\n")
-                break
-            elif info_option == "l":
-                if player.health_potions == 0:
-                    slow_print("Nemáte žádné léčivé lektvary.\n")
-                elif player.health_potions == 1:
-                    slow_print("Máte slední léčivý lektvar.\n")
-                elif player.health_potions in [2, 3, 4]:
-                    slow_print("Máte " + str(player.health_potions) + " léčivé lektvary.\n")
-                else:
-                    slow_print("Máte " + str(player.health_potions) + " léčivých lektvarů.\n")
-                break
-            else:
-                wrong_input()
+        slow_print(str(player))
 
         option = "skip"
 
@@ -157,7 +100,7 @@ def base_options(*message):
                    "    [quit] - vypne hru\n"
                    "    [save] - uloží hru (není dostupné)\n"
                    "    [pinfo] - informace o hráči\n"
-                   "    [oinfo] - informace o všech zbraních, helmách a brněních\n"
+                   "    [oinfo] - informace o všech zbraních, helmách a brněních (není dostupné)\n"
                    "    [hpot] - použití léčivého lekvaru\n")
 
         option = "skip"
@@ -181,20 +124,20 @@ def base_options(*message):
         if player.health == player.max_health:
             slow_print("Jste úplně v pořádku a nepotřebujete léčení.\n")
 
-        elif player.health_potions > 0:
+        elif player.potions.health_potions > 0:
             if player.health + 260 <= player.max_health:
                 player.health += 260
             else:
                 player.health = player.max_health
 
-            player.health_potions -= 1
+            player.potions.health_potions -= 1
             slow_print("Váš život je: " + str(player.health))
 
-            if player.health_potions == 0:
+            if player.potions.health_potions == 0:
                 slow_print("Už nemáte žádné léčivé lektvary.\n")
-            elif player.health_potions == 1:
+            elif player.potions.health_potions == 1:
                 slow_print("Zbývá vám poslední léčivý lektvar.\n")
-            elif player.health_potions in [2, 3, 4]:
+            elif player.potions.health_potions in [2, 3, 4]:
                 slow_print("Zbývají vám " + str(player.health_potions) + " léčivé lektvary.\n")
             else:
                 slow_print("Zbývá vám " + str(player.health_potions) + " léčivých lektvarů.\n")
@@ -205,3 +148,31 @@ def base_options(*message):
         option = "skip"
 
     return option
+
+
+def saving():
+    if player.x == 0 and player.y == 0:
+        save = ""
+        print("\nVáš save je: " + save)
+    else:
+        slow_print("Jste v místnosti v které nejde uložit hru.\n")
+
+
+def changing_print_time():
+    slow_print("Jak rychle chcete aby se text vypisoval:\n"
+               "    [i]nstantně\n"
+               "    [r]ychle\n"
+               "    [p]omalu")
+    while True:
+        time_setting = input()
+        if time_setting is "i":
+            settings.print_time = 0
+            break
+        elif time_setting is "r":
+            settings.print_time = 0.005
+            break
+        elif time_setting is "p":
+            settings.print_time = 0.015
+            break
+        else:
+            wrong_input()

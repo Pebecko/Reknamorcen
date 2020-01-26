@@ -2,16 +2,16 @@ from game.important_modules.main_funcs import slow_print, base_options, wrong_in
 from game.important_modules.coordinates import Coordinates
 from game.fight.fight import Fight
 from game.character_stats.player_stats import player
-from game.important_modules.items import Items
+from game.important_modules.stored_items import StoredItems
 
 
 class Room:
     fighting = Fight(player)
 
-    def __init__(self, coordinates=Coordinates(), fight=None, items=Items()):
+    def __init__(self, coordinates=Coordinates(), fight=None, stored_items=StoredItems()):
         self.coordinates = coordinates
         self.fight = fight
-        self.items = items
+        self.stored_items = stored_items
 
     def basic_functions(self):
         self.fights()
@@ -30,20 +30,20 @@ class Room:
         return
 
     def health_potion(self):
-        while self.items.health_potions > 0:
-            if self.items.health_potions == 1:
+        while self.stored_items.potions.health_potions > 0:
+            if self.stored_items.potions.health_potions == 1:
                 slow_print("Na zemi leží 1 léčící lektvar. Chcete si ho [v]zít, nebo [n]e?\n")
-            elif self.items.health_potions < 5:
+            elif self.stored_items.potions.health_potions < 5:
                 slow_print("Na zemi leží {} léčící lektvary. Chcete si je [v]zít, nebo [n]e?\n"
-                           "".format(self.items.health_potions))
+                           "".format(self.stored_items.potions.health_potions))
 
             else:
                 slow_print("Na zemi leží {} léčících lektvarů. Chcete si je [v]zít, nebo [n]e?\n"
-                           "".format(self.items.health_potions))
+                           "".format(self.stored_items.potions.health_potions))
             potion_choice = base_options()
             if potion_choice == "v":
-                player.health_potions += self.items.health_potions
-                self.items.health_potions = 0
+                player.health_potions += self.stored_items.potions.health_potions
+                self.stored_items.potions.health_potions = 0
             elif potion_choice == "n":
                 break
             elif potion_choice != "skip":

@@ -1,6 +1,6 @@
 from game.character_stats.opponent_stats import Opponent
-from game.equipment_stats.helmet_stats import Helmet
-from game.equipment_stats.armor_stats import Armor
+from game.equipment_stats.armor_stats.helmet_stats import Helmet
+from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor
 from game.equipment_stats.weapon_stats import Fists
 from game.character_stats.player_stats import player
 from game.important_modules.main_funcs import slow_print, player_killed, base_options, wrong_input
@@ -286,7 +286,7 @@ class AttackConclusion:
                 else:
                     multiplier -= opponent.helmet.stab_damage_reduction * 0.025
         else:
-            if opponent.armor != Armor():
+            if opponent.armor != ChestArmor():
                 opponent.armor.hit_points -= 1.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -446,7 +446,7 @@ class AttackConclusion:
                 else:
                     multiplier -= opponent.helmet.stab_damage_reduction * 0.045
         else:
-            if opponent.armor != Armor():
+            if opponent.armor != ChestArmor():
                 opponent.armor.hit_points -= 2.5 * player.weapon.damage
             if strike_type == "cut":
                 if "armor_piercing" not in player.weapon.special_abilities:
@@ -1052,7 +1052,7 @@ class AttackEvaluation:
 
 
 class AttackPreparation:
-    def __init__(self):
+    def __init__(self, room_size, room_race):
         self.atk_eval = AttackEvaluation()
 
         self.opponent = Opponent()

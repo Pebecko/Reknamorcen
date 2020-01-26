@@ -1,37 +1,36 @@
+from random import randint, choice
+from game.character_stats.character import Character
 from game.equipment_stats.weapon_stats import Weapon, Claws, TwoHandedAxe, ShortSword, LongDagger, Fists, LongSword, \
     SmallCheeks, Cheeks
-from game.equipment_stats.helmet_stats import Helmet, RustyOrkHelmet
-from game.equipment_stats.armor_stats import Armor, LeatherTunic, ChainmailHauberk
+from game.equipment_stats.armor_stats.helmet_stats import Helmet, RustyOrkHelmet
+from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor, LeatherTunic, ChainmailHauberk
 
 
-class Opponent:
-    name = ""
-    info = ""
+class Opponent(Character):
+    possessive_pronoun = "jeho"
     difficulty = 0
-    health = 0
-    max_health = 0
+
     lowest_health = 0
     highest_health = 0
-    stamina = 0
-    max_stamina = 0
-    awareness = 0
-    dodge_effectiveness = 0
-    block_effectiveness = 0
-    faction = ""
-    weapon = Weapon()
-    unarmed_weapon = Weapon()
-    weapons = []
-    helmets = [Helmet()]
-    armors = [Armor()]
-    defence = []
-    attack_power = []  # light, medium, heavy
-    special_abilities = []
-    helmet = Helmet()
-    armor = Armor()
+
+    possible_weapons = [Weapon()]
+    possible_helmets = [Helmet()]
+    possible_armors = [ChestArmor()]
+
+    # possible fight actions
+    defence = []  # block, dodge
+    attack_power = []  # small, medium, high
+
+    def __init__(self):
+        super().__init__()
+        self.health = randint(self.lowest_health, self.highest_health)
+        self.weapon = choice(self.possible_weapons)
+        self.helmet = choice(self.possible_helmets)
+        self.armor = choice(self.possible_armors)
 
 
 class Greenskin(Opponent):
-    faction = "greenskin"
+    race = "greenskin"
     unarmed_weapon = Claws()
     defence = ["block"]
 
@@ -40,14 +39,14 @@ class OrkBoy(Greenskin):
     name = "ork"
     info = "ohromné zelené stvoření plné svalů schopné jen svýmy pařáty roztrhat nechráněného člověka na kusy"
     difficulty = 3
-    lowest_health = 480
-    highest_health = 560
-    awareness = 4
+    lowest_health = 520
+    highest_health = 640
+    awareness = 3
     dodge_effectiveness = 0
     block_effectiveness = 7
-    weapons = [TwoHandedAxe(), TwoHandedAxe(), ShortSword(), LongDagger(), TwoHandedAxe()]
-    helmets = [RustyOrkHelmet(), Helmet()]
-    armors = [Armor(), Armor(), Armor(), LeatherTunic()]
+    possible_weapons = [TwoHandedAxe(), TwoHandedAxe(), ShortSword(), LongDagger(), TwoHandedAxe()]
+    possible_helmets = [RustyOrkHelmet(), Helmet()]
+    possible_armors = [ChestArmor(), ChestArmor(), ChestArmor(), LeatherTunic()]
     attack_power = ["medium", "high"]
 
 
@@ -63,8 +62,8 @@ class BlackOrk(Greenskin):
 class Undead(Opponent):
     unarmed_weapon = Fists()
     defence = ["block"]
-    faction = "undead"
-    special_abilities = ["no_bleeding"]
+    race = "undead"
+    character_traits = ["no_bleeding"]
 
 
 class Skeleton(Undead):
@@ -77,8 +76,8 @@ class Skeleton(Undead):
     dodge_effectiveness = 0
     block_effectiveness = 3
     weapons = [ShortSword(), ShortSword(), ShortSword(), LongDagger(), LongSword()]
-    armors = [ChainmailHauberk(), LeatherTunic(), Armor(), Armor()]
-    attack_power = ["low", "medium"]
+    armors = [ChainmailHauberk(), LeatherTunic(), ChestArmor(), ChestArmor()]
+    attack_power = ["small", "medium"]
 
 
 class Zombie(Undead):
@@ -91,14 +90,14 @@ class Zombie(Undead):
     dodge_effectiveness = 0
     block_effectiveness = 4
     weapons = [ShortSword(), ShortSword(), ShortSword(), LongDagger(), LongSword(), Fists()]
-    armors = [ChainmailHauberk(), LeatherTunic(), Armor(), Armor()]
-    attack_power = ["low", "medium"]
+    armors = [ChainmailHauberk(), LeatherTunic(), ChestArmor(), ChestArmor()]
+    attack_power = ["small", "medium"]
 
 
 class Spider(Opponent):
-    faction = "beast"
+    race = "beast"
     defence = ["dodge"]
-    special_abilities = ["no_bones", "no_limbs"]
+    character_traits = ["no_bones", "no_limbs"]
 
 
 class SmallSpider(Spider):
@@ -109,7 +108,7 @@ class SmallSpider(Spider):
     lowest_health = 120
     highest_health = 160
     awareness = 5
-    dodge_effectiveness = 8
+    dodge_effectiveness = 7
     block_effectiveness = 0
     unarmed_weapon = SmallCheeks()
     weapons = [SmallCheeks()]
@@ -123,12 +122,16 @@ class GiantSpider(Spider):
     lowest_health = 280
     highest_health = 430
     awareness = 4
-    dodge_effectiveness = 6
+    dodge_effectiveness = 4
     block_effectiveness = 0
     unarmed_weapon = Cheeks()
     weapons = [Cheeks()]
+    attack_power = ["medium"]
 
 
 class MotherSpider(Spider):
     name = "pavoučí matka"
     defence = []
+
+
+all_opponents = [OrkBoy(), Skeleton(), Zombie(), SmallSpider(), GiantSpider()]
