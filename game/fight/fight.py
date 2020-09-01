@@ -1,27 +1,28 @@
-from random import randint
+from random import randint, choice
 from game.movement.room_info import RoomInfo
-from game.important_modules.main_funcs import slow_print, player_killed
+from game.important_modules.main_funcs import slow_print, player_killed, clearing_screen
 from game.fight.preparation import Preparation
-from game.character_stats.opponent_stats import Opponent
+from game.fight.combat_modules.combat import Combat
+from game.character_stats.opponent import Opponent
 from game.equipment_stats.armor_stats.helmet_stats import Helmet
 from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor
-from game.equipment_stats.weapon_stats import Fists
+from game.equipment_stats.weapon import Fists
 
 
 # TODO Add fighting multiple opponents
 class Fight:
     def __init__(self, player, room_info=RoomInfo()):
-        self.player = player
         self.room_info = room_info
 
+        self.player = player
         self.opponents = Preparation(self.player, self.room_info).main()
 
     def main(self):
         while self.finding_if_any_opponents_live():
             attacker = self.choosing_attacker()
-            defender = self.choosing_defender()
+            defender = self.choosing_defender(attacker)
 
-            # Combat(attacker, defender).main()
+            Combat(attacker, defender).main()
 
             self.applying_special_effects()
 
@@ -37,16 +38,25 @@ class Fight:
         pass
 
     def choosing_attacker(self):
-        pass
+        attacker = self.player
+        for character in self.opponents:
+            if character.balance > attacker.balance:
+                attacker = character
+        return attacker
 
-    def choosing_defender(self):
-        pass
+    def choosing_defender(self, attacker):
+        if not attacker.player_controlled:
+            defender = self.player
+        else:
+            defender = choice(self.opponents)
+        return defender
 
     def applying_special_effects(self):
         pass
 
     def fight_status(self):
-        pass
+        for character in [self.player] + self.opponents:
+            slow_print(str(character))
 
     def all_opponents_dead(self):
         pass
@@ -251,3 +261,8 @@ class _Fight:
         self.attack.player_last_power_II = ""
 
         self.conclusion.returning_from_technique()
+
+
+if __name__ == '__main__':
+    from game.character_stats.player import all_player_types
+    fight = Fight(all_player_types[0])

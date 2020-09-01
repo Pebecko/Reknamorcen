@@ -1,7 +1,8 @@
 from random import choice
 from sys import stdout
 from time import sleep
-from game.character_stats.player_stats import player
+from os import system
+from game.character_stats.player import player
 from game.important_modules.settings import settings
 
 
@@ -176,3 +177,7 @@ def changing_print_time():
             break
         else:
             wrong_input()
+
+
+def clearing_screen():
+    system("cls")

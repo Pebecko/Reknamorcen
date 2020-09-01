@@ -1,21 +1,18 @@
 from random import randint
 from game.equipment_stats.item import Item
+from game.important_modules.creating_items_from_imports import item_creation
+
+
+weapons_import_path = "data/weapons.csv"
 
 
 class Weapon(Item):
-    min_damage = 1
-    max_damage = 1
-    damage_type = []
-    weapon_type = ""
-    weapon_class = ""
-    number = ""
-    hands = []
+    weapon_type = ""  # sword, axe, hammer...
 
-    def __init__(self):
-        super().__init__()
-        self.damage = randint(self.min_damage, self.max_damage)
+    def __init__(self, import_file="no_import_file_specified", **kwargs):
+        super().__init__(import_file=import_file, **kwargs)
 
-
+"""
 # weapons class patterns
 class Sword(Weapon):
     damage_type = ["cut", "stab"]
@@ -194,3 +191,7 @@ class Cheeks(Unarmed):
     damage_type = ["stab"]
     weapon_type = "medium"
     item_traits = ["poison"]
+"""
+
+
+all_weapon_types = item_creation(Weapon, weapons_import_path)

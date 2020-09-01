@@ -1,0 +1,3 @@
+name;race;faction;info;base_health_potions;base_strength_potions;base_speed_potions;max_potions;awareness;dodge_effectiveness;block_effectiveness;character_traits;possible_defence;possible_attack_power;hands_pairs;legs_pairs;heads;no_blood;no_brain;min_hand_mass;max_hand_mass;min_leg_mass;max_leg_mass;min_head_mass;max_head_mass;min_chest_mass;max_chest_mass;possible_armors;possible_weapons;strength;equipping_coefficient;armoring_coefficient;difficulty
+ork;greenskin;;zajímavé;0;0;0;3;4;0;4;;block;medium, high;1;1;;;;4000;4400;14600;15000;6000;6000;35800;36200;;;;;;
+mrtvola;human;undead;zajímavìjší;1;2;1;;;0;3;;;medium;;;1;Y;y;;;;;;;;;;;;;;

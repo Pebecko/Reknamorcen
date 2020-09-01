@@ -1,8 +1,8 @@
-from game.character_stats.opponent_stats import Opponent
+from game.character_stats.opponent import Opponent
 from game.equipment_stats.armor_stats.helmet_stats import Helmet
 from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor
-from game.equipment_stats.weapon_stats import Fists
-from game.character_stats.player_stats import player
+from game.equipment_stats.weapon import Fists
+from game.character_stats.player import player
 from game.important_modules.main_funcs import slow_print, player_killed, base_options, wrong_input
 import random
 

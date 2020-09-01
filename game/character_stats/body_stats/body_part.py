@@ -1,4 +1,4 @@
-from game.equipment_stats.weapon_stats import Weapon
+from game.equipment_stats.weapon import Weapon
 
 
 class BodyPart:
@@ -11,7 +11,7 @@ class BodyPart:
         self.bleeding_level = 0  # 0 <-> 3
 
     def defining_unarmed_weapon(self):
-        return Weapon()
+        return None
 
     def bleed(self, total_blood):
         return total_blood / 24 * self.bleeding_level

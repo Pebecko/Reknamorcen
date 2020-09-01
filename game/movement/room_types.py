@@ -1,7 +1,7 @@
 from game.important_modules.main_funcs import slow_print, base_options, wrong_input
 from game.important_modules.coordinates import Coordinates
 from game.fight.fight import Fight
-from game.character_stats.player_stats import player
+from game.character_stats.player import player
 from game.important_modules.stored_items import StoredItems
 
 

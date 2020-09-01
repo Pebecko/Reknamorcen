@@ -1,7 +1,7 @@
 from random import randint, choice
-from game.character_stats.opponent_stats import all_opponents
+from game.character_stats.opponent import all_opponent_types
 from game.important_modules.main_funcs import slow_print, base_options, wrong_input
-from game.equipment_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, \
+from game.equipment_stats.weapon import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, \
     TwoHandedSword, TwoHandedSwordMordhau
 
 
@@ -40,7 +40,7 @@ class Preparation:
         else:
             possible_races = []
 
-        for opponent in all_opponents:
+        for opponent in all_opponent_types:
             if opponent.race not in possible_races:
                 possible_races.append(opponent.race)
 
@@ -51,7 +51,7 @@ class Preparation:
 
         opponents_size = self.finding_opponents_size()
 
-        for opponent in all_opponents:
+        for opponent in all_opponent_types:
             if opponent.race == race and opponent.size <= self.room_info.size - opponents_size:
                 possible_opponents.append(opponent)
 

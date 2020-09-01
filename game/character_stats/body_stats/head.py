@@ -1,5 +1,4 @@
 from game.character_stats.body_stats.body_part import BodyPart
-from game.equipment_stats.weapon_stats import Weapon
 
 
 class Head(BodyPart):
@@ -8,6 +7,3 @@ class Head(BodyPart):
         self.name = "head"
         self.stunned = False
         self.armor = helmet
-
-    def defining_unarmed_weapon(self):
-        return Weapon()

@@ -1,5 +1,5 @@
 from game.important_modules.main_funcs import *
-from game.character_stats.player_stats import player
+from game.character_stats.player import player
 
 
 class Room:

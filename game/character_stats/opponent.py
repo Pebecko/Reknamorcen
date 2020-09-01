@@ -1,34 +1,20 @@
-from random import randint, choice
 from game.character_stats.character import Character
-from game.equipment_stats.weapon_stats import Weapon, Claws, TwoHandedAxe, ShortSword, LongDagger, Fists, LongSword, \
-    SmallCheeks, Cheeks
-from game.equipment_stats.armor_stats.helmet_stats import Helmet, RustyOrkHelmet
-from game.equipment_stats.armor_stats.chest_armor_stats import ChestArmor, LeatherTunic, ChainmailHauberk
+from game.important_modules.creating_items_from_imports import item_creation
+
+
+opponents_import_path = "data/opponents.csv"
 
 
 class Opponent(Character):
     possessive_pronoun = "jeho"
-    difficulty = 0
 
-    lowest_health = 0
-    highest_health = 0
+    def __init__(self, import_file="no import file given", **kwargs):
+        super().__init__(import_file, **kwargs)
 
-    possible_weapons = [Weapon()]
-    possible_helmets = [Helmet()]
-    possible_armors = [ChestArmor()]
-
-    # possible fight actions
-    defence = []  # block, dodge
-    attack_power = []  # small, medium, high
-
-    def __init__(self):
-        super().__init__()
-        self.health = randint(self.lowest_health, self.highest_health)
-        self.weapon = choice(self.possible_weapons)
-        self.helmet = choice(self.possible_helmets)
-        self.armor = choice(self.possible_armors)
+        self.difficulty = self.importing_integer("difficulty")
 
 
+"""
 class Greenskin(Opponent):
     race = "greenskin"
     unarmed_weapon = Claws()
@@ -132,6 +118,6 @@ class GiantSpider(Spider):
 class MotherSpider(Spider):
     name = "pavoučí matka"
     defence = []
+"""
 
-
-all_opponents = [OrkBoy(), Skeleton(), Zombie(), SmallSpider(), GiantSpider()]
+all_opponent_types = item_creation(Opponent, opponents_import_path)

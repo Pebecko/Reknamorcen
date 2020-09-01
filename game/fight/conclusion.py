@@ -1,6 +1,6 @@
 from game.important_modules.main_funcs import slow_print
 from random import randint
-from game.equipment_stats.weapon_stats import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
+from game.equipment_stats.weapon import ShortSword, ShortSwordMordhau, LongSword, LongSwordMordhau, TwoHandedSword, \
     TwoHandedSwordMordhau
 
 
